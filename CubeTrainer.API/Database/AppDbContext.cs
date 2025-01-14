@@ -20,7 +20,6 @@ internal class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDb
 
     public DbSet<UserCase> UserCases { get; set; } = default!;
 
-    // TODO: add enum converters, string lengths, indexes
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -29,6 +28,12 @@ internal class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDb
             .HasOne(static a => a.Case)
             .WithMany()
             .HasForeignKey(static a => a.CaseId);
+        builder.Entity<Algorithm>()
+            .Property(static a => a.Moves)
+            .HasMaxLength(500);
+        builder.Entity<Algorithm>()
+            .Property(static a => a.CreatedAt)
+            .HasColumnType("TIMESTAMP");
 
         builder.Entity<AlgorithmRating>()
             .HasKey(static r => new { r.UserId, r.AlgorithmId });
@@ -51,11 +56,34 @@ internal class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDb
             .HasOne(static s => s.User)
             .WithMany()
             .HasForeignKey(static s => s.UserId);
+        builder.Entity<AlgorithmStatistic>()
+            .Property(static s => s.TotalTimeSolvingInSeconds)
+            .HasColumnType("DECIMAL(10, 2)");
+        builder.Entity<AlgorithmStatistic>()
+            .Property(static s => s.BestTimeInSeconds)
+            .HasColumnType("DECIMAL(10, 2)");
+
+        builder.Entity<Case>()
+            .Property(static c => c.Name)
+            .HasMaxLength(100);
+        builder.Entity<Case>()
+            .Property(static c => c.ImageUrl)
+            .HasMaxLength(500);
+        builder.Entity<Case>()
+            .Property(static c => c.Type)
+            .HasConversion(
+                static t => t.ToString(),
+                static s => Enum.Parse<CaseType>(s)
+            )
+            .HasMaxLength(50);
 
         builder.Entity<TrainingPlan>()
             .HasOne(static p => p.User)
             .WithMany()
             .HasForeignKey(static p => p.UserId);
+        builder.Entity<TrainingPlan>()
+            .Property(static p => p.Name)
+            .HasMaxLength(100);
 
         builder.Entity<TrainingPlanCase>()
             .HasKey(static c => new { c.TrainingPlanId, c.CaseId });
@@ -67,6 +95,16 @@ internal class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDb
             .HasOne(static c => c.Case)
             .WithMany()
             .HasForeignKey(static c => c.CaseId);
+        builder.Entity<TrainingPlanCase>()
+            .Property(static c => c.LastDifficultyRating)
+            .HasConversion(
+                static r => r.ToString(),
+                static s => Enum.Parse<DifficultyRating>(s)
+            )
+            .HasMaxLength(50);
+        builder.Entity<TrainingPlanCase>()
+            .Property(static c => c.LastSolved)
+            .HasColumnType("TIMESTAMP");
 
         builder.Entity<UserCase>()
             .HasKey(static c => new { c.UserId, c.CaseId });
@@ -78,5 +116,12 @@ internal class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDb
             .HasOne(static c => c.Case)
             .WithMany()
             .HasForeignKey(static c => c.CaseId);
+        builder.Entity<UserCase>()
+            .Property(static c => c.Status)
+            .HasConversion(
+                static s => s.ToString(),
+                static s => Enum.Parse<UserCaseStatus>(s)
+            )
+            .HasMaxLength(50);
     }
 }

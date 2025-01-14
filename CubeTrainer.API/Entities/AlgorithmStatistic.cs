@@ -16,5 +16,5 @@ internal class AlgorithmStatistic
 
     public int UntimedSolvesCount { get; set; }
 
-    public decimal BestTimeInSeconds { get; set; }
+    public decimal? BestTimeInSeconds { get; set; }
 }

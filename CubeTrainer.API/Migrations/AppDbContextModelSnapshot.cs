@@ -32,7 +32,7 @@ namespace CubeTrainer.API.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("TIMESTAMP");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
@@ -42,7 +42,8 @@ namespace CubeTrainer.API.Migrations
 
                     b.Property<string>("Moves")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<int>("StarsCount")
                         .HasColumnType("integer");
@@ -86,14 +87,14 @@ namespace CubeTrainer.API.Migrations
                     b.Property<Guid>("AlgorithmId")
                         .HasColumnType("uuid");
 
-                    b.Property<decimal>("BestTimeInSeconds")
-                        .HasColumnType("numeric");
+                    b.Property<decimal?>("BestTimeInSeconds")
+                        .HasColumnType("DECIMAL(10, 2)");
 
                     b.Property<int>("TimedSolvesCount")
                         .HasColumnType("integer");
 
                     b.Property<decimal>("TotalTimeSolvingInSeconds")
-                        .HasColumnType("numeric");
+                        .HasColumnType("DECIMAL(10, 2)");
 
                     b.Property<int>("UntimedSolvesCount")
                         .HasColumnType("integer");
@@ -113,14 +114,18 @@ namespace CubeTrainer.API.Migrations
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
 
@@ -135,7 +140,8 @@ namespace CubeTrainer.API.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -156,11 +162,13 @@ namespace CubeTrainer.API.Migrations
                     b.Property<Guid>("CaseId")
                         .HasColumnType("uuid");
 
-                    b.Property<int>("LastDifficultyRating")
-                        .HasColumnType("integer");
+                    b.Property<string>("LastDifficultyRating")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<DateTime?>("LastSolved")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("TIMESTAMP");
 
                     b.Property<int>("SolvesToLearnCount")
                         .HasColumnType("integer");
@@ -247,8 +255,10 @@ namespace CubeTrainer.API.Migrations
                     b.Property<Guid?>("SelectedAlgorithmId")
                         .HasColumnType("uuid");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.HasKey("UserId", "CaseId");
 

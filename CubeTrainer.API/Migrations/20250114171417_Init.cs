@@ -56,9 +56,9 @@ namespace CubeTrainer.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Type = table.Column<int>(type: "integer", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    ImageUrl = table.Column<string>(type: "text", nullable: false)
+                    Type = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    ImageUrl = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -177,7 +177,7 @@ namespace CubeTrainer.API.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false)
+                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -196,10 +196,10 @@ namespace CubeTrainer.API.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     CaseId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Moves = table.Column<string>(type: "text", nullable: false),
+                    Moves = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
                     IsPublic = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TIMESTAMP", nullable: false),
                     UsersCount = table.Column<int>(type: "integer", nullable: false),
                     StarsCount = table.Column<int>(type: "integer", nullable: false),
                     UsersRatingsCount = table.Column<int>(type: "integer", nullable: false)
@@ -222,8 +222,8 @@ namespace CubeTrainer.API.Migrations
                     TrainingPlanId = table.Column<Guid>(type: "uuid", nullable: false),
                     CaseId = table.Column<Guid>(type: "uuid", nullable: false),
                     SolvesToLearnCount = table.Column<int>(type: "integer", nullable: false),
-                    LastDifficultyRating = table.Column<int>(type: "integer", nullable: false),
-                    LastSolved = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    LastDifficultyRating = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    LastSolved = table.Column<DateTime>(type: "TIMESTAMP", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -273,10 +273,10 @@ namespace CubeTrainer.API.Migrations
                 {
                     AlgorithmId = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<string>(type: "text", nullable: false),
-                    TotalTimeSolvingInSeconds = table.Column<decimal>(type: "numeric", nullable: false),
+                    TotalTimeSolvingInSeconds = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
                     TimedSolvesCount = table.Column<int>(type: "integer", nullable: false),
                     UntimedSolvesCount = table.Column<int>(type: "integer", nullable: false),
-                    BestTimeInSeconds = table.Column<decimal>(type: "numeric", nullable: false)
+                    BestTimeInSeconds = table.Column<decimal>(type: "numeric(10,2)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -302,7 +302,7 @@ namespace CubeTrainer.API.Migrations
                     UserId = table.Column<string>(type: "text", nullable: false),
                     CaseId = table.Column<Guid>(type: "uuid", nullable: false),
                     SelectedAlgorithmId = table.Column<Guid>(type: "uuid", nullable: true),
-                    Status = table.Column<int>(type: "integer", nullable: false)
+                    Status = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {

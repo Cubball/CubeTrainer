@@ -13,8 +13,17 @@ builder.Services.AddDbContext<AppDbContext>(opts => opts.UseNpgsql(connectionStr
 
 builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme);
 builder.Services.AddAuthorization();
-builder.Services.AddIdentityCore<User>()
-    .AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddIdentityCore<User>(opts =>
+    {
+        opts.User.RequireUniqueEmail = true;
+        opts.Password.RequiredLength = 8;
+        opts.Password.RequireDigit = false;
+        opts.Password.RequireLowercase = false;
+        opts.Password.RequireNonAlphanumeric = false;
+        opts.Password.RequireUppercase = false;
+    })
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddApiEndpoints();
 
 var app = builder.Build();
 
@@ -25,5 +34,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.MapIdentityApi<User>();
 
 app.Run();
