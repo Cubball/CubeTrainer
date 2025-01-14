@@ -29,6 +29,10 @@ internal class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDb
             .WithMany()
             .HasForeignKey(static a => a.CaseId);
         builder.Entity<Algorithm>()
+            .HasOne(static a => a.Creator)
+            .WithMany()
+            .HasForeignKey(static a => a.CreatorId);
+        builder.Entity<Algorithm>()
             .Property(static a => a.Moves)
             .HasMaxLength(500);
         builder.Entity<Algorithm>()

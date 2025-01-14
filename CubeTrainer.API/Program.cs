@@ -1,3 +1,4 @@
+using CubeTrainer.API.Common.Endpoints;
 using CubeTrainer.API.Database;
 using CubeTrainer.API.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -11,7 +12,9 @@ builder.Services.AddSwaggerGen();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(opts => opts.UseNpgsql(connectionString));
 
-builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme);
+builder.Services
+    .AddAuthentication(IdentityConstants.ApplicationScheme)
+    .AddIdentityCookies();
 builder.Services.AddAuthorization();
 builder.Services.AddIdentityCore<User>(opts =>
     {
@@ -25,6 +28,8 @@ builder.Services.AddIdentityCore<User>(opts =>
     .AddEntityFrameworkStores<AppDbContext>()
     .AddApiEndpoints();
 
+builder.Services.AddEndpoints();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -35,6 +40,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapIdentityApi<User>();
+
+app.MapEndpoints();
 
 app.Run();

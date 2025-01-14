@@ -8,6 +8,10 @@ internal class Algorithm
 
     public Case Case { get; set; } = default!;
 
+    public string? CreatorId { get; set; } = default!;
+
+    public User? Creator { get; set; } = default!;
+
     public string Moves { get; set; } = default!;
 
     public bool IsDeleted { get; set; }
