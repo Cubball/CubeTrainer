@@ -196,6 +196,7 @@ namespace CubeTrainer.API.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     CaseId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatorId = table.Column<string>(type: "text", nullable: true),
                     Moves = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
                     IsPublic = table.Column<bool>(type: "boolean", nullable: false),
@@ -207,6 +208,11 @@ namespace CubeTrainer.API.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Algorithms", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Algorithms_AspNetUsers_CreatorId",
+                        column: x => x.CreatorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Algorithms_Cases_CaseId",
                         column: x => x.CaseId,
@@ -335,6 +341,11 @@ namespace CubeTrainer.API.Migrations
                 name: "IX_Algorithms_CaseId",
                 table: "Algorithms",
                 column: "CaseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Algorithms_CreatorId",
+                table: "Algorithms",
+                column: "CreatorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AlgorithmStatistics_AlgorithmId",

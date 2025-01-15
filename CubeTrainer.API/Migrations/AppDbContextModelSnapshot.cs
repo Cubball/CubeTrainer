@@ -34,6 +34,9 @@ namespace CubeTrainer.API.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TIMESTAMP");
 
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("text");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
@@ -57,6 +60,8 @@ namespace CubeTrainer.API.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CaseId");
+
+                    b.HasIndex("CreatorId");
 
                     b.ToTable("Algorithms");
                 });
@@ -409,7 +414,13 @@ namespace CubeTrainer.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("CubeTrainer.API.Entities.User", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId");
+
                     b.Navigation("Case");
+
+                    b.Navigation("Creator");
                 });
 
             modelBuilder.Entity("CubeTrainer.API.Entities.AlgorithmRating", b =>

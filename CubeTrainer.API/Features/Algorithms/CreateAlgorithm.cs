@@ -66,6 +66,7 @@ internal static class CreateAlgorithm
             Moves = normalizedMoves,
             CreatorId = userId,
             CreatedAt = DateTimeHelpers.UtcNow,
+            UsersCount = 1,
         };
         context.Algorithms.Add(algorithm);
         await context.SaveChangesAsync(cancellationToken);

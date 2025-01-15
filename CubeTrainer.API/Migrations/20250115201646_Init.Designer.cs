@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CubeTrainer.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250114171417_Init")]
+    [Migration("20250115201646_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -37,6 +37,9 @@ namespace CubeTrainer.API.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TIMESTAMP");
 
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("text");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
@@ -60,6 +63,8 @@ namespace CubeTrainer.API.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CaseId");
+
+                    b.HasIndex("CreatorId");
 
                     b.ToTable("Algorithms");
                 });
@@ -412,7 +417,13 @@ namespace CubeTrainer.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("CubeTrainer.API.Entities.User", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId");
+
                     b.Navigation("Case");
+
+                    b.Navigation("Creator");
                 });
 
             modelBuilder.Entity("CubeTrainer.API.Entities.AlgorithmRating", b =>
