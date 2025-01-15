@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CubeTrainer.API.Features.Algorithms;
 
+// NOTE: filter by type? OLL, PLL
 internal static class GetMyAlgorithms
 {
     public sealed record CaseDto(

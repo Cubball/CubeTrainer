@@ -45,6 +45,7 @@ internal static class SearchAlgorithms
     {
         var query = context.Algorithms
             .Include(a => a.Case)
+            // NOTE: this query will load the user's own public algorithms too, not sure if we want that
             .Where(a => a.IsPublic && !a.IsDeleted && a.CaseId == caseId);
         query = sortBy switch
         {
