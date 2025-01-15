@@ -14,7 +14,6 @@ namespace CubeTrainer.API.Features.Algorithms;
 
 internal static class CreateAlgorithm
 {
-    // TODO: how to handle guid not parsed
     public sealed record Request(Guid CaseId, string Moves);
 
     public sealed class RequestValidator : AbstractValidator<Request>
@@ -35,12 +34,10 @@ internal static class CreateAlgorithm
     {
         public void Map(IEndpointRouteBuilder builder)
         {
-            // TODO: add more swagger info
             builder
                 .MapPost("/algorithms", Handle)
                 .WithTags("Algorithms")
-                // .RequireAuthorization()
-                ;
+                .RequireAuthorization();
         }
     }
 
