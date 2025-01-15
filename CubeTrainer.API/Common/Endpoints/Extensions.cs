@@ -11,7 +11,6 @@ internal static class Extensions
             .GetExecutingAssembly()
             .GetTypes()
             .Where(t => t.IsClass && !t.IsAbstract && t.GetInterfaces().Contains(@interface));
-
         foreach (var endpointType in endpointTypes)
         {
             var endpoint = Activator.CreateInstance(endpointType) as IEndpoint

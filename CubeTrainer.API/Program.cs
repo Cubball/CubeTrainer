@@ -1,6 +1,8 @@
+using CubeTrainer.API.Common;
 using CubeTrainer.API.Common.Endpoints;
 using CubeTrainer.API.Database;
 using CubeTrainer.API.Entities;
+using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,9 +26,12 @@ builder.Services.AddIdentityCore<User>(opts =>
         opts.Password.RequireLowercase = false;
         opts.Password.RequireNonAlphanumeric = false;
         opts.Password.RequireUppercase = false;
+        opts.ClaimsIdentity.UserIdClaimType = Constants.Auth.UserIdClaimType;
     })
     .AddEntityFrameworkStores<AppDbContext>()
     .AddApiEndpoints();
+
+builder.Services.AddValidatorsFromAssemblyContaining<Program>(includeInternalTypes: true);
 
 builder.Services.AddEndpoints();
 
@@ -42,6 +47,9 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+// TODO: Add CORS
+// TODO: Add exception handling middleware
 
 app.MapIdentityApi<User>();
 
