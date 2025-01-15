@@ -14,8 +14,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<AppDbContext>(opts => opts.UseNpgsql(connectionString));
+builder.Services.AddCors();
 
 builder.Services
     .AddAuthentication(IdentityConstants.ApplicationScheme)
@@ -34,6 +33,9 @@ builder.Services.AddIdentityCore<User>(opts =>
     .AddEntityFrameworkStores<AppDbContext>()
     .AddApiEndpoints();
 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<AppDbContext>(opts => opts.UseNpgsql(connectionString));
+
 builder.Services.AddValidatorsFromAssemblyContaining<Program>(includeInternalTypes: true);
 
 builder.Services.AddEndpoints();
@@ -50,11 +52,16 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 
+var corsAllowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
+    ?? throw new InvalidOperationException("Allowed origins not configured");
+app.UseCors(opts => opts
+    .WithOrigins(corsAllowedOrigins)
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+    .AllowCredentials());
+
 app.UseAuthentication();
 app.UseAuthorization();
-
-// TODO: Add CORS
-// TODO: Add exception handling middleware
 
 app.MapIdentityApi<User>();
 
