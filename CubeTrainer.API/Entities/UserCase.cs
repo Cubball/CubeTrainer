@@ -1,6 +1,6 @@
 namespace CubeTrainer.API.Entities;
 
-internal class UserCase
+internal sealed class UserCase
 {
     public string UserId { get; set; } = default!;
 

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CubeTrainer.API.Database;
 
-internal class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<User>(options)
+internal sealed class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<User>(options)
 {
     public DbSet<Algorithm> Algorithms { get; set; } = default!;
 

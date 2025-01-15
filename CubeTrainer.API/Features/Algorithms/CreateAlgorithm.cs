@@ -15,9 +15,9 @@ namespace CubeTrainer.API.Features.Algorithms;
 internal static class CreateAlgorithm
 {
     // TODO: how to handle guid not parsed
-    public record Request(Guid CaseId, string Moves);
+    public sealed record Request(Guid CaseId, string Moves);
 
-    public class RequestValidator : AbstractValidator<Request>
+    public sealed class RequestValidator : AbstractValidator<Request>
     {
         public RequestValidator()
         {
@@ -29,9 +29,9 @@ internal static class CreateAlgorithm
         }
     }
 
-    public record Response(Guid Id);
+    public sealed record Response(Guid Id);
 
-    public class Endpoint : IEndpoint
+    public sealed class Endpoint : IEndpoint
     {
         public void Map(IEndpointRouteBuilder builder)
         {
@@ -99,6 +99,7 @@ internal static class CreateAlgorithm
 
             if (isMove)
             {
+                sb.Append(' ');
                 sb.Append(move);
                 previousIsMove = true;
                 continue;
@@ -121,6 +122,6 @@ internal static class CreateAlgorithm
             return (string.Empty, false);
         }
 
-        return (sb.ToString(), true);
+        return (sb.ToString().Trim(), true);
     }
 }

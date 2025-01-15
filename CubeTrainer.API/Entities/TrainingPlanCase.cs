@@ -1,6 +1,6 @@
 namespace CubeTrainer.API.Entities;
 
-internal class TrainingPlanCase
+internal sealed class TrainingPlanCase
 {
     public Guid TrainingPlanId { get; set; }
 

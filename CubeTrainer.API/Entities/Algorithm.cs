@@ -1,6 +1,6 @@
 namespace CubeTrainer.API.Entities;
 
-internal class Algorithm
+internal sealed class Algorithm
 {
     public Guid Id { get; set; }
 

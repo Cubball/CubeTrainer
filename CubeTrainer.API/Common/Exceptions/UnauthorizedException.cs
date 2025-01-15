@@ -1,5 +1,5 @@
 namespace CubeTrainer.API.Common.Exceptions;
 
-internal class UnauthorizedException(string message) : Exception(message)
+internal sealed class UnauthorizedException(string message) : Exception(message)
 {
 }
