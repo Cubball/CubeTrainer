@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CubeTrainer.API.Features.Algorithms;
 
-internal static class DeleteAlgorithm
+internal static class UnpublishAlgorithm
 {
     public sealed record Response(Guid Id);
 
@@ -17,7 +17,7 @@ internal static class DeleteAlgorithm
         public void Map(IEndpointRouteBuilder builder)
         {
             builder
-                .MapDelete("/algorithms/{id}", Handle)
+                .MapPost("/algorithms/{id}/unpublish", Handle)
                 .WithTags("Algorithms")
                 .RequireAuthorization();
         }
@@ -35,17 +35,16 @@ internal static class DeleteAlgorithm
             .Where(a => a.Id == id)
             .FirstOrDefaultAsync(cancellationToken)
             ?? throw new NotFoundException("Algorithm not found");
+        if (algorithm.IsDeleted)
+        {
+            throw new NotFoundException("Algorithm not found");
+        }
+
         if (algorithm.CreatorId != userId)
         {
             throw new ForbiddenException("You are not the creator of this algorithm");
         }
 
-        if (algorithm.IsDeleted)
-        {
-            throw new ForbiddenException("Algorithm is already deleted");
-        }
-
-        algorithm.IsDeleted = true;
         algorithm.IsPublic = false;
         await context.SaveChangesAsync(cancellationToken);
         return Results.Ok(new Response(algorithm.Id));
