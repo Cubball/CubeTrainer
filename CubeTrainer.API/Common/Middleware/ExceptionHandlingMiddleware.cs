@@ -30,6 +30,12 @@ internal sealed class ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddl
             context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
             await context.Response.WriteAsJsonAsync(new { message = "Unauthorized" });
         }
+        catch (ForbiddenException e)
+        {
+            _logger.LogError(e, "Forbidden error");
+            context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+            await context.Response.WriteAsJsonAsync(new { message = "Forbidden" });
+        }
         catch (NotFoundException e)
         {
             _logger.LogError(e, "Not found error");
