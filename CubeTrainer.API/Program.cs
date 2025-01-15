@@ -1,5 +1,6 @@
 using CubeTrainer.API.Common;
 using CubeTrainer.API.Common.Endpoints;
+using CubeTrainer.API.Common.Middleware;
 using CubeTrainer.API.Database;
 using CubeTrainer.API.Entities;
 using FluentValidation;
@@ -10,6 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(opts => opts.UseNpgsql(connectionString));
@@ -43,7 +46,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseMiddleware<ErrorHandlingMiddleware>();
+// app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 
