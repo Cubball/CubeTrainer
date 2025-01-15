@@ -20,7 +20,7 @@ internal sealed class ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddl
             context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
             await context.Response.WriteAsJsonAsync(new
             {
-                message = e.Message,
+                message = "Bad request",
                 errors = e.Errors.Select(static err => err.ErrorMessage)
             });
         }
@@ -28,19 +28,19 @@ internal sealed class ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddl
         {
             _logger.LogError(e, "Unauthorized error");
             context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-            await context.Response.WriteAsJsonAsync(new { message = e.Message });
+            await context.Response.WriteAsJsonAsync(new { message = "Unauthorized" });
         }
         catch (NotFoundException e)
         {
             _logger.LogError(e, "Not found error");
             context.Response.StatusCode = (int)HttpStatusCode.NotFound;
-            await context.Response.WriteAsJsonAsync(new { message = e.Message });
+            await context.Response.WriteAsJsonAsync(new { message = "Not found" });
         }
         catch (Exception e)
         {
             _logger.LogError(e, "Internal server error");
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            await context.Response.WriteAsJsonAsync(new { message = e.Message });
+            await context.Response.WriteAsJsonAsync(new { message = "Internal server error" });
         }
     }
 }

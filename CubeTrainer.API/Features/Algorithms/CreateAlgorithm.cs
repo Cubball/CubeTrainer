@@ -52,16 +52,16 @@ internal static class CreateAlgorithm
         CancellationToken cancellationToken)
     {
         await validator.ValidateAndThrowAsync(request, cancellationToken);
-        var @case = await context.Cases.FirstOrDefaultAsync(c => c.Id == request.CaseId, cancellationToken)
-            ?? throw new NotFoundException("Case not found");
-        var userId = (user.Claims.FirstOrDefault(static c => c.Type == Constants.Auth.UserIdClaimType)?.Value)
-            ?? throw new UnauthorizedException("User not found");
         var (normalizedMoves, isValid) = TryNormalizeMoves(request.Moves);
         if (!isValid)
         {
             throw new ValidationException([new ValidationFailure(nameof(request.Moves), "Invalid moves")]);
         }
 
+        var userId = (user.Claims.FirstOrDefault(static c => c.Type == Constants.Auth.UserIdClaimType)?.Value)
+            ?? throw new UnauthorizedException("User not found");
+        var @case = await context.Cases.FirstOrDefaultAsync(c => c.Id == request.CaseId, cancellationToken)
+            ?? throw new ValidationException([new ValidationFailure(nameof(request.CaseId), "Case not found")]);
         var algorithm = new Algorithm
         {
             Id = Guid.NewGuid(),
@@ -71,7 +71,6 @@ internal static class CreateAlgorithm
             CreatedAt = DateTimeHelpers.UtcNow,
         };
         context.Algorithms.Add(algorithm);
-        // TODO: add middleware to handle db exceptions?
         await context.SaveChangesAsync(cancellationToken);
         return Results.Ok(new Response(algorithm.Id));
     }
