@@ -16,7 +16,7 @@ internal sealed class ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddl
         }
         catch (ValidationException e)
         {
-            _logger.LogError(e, "Validation error");
+            _logger.LogWarning("Validation failed: {Message}", e.Message);
             context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
             await context.Response.WriteAsJsonAsync(new
             {
@@ -26,19 +26,19 @@ internal sealed class ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddl
         }
         catch (UnauthorizedException e)
         {
-            _logger.LogError(e, "Unauthorized error");
+            _logger.LogWarning("Unauthorized: {Message}", e.Message);
             context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
             await context.Response.WriteAsJsonAsync(new { message = "Unauthorized" });
         }
         catch (ForbiddenException e)
         {
-            _logger.LogError(e, "Forbidden error");
+            _logger.LogWarning("Forbidden: {Message}", e.Message);
             context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
             await context.Response.WriteAsJsonAsync(new { message = "Forbidden" });
         }
         catch (NotFoundException e)
         {
-            _logger.LogError(e, "Not found error");
+            _logger.LogWarning("Not found: {Message}", e.Message);
             context.Response.StatusCode = (int)HttpStatusCode.NotFound;
             await context.Response.WriteAsJsonAsync(new { message = "Not found" });
         }

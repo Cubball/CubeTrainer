@@ -17,7 +17,7 @@ internal static class UnpublishAlgorithm
         public void Map(IEndpointRouteBuilder builder)
         {
             builder
-                .MapPost("/algorithms/{id}/unpublish", Handle)
+                .MapPost("/algorithms/{id:guid}/unpublish", Handle)
                 .WithTags("Algorithms")
                 .RequireAuthorization();
         }

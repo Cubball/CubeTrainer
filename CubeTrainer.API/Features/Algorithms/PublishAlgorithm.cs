@@ -17,7 +17,7 @@ internal static class PublishAlgorithm
         public void Map(IEndpointRouteBuilder builder)
         {
             builder
-                .MapPost("/algorithms/{id}/publish", Handle)
+                .MapPost("/algorithms/{id:guid}/publish", Handle)
                 .WithTags("Algorithms")
                 .RequireAuthorization();
         }

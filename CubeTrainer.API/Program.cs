@@ -33,6 +33,7 @@ builder.Services.AddIdentityCore<User>(opts =>
     .AddEntityFrameworkStores<AppDbContext>()
     .AddApiEndpoints();
 
+// TODO: add seeding
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(opts => opts.UseNpgsql(connectionString));
 

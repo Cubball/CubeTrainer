@@ -30,8 +30,9 @@ internal static class SearchAlgorithms
         public void Map(IEndpointRouteBuilder builder)
         {
             builder
-                .MapGet("/algorithms/{caseId}", Handle)
+                .MapGet("/algorithms/{caseId:guid}", Handle)
                 .WithTags("Algorithms")
+                // NOTE: might make some routes, like this one, public
                 .RequireAuthorization();
         }
     }

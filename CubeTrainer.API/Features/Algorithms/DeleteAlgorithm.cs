@@ -17,7 +17,7 @@ internal static class DeleteAlgorithm
         public void Map(IEndpointRouteBuilder builder)
         {
             builder
-                .MapDelete("/algorithms/{id}", Handle)
+                .MapDelete("/algorithms/{id:guid}", Handle)
                 .WithTags("Algorithms")
                 .RequireAuthorization();
         }

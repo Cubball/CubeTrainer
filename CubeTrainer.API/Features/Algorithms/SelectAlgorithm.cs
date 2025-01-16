@@ -18,7 +18,7 @@ internal static class SelectAlgorithm
         public void Map(IEndpointRouteBuilder builder)
         {
             builder
-                .MapPost("/algorithms/{id}/select", Handle)
+                .MapPost("/algorithms/{id:guid}/select", Handle)
                 .WithTags("Algorithms")
                 .RequireAuthorization();
         }
@@ -53,11 +53,24 @@ internal static class SelectAlgorithm
                 SelectedAlgorithmId = algorithm.Id,
                 Status = UserCaseStatus.NotLearned,
             };
-            await context.UserCases.AddAsync(userCase, cancellationToken);
+            context.UserCases.Add(userCase);
         }
         else
         {
             userCase.SelectedAlgorithmId = algorithm.Id;
+        }
+
+        var algorithmStatistic = await context.AlgorithmStatistics
+            .Where(@as => @as.UserId == userId && @as.AlgorithmId == algorithm.Id)
+            .FirstOrDefaultAsync(cancellationToken);
+        if (algorithmStatistic is null)
+        {
+            algorithmStatistic = new()
+            {
+                UserId = userId,
+                AlgorithmId = algorithm.Id,
+            };
+            context.AlgorithmStatistics.Add(algorithmStatistic);
         }
 
         await context.SaveChangesAsync(cancellationToken);
