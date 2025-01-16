@@ -47,6 +47,11 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    var scope = app.Services.CreateScope();
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+    await Seeder.SeedAsync(context, userManager);
 }
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
