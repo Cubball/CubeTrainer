@@ -1,8 +1,5 @@
 namespace CubeTrainer.API.Entities;
 
-// NOTE: might remove this entity altogether and add
-// stats like time solved, number of solves, etc to UserCase
-// so it'll be per case, rather than per alg
 internal sealed class AlgorithmStatistic
 {
     public Guid AlgorithmId { get; set; }

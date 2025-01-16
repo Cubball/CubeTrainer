@@ -20,11 +20,7 @@ internal static class GetMyCases
 
     public sealed record AlgorithmDto(
         Guid Id,
-        string Moves,
-        int TimedSolvesCount,
-        int UntimedSolvesCount,
-        decimal? AverageTimeInSeconds,
-        decimal? BestTimeInSeconds);
+        string Moves);
 
     public sealed record Response(List<CaseDto> Cases);
 
@@ -33,7 +29,7 @@ internal static class GetMyCases
         public void Map(IEndpointRouteBuilder builder)
         {
             builder
-                .MapGet("/cases/{type:regex([OLL|PLL])}/my", Handle)
+                .MapGet("/cases/{type:regex((OLL|PLL))}/my", Handle)
                 .WithTags("Cases")
                 .RequireAuthorization();
         }
@@ -57,7 +53,6 @@ internal static class GetMyCases
             .ToListAsync(cancellationToken);
         var userCases = await context.UserCases
             .Where(uc => uc.UserId == userId)
-            // TODO: join with the alg stats
             .Include(uc => uc.SelectedAlgorithm)
             .ToListAsync(cancellationToken);
         var result = new List<CaseDto>();
@@ -70,31 +65,6 @@ internal static class GetMyCases
                 continue;
             }
 
-            // TODO:
-            var algorithmStatistic = default(AlgorithmStatistic)!;
-            if (algorithmStatistic is null)
-            {
-                result.Add(
-                    new(
-                        @case.Id,
-                        @case.Name,
-                        @case.ImageUrl,
-                        new(
-                            userCase.SelectedAlgorithm.Id,
-                            userCase.SelectedAlgorithm.Moves,
-                            0,
-                            0,
-                            null,
-                            null
-                        )
-                    )
-                );
-                continue;
-            }
-
-            decimal? averageTimeInSeconds = algorithmStatistic.TimedSolvesCount > 0
-                ? algorithmStatistic.TotalTimeSolvingInSeconds / algorithmStatistic.TimedSolvesCount
-                : null;
             result.Add(
                 new(
                     @case.Id,
@@ -102,11 +72,7 @@ internal static class GetMyCases
                     @case.ImageUrl,
                     new(
                         userCase.SelectedAlgorithm.Id,
-                        userCase.SelectedAlgorithm.Moves,
-                        algorithmStatistic.TimedSolvesCount,
-                        algorithmStatistic.UntimedSolvesCount,
-                        averageTimeInSeconds,
-                        algorithmStatistic.BestTimeInSeconds
+                        userCase.SelectedAlgorithm.Moves
                     )
                 )
             );
