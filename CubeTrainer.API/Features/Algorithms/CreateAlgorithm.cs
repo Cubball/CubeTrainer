@@ -24,6 +24,7 @@ internal static class CreateAlgorithm
                 .NotEmpty();
             RuleFor(static x => x.Moves)
                 .NotEmpty()
+                .MinimumLength(2)
                 .MaximumLength(500);
         }
     }
