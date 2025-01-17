@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(opts => opts.CustomSchemaIds(type => type.FullName));
+builder.Services.AddSwaggerGen(opts => opts.CustomSchemaIds(type => type.FullName?.Replace('+', '.')));
 
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
