@@ -18,6 +18,7 @@ internal static class SearchAlgorithms
         CaseDto Case,
         string Moves,
         bool IsPublic,
+        // TODO: IsMine
         DateTime CreatedAt,
         int UsersCount,
         int TotalRating,
@@ -30,7 +31,8 @@ internal static class SearchAlgorithms
         public void Map(IEndpointRouteBuilder builder)
         {
             builder
-                .MapGet("/algorithms/{caseId:guid}", Handle)
+                // TODO: pagination
+                .MapGet("/algorithms/cases/{caseId:guid}", Handle)
                 .WithTags("Algorithms")
                 // NOTE: might make some routes, like this one, public
                 .RequireAuthorization();
