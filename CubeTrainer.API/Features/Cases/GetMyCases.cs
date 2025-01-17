@@ -22,7 +22,7 @@ internal static class GetMyCases
         Guid Id,
         string Moves);
 
-    public sealed record Response(List<CaseDto> Cases);
+    public sealed record Response(List<CaseDto> Items);
 
     public sealed class Endpoint : IEndpoint
     {

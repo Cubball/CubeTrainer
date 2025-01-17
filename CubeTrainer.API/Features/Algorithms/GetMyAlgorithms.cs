@@ -28,7 +28,7 @@ internal static class GetMyAlgorithms
         int TotalRating,
         int UsersRatingsCount);
 
-    public sealed record Response(List<AlgorithmDto> Algorithms);
+    public sealed record Response(List<AlgorithmDto> Items);
 
     public sealed class Endpoint : IEndpoint
     {
