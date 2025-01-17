@@ -73,7 +73,9 @@ internal static class RateAlgorithm
 
         if (request.Rating is null)
         {
-            context.AlgorithmRatings.Remove(algorithmRating!);
+            algorithm.TotalRating = Math.Max(0, algorithm.TotalRating - algorithmRating!.Rating);
+            algorithm.UsersRatingsCount = Math.Max(0, algorithm.UsersRatingsCount - 1);
+            context.AlgorithmRatings.Remove(algorithmRating);
             await context.SaveChangesAsync(cancellationToken);
             return Results.Ok(new Response(algorithm.Id));
         }
@@ -90,6 +92,8 @@ internal static class RateAlgorithm
         }
 
         algorithmRating.Rating = request.Rating.Value;
+        algorithm.UsersRatingsCount++;
+        algorithm.TotalRating += request.Rating.Value;
         await context.SaveChangesAsync(cancellationToken);
         return Results.Ok(new Response(algorithm.Id));
     }
