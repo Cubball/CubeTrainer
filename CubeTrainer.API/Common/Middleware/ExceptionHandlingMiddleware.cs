@@ -28,19 +28,19 @@ internal sealed class ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddl
         {
             _logger.LogWarning("Unauthorized: {Message}", e.Message);
             context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-            await context.Response.WriteAsJsonAsync(new { message = "Unauthorized" });
+            await context.Response.WriteAsJsonAsync(new { message = e.Message });
         }
         catch (ForbiddenException e)
         {
             _logger.LogWarning("Forbidden: {Message}", e.Message);
             context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-            await context.Response.WriteAsJsonAsync(new { message = "Forbidden" });
+            await context.Response.WriteAsJsonAsync(new { message = e.Message });
         }
         catch (NotFoundException e)
         {
             _logger.LogWarning("Not found: {Message}", e.Message);
             context.Response.StatusCode = (int)HttpStatusCode.NotFound;
-            await context.Response.WriteAsJsonAsync(new { message = "Not found" });
+            await context.Response.WriteAsJsonAsync(new { message = e.Message });
         }
         catch (Exception e)
         {

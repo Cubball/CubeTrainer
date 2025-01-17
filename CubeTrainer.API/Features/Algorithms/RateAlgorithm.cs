@@ -43,9 +43,11 @@ internal static class RateAlgorithm
         Guid id,
         Request request,
         AppDbContext context,
+        RequestValidator validator,
         ClaimsPrincipal user,
         CancellationToken cancellationToken)
     {
+        await validator.ValidateAndThrowAsync(request, cancellationToken);
         var userId = (user.Claims.FirstOrDefault(static c => c.Type == Constants.Auth.UserIdClaimType)?.Value)
             ?? throw new UnauthorizedException("User not found");
         var algorithm = await context.Algorithms
