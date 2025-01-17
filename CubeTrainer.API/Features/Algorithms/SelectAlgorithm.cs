@@ -43,6 +43,7 @@ internal static class SelectAlgorithm
 
         var userCase = await context.UserCases
             .Where(uc => uc.UserId == userId && uc.CaseId == algorithm.CaseId)
+            .Include(uc => uc.SelectedAlgorithm)
             .FirstOrDefaultAsync(cancellationToken);
         if (userCase is null)
         {
@@ -58,6 +59,10 @@ internal static class SelectAlgorithm
         else
         {
             userCase.SelectedAlgorithmId = algorithm.Id;
+            if (userCase.SelectedAlgorithm is not null)
+            {
+                userCase.SelectedAlgorithm.UsersCount = Math.Max(0, userCase.SelectedAlgorithm.UsersCount - 1);
+            }
         }
 
         var algorithmStatistic = await context.AlgorithmStatistics
@@ -73,6 +78,7 @@ internal static class SelectAlgorithm
             context.AlgorithmStatistics.Add(algorithmStatistic);
         }
 
+        algorithm.UsersCount++;
         await context.SaveChangesAsync(cancellationToken);
         return Results.Ok(new Response(algorithm.Id));
     }
