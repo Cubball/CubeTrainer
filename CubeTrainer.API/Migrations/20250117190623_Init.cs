@@ -228,7 +228,7 @@ namespace CubeTrainer.API.Migrations
                     TrainingPlanId = table.Column<Guid>(type: "uuid", nullable: false),
                     CaseId = table.Column<Guid>(type: "uuid", nullable: false),
                     SolvesToLearnCount = table.Column<int>(type: "integer", nullable: false),
-                    LastDifficultyRating = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    LastDifficultyRating = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     LastSolved = table.Column<DateTime>(type: "TIMESTAMP", nullable: true)
                 },
                 constraints: table =>

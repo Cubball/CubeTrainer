@@ -12,7 +12,7 @@ internal sealed class TrainingPlanCase
 
     public int SolvesToLearnCount { get; set; }
 
-    public DifficultyRating LastDifficultyRating { get; set; }
+    public DifficultyRating? LastDifficultyRating { get; set; }
 
     public DateTime? LastSolved { get; set; }
 }

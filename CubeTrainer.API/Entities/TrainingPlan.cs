@@ -9,4 +9,6 @@ internal sealed class TrainingPlan
     public User User { get; set; } = default!;
 
     public string Name { get; set; } = default!;
+
+    public List<TrainingPlanCase> TrainingPlanCases { get; set; } = default!;
 }

@@ -168,7 +168,6 @@ namespace CubeTrainer.API.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("LastDifficultyRating")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
@@ -481,7 +480,7 @@ namespace CubeTrainer.API.Migrations
                         .IsRequired();
 
                     b.HasOne("CubeTrainer.API.Entities.TrainingPlan", "TrainingPlan")
-                        .WithMany()
+                        .WithMany("TrainingPlanCases")
                         .HasForeignKey("TrainingPlanId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -565,6 +564,11 @@ namespace CubeTrainer.API.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CubeTrainer.API.Entities.TrainingPlan", b =>
+                {
+                    b.Navigation("TrainingPlanCases");
                 });
 #pragma warning restore 612, 618
         }

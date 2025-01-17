@@ -93,7 +93,7 @@ internal sealed class AppDbContext(DbContextOptions<AppDbContext> options) : Ide
             .HasKey(static c => new { c.TrainingPlanId, c.CaseId });
         builder.Entity<TrainingPlanCase>()
             .HasOne(static c => c.TrainingPlan)
-            .WithMany()
+            .WithMany(static p => p.TrainingPlanCases)
             .HasForeignKey(static c => c.TrainingPlanId);
         builder.Entity<TrainingPlanCase>()
             .HasOne(static c => c.Case)
@@ -103,7 +103,7 @@ internal sealed class AppDbContext(DbContextOptions<AppDbContext> options) : Ide
             .Property(static c => c.LastDifficultyRating)
             .HasConversion(
                 static r => r.ToString(),
-                static s => Enum.Parse<DifficultyRating>(s)
+                static s => s == null ? null : Enum.Parse<DifficultyRating>(s)
             )
             .HasMaxLength(50);
         builder.Entity<TrainingPlanCase>()
