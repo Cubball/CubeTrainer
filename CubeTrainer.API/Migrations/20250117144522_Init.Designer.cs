@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CubeTrainer.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250115201646_Init")]
+    [Migration("20250117144522_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -51,7 +51,7 @@ namespace CubeTrainer.API.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
-                    b.Property<int>("StarsCount")
+                    b.Property<int>("TotalRating")
                         .HasColumnType("integer");
 
                     b.Property<int>("UsersCount")

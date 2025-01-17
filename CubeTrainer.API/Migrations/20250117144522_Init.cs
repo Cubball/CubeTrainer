@@ -202,7 +202,7 @@ namespace CubeTrainer.API.Migrations
                     IsPublic = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TIMESTAMP", nullable: false),
                     UsersCount = table.Column<int>(type: "integer", nullable: false),
-                    StarsCount = table.Column<int>(type: "integer", nullable: false),
+                    TotalRating = table.Column<int>(type: "integer", nullable: false),
                     UsersRatingsCount = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>

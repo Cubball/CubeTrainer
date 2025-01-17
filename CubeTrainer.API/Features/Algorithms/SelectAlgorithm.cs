@@ -38,7 +38,7 @@ internal static class SelectAlgorithm
             ?? throw new NotFoundException("Algorithm not found");
         if (algorithm.IsDeleted || (!algorithm.IsPublic && algorithm.CreatorId != userId))
         {
-            throw new ForbiddenException("Algorithm not found");
+            throw new NotFoundException("Algorithm not found");
         }
 
         var userCase = await context.UserCases

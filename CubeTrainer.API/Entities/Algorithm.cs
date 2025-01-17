@@ -22,7 +22,7 @@ internal sealed class Algorithm
 
     public int UsersCount { get; set; }
 
-    public int StarsCount { get; set; }
+    public int TotalRating { get; set; }
 
     public int UsersRatingsCount { get; set; }
 }

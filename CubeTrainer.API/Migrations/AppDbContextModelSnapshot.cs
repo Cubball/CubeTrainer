@@ -48,7 +48,7 @@ namespace CubeTrainer.API.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
-                    b.Property<int>("StarsCount")
+                    b.Property<int>("TotalRating")
                         .HasColumnType("integer");
 
                     b.Property<int>("UsersCount")

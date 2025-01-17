@@ -25,7 +25,7 @@ internal static class GetMyAlgorithms
         bool IsPublic,
         DateTime CreatedAt,
         int UsersCount,
-        int StarsCount,
+        int TotalRating,
         int UsersRatingsCount);
 
     public sealed record Response(List<AlgorithmDto> Algorithms);
@@ -71,7 +71,7 @@ internal static class GetMyAlgorithms
                 a.IsPublic,
                 a.CreatedAt,
                 a.UsersCount,
-                a.StarsCount,
+                a.TotalRating,
                 a.UsersRatingsCount))
             .ToListAsync(cancellationToken);
         return Results.Ok(new Response(algorithms));

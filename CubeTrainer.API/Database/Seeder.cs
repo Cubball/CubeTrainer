@@ -63,7 +63,7 @@ internal static class Seeder
                 Moves = "R U R' U R U2 R'",
                 IsPublic = true,
                 UsersCount = 2,
-                StarsCount = 5,
+                TotalRating = 5,
                 UsersRatingsCount = 1,
             },
             new Algorithm
@@ -89,7 +89,7 @@ internal static class Seeder
                 Moves = "R U R' U R U2 R'",
                 IsPublic = true,
                 UsersCount = 2,
-                StarsCount = 2,
+                TotalRating = 2,
                 UsersRatingsCount = 1,
             },
             new Algorithm

@@ -20,7 +20,7 @@ internal static class SearchAlgorithms
         bool IsPublic,
         DateTime CreatedAt,
         int UsersCount,
-        int StarsCount,
+        int TotalRating,
         int UsersRatingsCount);
 
     public sealed record Response(List<AlgorithmDto> Algorithms);
@@ -51,8 +51,8 @@ internal static class SearchAlgorithms
         query = sortBy switch
         {
             "rating" => ascending
-                ? query.OrderBy(a => a.StarsCount / Math.Max(a.UsersRatingsCount, 1))
-                : query.OrderByDescending(a => a.StarsCount / Math.Max(a.UsersRatingsCount, 1)),
+                ? query.OrderBy(a => a.TotalRating / Math.Max(a.UsersRatingsCount, 1))
+                : query.OrderByDescending(a => a.TotalRating / Math.Max(a.UsersRatingsCount, 1)),
             "created" => ascending
                 ? query.OrderBy(a => a.CreatedAt)
                 : query.OrderByDescending(a => a.CreatedAt),
@@ -72,7 +72,7 @@ internal static class SearchAlgorithms
                 a.IsPublic,
                 a.CreatedAt,
                 a.UsersCount,
-                a.StarsCount,
+                a.TotalRating,
                 a.UsersRatingsCount))
             .ToListAsync(cancellationToken);
         return Results.Ok(new Response(algorithms));
