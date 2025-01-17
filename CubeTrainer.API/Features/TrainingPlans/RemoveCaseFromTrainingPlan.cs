@@ -3,9 +3,6 @@ using CubeTrainer.API.Common;
 using CubeTrainer.API.Common.Endpoints;
 using CubeTrainer.API.Common.Exceptions;
 using CubeTrainer.API.Database;
-using CubeTrainer.API.Entities;
-using FluentValidation;
-using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 
 namespace CubeTrainer.API.Features.TrainingPlans;
