@@ -47,6 +47,10 @@ internal static class GetRandomScramble
             .Include(uc => uc.Case)
             .Include(uc => uc.SelectedAlgorithm)
             .ToListAsync(cancellationToken);
+        if (userCases.Count == 0)
+        {
+            throw new NotFoundException("No cases in progress found");
+        }
         var randomCase = userCases[Random.Shared.Next(userCases.Count)];
 
         // TODO: use Kociemba to gen random scrable for randomCase
