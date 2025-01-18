@@ -16,6 +16,7 @@ internal static class GetMyCases
         Guid Id,
         string Name,
         string ImageUrl,
+        string Status,
         AlgorithmDto? SelectedAlgorithm);
 
     public sealed record AlgorithmDto(
@@ -61,7 +62,12 @@ internal static class GetMyCases
             var userCase = userCases.FirstOrDefault(uc => uc.CaseId == @case.Id);
             if (userCase is null || userCase.SelectedAlgorithm is null)
             {
-                result.Add(new(@case.Id, @case.Name, @case.ImageUrl, null));
+                result.Add(new(
+                    @case.Id,
+                    @case.Name,
+                    userCase?.Status.ToString() ?? UserCaseStatus.NotLearned.ToString(),
+                    @case.ImageUrl,
+                    null));
                 continue;
             }
 
@@ -70,6 +76,7 @@ internal static class GetMyCases
                     @case.Id,
                     @case.Name,
                     @case.ImageUrl,
+                    userCase.Status.ToString(),
                     new(
                         userCase.SelectedAlgorithm.Id,
                         userCase.SelectedAlgorithm.Moves
