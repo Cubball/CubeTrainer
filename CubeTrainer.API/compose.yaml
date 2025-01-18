@@ -1,5 +1,12 @@
 name: CubeTrainer
 services:
+  api:
+    build: .
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=cubetrainer;Username=postgres;Password=postgres
+    ports:
+      - 5000:8080
+
   postgres:
     image: postgres:17.2
     environment:
