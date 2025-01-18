@@ -51,6 +51,7 @@ internal static class GetRandomScramble
         {
             throw new NotFoundException("No cases in progress found");
         }
+
         var randomCase = userCases[Random.Shared.Next(userCases.Count)];
 
         // TODO: use Kociemba to gen random scrable for randomCase

@@ -53,7 +53,7 @@ internal static class AddCaseToTrainingPlan
         {
             TrainingPlanId = id,
             CaseId = request.CaseId,
-            SolvesToLearnCount = 10,
+            SolvesToLearnCount = 3,
         };
         context.TrainingPlanCases.Add(trainingPlanCase);
         await context.SaveChangesAsync(cancellationToken);

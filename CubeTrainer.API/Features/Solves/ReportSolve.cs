@@ -3,6 +3,7 @@ using CubeTrainer.API.Common;
 using CubeTrainer.API.Common.Endpoints;
 using CubeTrainer.API.Common.Exceptions;
 using CubeTrainer.API.Database;
+using CubeTrainer.API.Entities;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
@@ -49,7 +50,11 @@ internal static class ReportSolve
             ?? throw new UnauthorizedException("User not found");
         var userCase = await context.UserCases
             .Include(uc => uc.SelectedAlgorithm)
-            .FirstOrDefaultAsync(uc => uc.UserId == userId && uc.CaseId == request.CaseId, cancellationToken)
+            .FirstOrDefaultAsync(uc =>
+                uc.UserId == userId
+                && uc.CaseId == request.CaseId
+                && uc.Status == UserCaseStatus.InProgress,
+            cancellationToken)
             ?? throw new NotFoundException("Case not found");
         if (userCase.SelectedAlgorithm is null)
         {
