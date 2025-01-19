@@ -1,27 +1,12 @@
 namespace CubeTrainer.Cube.Kociemba.Common.Tables;
 
-// TODO: internal
-public class MoveTable<T>
+internal class MoveTable<T>
 {
-    private const int PossibleMoveDirectionsCount = 3;
-    private const int FacesCount = 6;
-    private const int PossibleMovesCount = PossibleMoveDirectionsCount * FacesCount;
-
-    private static readonly Dictionary<char, int> MoveIndexes = new()
-    {
-        { 'U', 0 },
-        { 'F', 1 },
-        { 'R', 2 },
-        { 'L', 3 },
-        { 'D', 4 },
-        { 'B', 5 },
-    };
-
     private readonly T[] _buffer;
 
     public MoveTable(int possibleCoordinatesCount)
     {
-        var size = possibleCoordinatesCount * PossibleMovesCount;
+        var size = possibleCoordinatesCount * Constants.PossibleMovesCount;
         _buffer = new T[size];
     }
 
@@ -44,8 +29,8 @@ public class MoveTable<T>
 
     private static int GetBufferIndex(int coordinate, char move, int count)
     {
-        var moveIdx = MoveIndexes[move];
+        var moveIdx = Constants.MoveIndexes[move];
         // - 1 at the end since the count is in [1; 3], but buffer offset should be in [0; 2]
-        return (coordinate * PossibleMovesCount) + (moveIdx * PossibleMoveDirectionsCount) + count - 1;
+        return (coordinate * Constants.PossibleMovesCount) + (moveIdx * Constants.PossibleMoveDirectionsCount) + count - 1;
     }
 }

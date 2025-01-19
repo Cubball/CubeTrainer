@@ -1,7 +1,8 @@
+using CubeTrainer.Cube.Kociemba.Common.Coordinates;
+
 namespace CubeTrainer.Cube.Kociemba.Phase1.Coordinates;
 
-// TODO: make internal
-public class CornerOrientationCoordinate
+internal class CornerOrientationCoordinate : ICoordinate<ushort>
 {
     private const ushort URFMod = 729; // 3^6
     private const ushort UFLMod = 243; // 3^5
@@ -42,13 +43,60 @@ public class CornerOrientationCoordinate
             (dbl * DBLMod));
     }
 
+    public static int PossibleCoordinatesCount => 2187; // 3^7
+
     public ushort Coordinate { get; private set; }
+
+    public static ICoordinate<ushort> Create(ushort value)
+    {
+        return new CornerOrientationCoordinate(value);
+    }
 
     public void R(int count = 1)
     {
         for (var i = 0; i < count; i++)
         {
             R();
+        }
+    }
+
+    public void U(int count = 1)
+    {
+        for (var i = 0; i < count; i++)
+        {
+            U();
+        }
+    }
+
+    public void F(int count = 1)
+    {
+        for (var i = 0; i < count; i++)
+        {
+            F();
+        }
+    }
+
+    public void L(int count = 1)
+    {
+        for (var i = 0; i < count; i++)
+        {
+            L();
+        }
+    }
+
+    public void D(int count = 1)
+    {
+        for (var i = 0; i < count; i++)
+        {
+            D();
+        }
+    }
+
+    public void B(int count = 1)
+    {
+        for (var i = 0; i < count; i++)
+        {
+            B();
         }
     }
 
@@ -67,14 +115,6 @@ public class CornerOrientationCoordinate
         Coordinate += (ushort)(newDFROrientation * DFRMod);
         Coordinate += (ushort)(newURFOrientation * URFMod);
         Coordinate += (ushort)(newUBROrientation * UBRMod);
-    }
-
-    public void U(int count = 1)
-    {
-        for (var i = 0; i < count; i++)
-        {
-            U();
-        }
     }
 
     private void U()
@@ -97,14 +137,6 @@ public class CornerOrientationCoordinate
         Coordinate += (ushort)(newUBROrientation * UBRMod);
     }
 
-    public void F(int count = 1)
-    {
-        for (var i = 0; i < count; i++)
-        {
-            F();
-        }
-    }
-
     private void F()
     {
         var originalURFOrientation = (ushort)(Coordinate / URFMod % 3);
@@ -123,14 +155,6 @@ public class CornerOrientationCoordinate
         Coordinate += (ushort)(newUFLOrientation * UFLMod);
         Coordinate += (ushort)(newDLFOrientation * DLFMod);
         Coordinate += (ushort)(newDFROrientation * DFRMod);
-    }
-
-    public void L(int count = 1)
-    {
-        for (var i = 0; i < count; i++)
-        {
-            L();
-        }
     }
 
     private void L()
@@ -153,14 +177,6 @@ public class CornerOrientationCoordinate
         Coordinate += (ushort)(newULBOrientation * ULBMod);
     }
 
-    public void D(int count = 1)
-    {
-        for (var i = 0; i < count; i++)
-        {
-            D();
-        }
-    }
-
     private void D()
     {
         var originalDFROrientation = (ushort)(Coordinate / DFRMod % 3);
@@ -176,14 +192,6 @@ public class CornerOrientationCoordinate
         Coordinate += (ushort)(newDFROrientation * DFRMod);
         Coordinate += (ushort)(newDLFOrientation * DLFMod);
         Coordinate += (ushort)(newDBLOrientation * DBLMod);
-    }
-
-    public void B(int count = 1)
-    {
-        for (var i = 0; i < count; i++)
-        {
-            B();
-        }
     }
 
     private void B()
