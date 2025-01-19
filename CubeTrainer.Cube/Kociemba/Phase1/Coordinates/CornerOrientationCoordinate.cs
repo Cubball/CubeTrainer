@@ -1,0 +1,229 @@
+namespace CubeTrainer.Cube.Kociemba.Phase1.Coordinates;
+
+// TODO: make internal
+public class CornerOrientationCoordinate
+{
+    private const ushort URFMod = 729; // 3^6
+    private const ushort UFLMod = 243; // 3^5
+    private const ushort ULBMod = 81;  // 3^4
+    private const ushort UBRMod = 27;  // 3^3
+    private const ushort DFRMod = 9;   // 3^2
+    private const ushort DLFMod = 3;   // 3^1
+    private const ushort DBLMod = 1;   // 3^0
+
+    public CornerOrientationCoordinate(ushort coordinate)
+    {
+        Coordinate = coordinate;
+    }
+
+    public CornerOrientationCoordinate(
+        byte urf,
+        byte ufl,
+        byte ulb,
+        byte ubr,
+        byte dfr,
+        byte dlf,
+        byte dbl)
+    {
+        ThrowIfCubieOrientationInvalid(urf);
+        ThrowIfCubieOrientationInvalid(ufl);
+        ThrowIfCubieOrientationInvalid(ulb);
+        ThrowIfCubieOrientationInvalid(ubr);
+        ThrowIfCubieOrientationInvalid(dfr);
+        ThrowIfCubieOrientationInvalid(dlf);
+        ThrowIfCubieOrientationInvalid(dbl);
+        Coordinate = (ushort)(
+            (urf * URFMod) +
+            (ufl * UFLMod) +
+            (ulb * ULBMod) +
+            (ubr * UBRMod) +
+            (dfr * DFRMod) +
+            (dlf * DLFMod) +
+            (dbl * DBLMod));
+    }
+
+    public ushort Coordinate { get; private set; }
+
+    public void R(int count = 1)
+    {
+        for (var i = 0; i < count; i++)
+        {
+            R();
+        }
+    }
+
+    private void R()
+    {
+        var originalDFROrientation = (ushort)(Coordinate / DFRMod % 3);
+        var originalURFOrientation = (ushort)(Coordinate / URFMod % 3);
+        var originalUBROrientation = (ushort)(Coordinate / UBRMod % 3);
+        var originalDRBOrientation = GetDRBOrientation();
+        var newDFROrientation = (ushort)((originalDRBOrientation + 1) % 3);
+        var newURFOrientation = (ushort)((originalDFROrientation + 2) % 3);
+        var newUBROrientation = (ushort)((originalURFOrientation + 1) % 3);
+        Coordinate -= (ushort)(originalDFROrientation * DFRMod);
+        Coordinate -= (ushort)(originalURFOrientation * URFMod);
+        Coordinate -= (ushort)(originalUBROrientation * UBRMod);
+        Coordinate += (ushort)(newDFROrientation * DFRMod);
+        Coordinate += (ushort)(newURFOrientation * URFMod);
+        Coordinate += (ushort)(newUBROrientation * UBRMod);
+    }
+
+    public void U(int count = 1)
+    {
+        for (var i = 0; i < count; i++)
+        {
+            U();
+        }
+    }
+
+    private void U()
+    {
+        var originalURFOrientation = (ushort)(Coordinate / URFMod % 3);
+        var originalUBROrientation = (ushort)(Coordinate / UBRMod % 3);
+        var originalULBOrientation = (ushort)(Coordinate / ULBMod % 3);
+        var originalUFLOrientation = (ushort)(Coordinate / UFLMod % 3);
+        var newURFOrientation = originalUBROrientation;
+        var newUFLOrientation = originalURFOrientation;
+        var newULBOrientation = originalUFLOrientation;
+        var newUBROrientation = originalULBOrientation;
+        Coordinate -= (ushort)(originalURFOrientation * URFMod);
+        Coordinate -= (ushort)(originalUFLOrientation * UFLMod);
+        Coordinate -= (ushort)(originalULBOrientation * ULBMod);
+        Coordinate -= (ushort)(originalUBROrientation * UBRMod);
+        Coordinate += (ushort)(newURFOrientation * URFMod);
+        Coordinate += (ushort)(newUFLOrientation * UFLMod);
+        Coordinate += (ushort)(newULBOrientation * ULBMod);
+        Coordinate += (ushort)(newUBROrientation * UBRMod);
+    }
+
+    public void F(int count = 1)
+    {
+        for (var i = 0; i < count; i++)
+        {
+            F();
+        }
+    }
+
+    private void F()
+    {
+        var originalURFOrientation = (ushort)(Coordinate / URFMod % 3);
+        var originalUFLOrientation = (ushort)(Coordinate / UFLMod % 3);
+        var originalDFROrientation = (ushort)(Coordinate / DFRMod % 3);
+        var originalDLFOrientation = (ushort)(Coordinate / DLFMod % 3);
+        var newURFOrientation = (ushort)((originalUFLOrientation + 1) % 3);
+        var newUFLOrientation = (ushort)((originalDLFOrientation + 2) % 3);
+        var newDLFOrientation = (ushort)((originalDFROrientation + 1) % 3);
+        var newDFROrientation = (ushort)((originalURFOrientation + 2) % 3);
+        Coordinate -= (ushort)(originalURFOrientation * URFMod);
+        Coordinate -= (ushort)(originalUFLOrientation * UFLMod);
+        Coordinate -= (ushort)(originalDFROrientation * DFRMod);
+        Coordinate -= (ushort)(originalDLFOrientation * DLFMod);
+        Coordinate += (ushort)(newURFOrientation * URFMod);
+        Coordinate += (ushort)(newUFLOrientation * UFLMod);
+        Coordinate += (ushort)(newDLFOrientation * DLFMod);
+        Coordinate += (ushort)(newDFROrientation * DFRMod);
+    }
+
+    public void L(int count = 1)
+    {
+        for (var i = 0; i < count; i++)
+        {
+            L();
+        }
+    }
+
+    private void L()
+    {
+        var originalUFLOrientation = (ushort)(Coordinate / UFLMod % 3);
+        var originalDLFOrientation = (ushort)(Coordinate / DLFMod % 3);
+        var originalULBOrientation = (ushort)(Coordinate / ULBMod % 3);
+        var originalDBLOrientation = (ushort)(Coordinate / DBLMod % 3);
+        var newUFLOrientation = (ushort)((originalULBOrientation + 1) % 3);
+        var newDLFOrientation = (ushort)((originalUFLOrientation + 2) % 3);
+        var newDBLOrientation = (ushort)((originalDLFOrientation + 1) % 3);
+        var newULBOrientation = (ushort)((originalDBLOrientation + 2) % 3);
+        Coordinate -= (ushort)(originalUFLOrientation * UFLMod);
+        Coordinate -= (ushort)(originalDLFOrientation * DLFMod);
+        Coordinate -= (ushort)(originalULBOrientation * ULBMod);
+        Coordinate -= (ushort)(originalDBLOrientation * DBLMod);
+        Coordinate += (ushort)(newUFLOrientation * UFLMod);
+        Coordinate += (ushort)(newDLFOrientation * DLFMod);
+        Coordinate += (ushort)(newDBLOrientation * DBLMod);
+        Coordinate += (ushort)(newULBOrientation * ULBMod);
+    }
+
+    public void D(int count = 1)
+    {
+        for (var i = 0; i < count; i++)
+        {
+            D();
+        }
+    }
+
+    private void D()
+    {
+        var originalDFROrientation = (ushort)(Coordinate / DFRMod % 3);
+        var originalDLFOrientation = (ushort)(Coordinate / DLFMod % 3);
+        var originalDBLOrientation = (ushort)(Coordinate / DBLMod % 3);
+        var originalDRBOrientation = GetDRBOrientation();
+        var newDFROrientation = originalDLFOrientation;
+        var newDLFOrientation = originalDBLOrientation;
+        var newDBLOrientation = originalDRBOrientation;
+        Coordinate -= (ushort)(originalDFROrientation * DFRMod);
+        Coordinate -= (ushort)(originalDLFOrientation * DLFMod);
+        Coordinate -= (ushort)(originalDBLOrientation * DBLMod);
+        Coordinate += (ushort)(newDFROrientation * DFRMod);
+        Coordinate += (ushort)(newDLFOrientation * DLFMod);
+        Coordinate += (ushort)(newDBLOrientation * DBLMod);
+    }
+
+    public void B(int count = 1)
+    {
+        for (var i = 0; i < count; i++)
+        {
+            B();
+        }
+    }
+
+    private void B()
+    {
+        var originalUBROrientation = (ushort)(Coordinate / UBRMod % 3);
+        var originalULBOrientation = (ushort)(Coordinate / ULBMod % 3);
+        var originalDBLOrientation = (ushort)(Coordinate / DBLMod % 3);
+        var originalDRBOrientation = GetDRBOrientation();
+        var newUBROrientation = (ushort)((originalDRBOrientation + 2) % 3);
+        var newULBOrientation = (ushort)((originalUBROrientation + 1) % 3);
+        var newDBLOrientation = (ushort)((originalULBOrientation + 2) % 3);
+        Coordinate -= (ushort)(originalUBROrientation * UBRMod);
+        Coordinate -= (ushort)(originalULBOrientation * ULBMod);
+        Coordinate -= (ushort)(originalDBLOrientation * DBLMod);
+        Coordinate += (ushort)(newUBROrientation * UBRMod);
+        Coordinate += (ushort)(newULBOrientation * ULBMod);
+        Coordinate += (ushort)(newDBLOrientation * DBLMod);
+    }
+
+    private byte GetDRBOrientation()
+    {
+        var urf = Coordinate / URFMod % 3;
+        var ufl = Coordinate / UFLMod % 3;
+        var ulb = Coordinate / ULBMod % 3;
+        var ubr = Coordinate / UBRMod % 3;
+        var dfr = Coordinate / DFRMod % 3;
+        var dlf = Coordinate / DLFMod % 3;
+        var dbl = Coordinate / DBLMod % 3;
+        var sum = urf + ufl + ulb + ubr + dfr + dlf + dbl;
+        var mod = sum % 3;
+        return mod == 0
+            ? (byte)0
+            : (byte)(3 - mod);
+    }
+
+    private static void ThrowIfCubieOrientationInvalid(byte cubieOrientation)
+    {
+        if (cubieOrientation is > 2 or < 0)
+        {
+            throw new ArgumentException("Cubie orientation should be between 0 and 2 inclusive", nameof(cubieOrientation));
+        }
+    }
+}
