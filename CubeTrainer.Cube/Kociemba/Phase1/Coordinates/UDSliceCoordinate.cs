@@ -66,32 +66,122 @@ internal class UDSliceCoordinate : ICoordinate<ushort>
 
     public void B(int count = 1)
     {
-        throw new NotImplementedException();
+        for (var i = 0; i < count; i++)
+        {
+            B();
+        }
     }
 
     public void D(int count = 1)
     {
-        throw new NotImplementedException();
+        for (var i = 0; i < count; i++)
+        {
+            D();
+        }
     }
 
     public void F(int count = 1)
     {
-        throw new NotImplementedException();
+        for (var i = 0; i < count; i++)
+        {
+            F();
+        }
     }
 
     public void L(int count = 1)
     {
-        throw new NotImplementedException();
+        for (var i = 0; i < count; i++)
+        {
+            L();
+        }
     }
 
     public void R(int count = 1)
     {
-        throw new NotImplementedException();
+        for (var i = 0; i < count; i++)
+        {
+            R();
+        }
     }
 
     public void U(int count = 1)
     {
-        throw new NotImplementedException();
+        for (var i = 0; i < count; i++)
+        {
+            U();
+        }
+    }
+
+    private void B()
+    {
+        var ub = _edges[UBIndex];
+        var db = _edges[DBIndex];
+        var bl = _edges[BLIndex];
+        var br = _edges[BRIndex];
+        _edges[UBIndex] = br;
+        _edges[BRIndex] = db;
+        _edges[DBIndex] = bl;
+        _edges[BLIndex] = ub;
+    }
+
+    private void D()
+    {
+        var dr = _edges[DRIndex];
+        var df = _edges[DFIndex];
+        var dl = _edges[DLIndex];
+        var db = _edges[DBIndex];
+        _edges[DFIndex] = dl;
+        _edges[DLIndex] = db;
+        _edges[DBIndex] = dr;
+        _edges[DRIndex] = df;
+    }
+
+    private void F()
+    {
+        var uf = _edges[UFIndex];
+        var df = _edges[DFIndex];
+        var fl = _edges[FLIndex];
+        var fr = _edges[FRIndex];
+        _edges[UFIndex] = fl;
+        _edges[FLIndex] = df;
+        _edges[DFIndex] = fr;
+        _edges[FRIndex] = uf;
+    }
+
+    private void L()
+    {
+        var ul = _edges[ULIndex];
+        var dl = _edges[DLIndex];
+        var fl = _edges[FLIndex];
+        var bl = _edges[BLIndex];
+        _edges[FLIndex] = ul;
+        _edges[ULIndex] = bl;
+        _edges[BLIndex] = dl;
+        _edges[DLIndex] = fl;
+    }
+
+    private void R()
+    {
+        var ur = _edges[URIndex];
+        var dr = _edges[DRIndex];
+        var fr = _edges[FRIndex];
+        var br = _edges[BRIndex];
+        _edges[FRIndex] = dr;
+        _edges[URIndex] = fr;
+        _edges[BRIndex] = ur;
+        _edges[DRIndex] = br;
+    }
+
+    private void U()
+    {
+        var ur = _edges[URIndex];
+        var uf = _edges[UFIndex];
+        var ul = _edges[ULIndex];
+        var ub = _edges[UBIndex];
+        _edges[URIndex] = ub;
+        _edges[UBIndex] = ul;
+        _edges[ULIndex] = uf;
+        _edges[UFIndex] = ur;
     }
 
     private ushort EdgesToCoordinate()
