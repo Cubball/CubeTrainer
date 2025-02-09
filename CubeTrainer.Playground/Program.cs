@@ -1,18 +1,10 @@
 ﻿using CubeTrainer.Cube.Kociemba.Generation;
 using CubeTrainer.Cube.Kociemba.Phase1.Coordinates;
+using CubeTrainer.Cube.Kociemba.Phase1.PruneTables;
 
-var moveTable = MoveTableGenerator.Generate<CornerOrientationCoordinate, ushort>();
+var coMoveTable = MoveTableGenerator.Generate<CornerOrientationCoordinate, ushort>();
+var eoMoveTable = MoveTableGenerator.Generate<EdgeOrientationCoordinate, ushort>();
+var udMoveTable = MoveTableGenerator.Generate<UDSliceCoordinate, ushort>();
+var pruneTable = EOAndUDSlicePruneTable.Generate(eoMoveTable, udMoveTable);
 
-WriteToDisk(moveTable.Buffer);
-
-static void WriteToDisk(Span<ushort> buffer)
-{
-    using var fileStream = new FileStream("D:\\MoveTableNew", FileMode.Create, FileAccess.Write);
-    Span<byte> byteBuffer = stackalloc byte[buffer.Length * sizeof(ushort)];
-    for (int i = 0; i < buffer.Length; i++)
-    {
-        BitConverter.TryWriteBytes(byteBuffer.Slice(i * 2, 2), buffer[i]);
-    }
-
-    fileStream.Write(byteBuffer);
-}
+File.WriteAllBytes("D:\\EOAndUDSlicePruneTable", pruneTable._moves);

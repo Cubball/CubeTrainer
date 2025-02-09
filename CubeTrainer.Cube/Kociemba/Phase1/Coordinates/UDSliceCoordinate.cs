@@ -184,6 +184,15 @@ internal class UDSliceCoordinate : ICoordinate<ushort>
         _edges[UFIndex] = ur;
     }
 
+    // FIXME: remove
+    public void Print()
+    {
+        for (var i = 0; i <= MaxIndex; i++)
+        {
+            Console.WriteLine(i + " " + _edges[i]);
+        }
+    }
+
     private ushort EdgesToCoordinate()
     {
         var k = MaxK;
