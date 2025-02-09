@@ -5,7 +5,7 @@ using CubeTrainer.Cube.Kociemba.Common.Tables;
 
 namespace CubeTrainer.Cube.Kociemba.Generation;
 
-internal static class MoveTablesGenerator
+internal static class MoveTableGenerator
 {
     public static MoveTable<TData> Generate<TCoord, TData>()
         where TCoord : ICoordinate<TData>

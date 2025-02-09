@@ -1,7 +1,7 @@
 ﻿using CubeTrainer.Cube.Kociemba.Generation;
 using CubeTrainer.Cube.Kociemba.Phase1.Coordinates;
 
-var moveTable = MoveTablesGenerator.Generate<CornerOrientationCoordinate, ushort>();
+var moveTable = MoveTableGenerator.Generate<CornerOrientationCoordinate, ushort>();
 
 WriteToDisk(moveTable.Buffer);
 
