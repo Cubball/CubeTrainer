@@ -186,7 +186,8 @@ internal class EdgeOrientationCoordinate : ICoordinate<ushort>
     private ushort EdgesToCoordinate()
     {
         var coordinate = 0;
-        for (var i = 0; i < _edges.Length; i++)
+        // we do not take into account the last edge, since it's orientation is determinted by 11 other edges
+        for (var i = 0; i < _edges.Length - 1; i++)
         {
             if (!_edges[i])
             {
@@ -199,12 +200,20 @@ internal class EdgeOrientationCoordinate : ICoordinate<ushort>
 
     private void CoordinateToEdges(ushort coordinate)
     {
-        for (var i = 0; i < _edges.Length; i++)
+        var count = 0;
+        for (var i = 0; i < _edges.Length - 1; i++)
         {
             if ((coordinate & (1 << i)) == 0)
             {
+                count++;
                 _edges[i] = true;
             }
+        }
+
+        // make sure that the last edge has proper orientation according to the other 11 edges
+        if (count % 2 != 0)
+        {
+            _edges[^1] = true;
         }
     }
 }
