@@ -60,7 +60,7 @@ internal class EdgeOrientationCoordinate : ICoordinate<ushort>
 
     public static ICoordinate<ushort> Create(ushort value)
     {
-        return new UDSliceCoordinate(value);
+        return new EdgeOrientationCoordinate(value);
     }
 
     public void B(int count = 1)
