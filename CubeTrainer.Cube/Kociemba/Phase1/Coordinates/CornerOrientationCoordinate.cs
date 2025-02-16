@@ -43,7 +43,7 @@ internal class CornerOrientationCoordinate : ICoordinate<ushort>
             (dbl * DBLMod));
     }
 
-    public static int PossibleCoordinatesCount => 2187; // 3^7
+    public static int PossibleCoordinatesCount => Constants.CornerOrientationPossibleCoordinatesCount;
 
     public ushort Coordinate { get; private set; }
 

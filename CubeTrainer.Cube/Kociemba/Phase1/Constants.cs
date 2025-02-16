@@ -6,6 +6,8 @@ internal class Constants
 
     public const int EdgeOrientationPossibleCoordinatesCount = 2048;
 
+    public const int CornerOrientationPossibleCoordinatesCount = 2187; // 3^7
+
     public const byte PruneTableEmptyEntry = byte.MaxValue;
 
     public const byte PruneTableNotFoundEntry = byte.MaxValue - 1;
