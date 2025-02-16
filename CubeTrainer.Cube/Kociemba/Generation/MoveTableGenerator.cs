@@ -12,7 +12,7 @@ internal static class MoveTableGenerator
         where TData : INumberBase<TData>
     {
         var moveTable = new MoveTable<TData>(TCoord.PossibleCoordinatesCount);
-        for (var coord = 1; coord < TCoord.PossibleCoordinatesCount; coord++)
+        for (var coord = 0; coord < TCoord.PossibleCoordinatesCount; coord++)
         {
             // NOTE: phase 2 would include less moves, or at least not all quater moves.
             // Might add an enum with moves like R', U2, and method to ICoordinate that would accept it
