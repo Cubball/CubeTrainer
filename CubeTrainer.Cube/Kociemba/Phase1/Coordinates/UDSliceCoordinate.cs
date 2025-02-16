@@ -55,7 +55,7 @@ internal class UDSliceCoordinate : ICoordinate<ushort>
         _edges[BRIndex] = br;
     }
 
-    public static int PossibleCoordinatesCount => 495;
+    public static int PossibleCoordinatesCount => Constants.UDSlicePossibleCoordinatesCount;
 
     public ushort Coordinate => EdgesToCoordinate();
 
@@ -182,15 +182,6 @@ internal class UDSliceCoordinate : ICoordinate<ushort>
         _edges[UBIndex] = ul;
         _edges[ULIndex] = uf;
         _edges[UFIndex] = ur;
-    }
-
-    // FIXME: remove
-    public void Print()
-    {
-        for (var i = 0; i <= MaxIndex; i++)
-        {
-            Console.WriteLine(i + " " + _edges[i]);
-        }
     }
 
     private ushort EdgesToCoordinate()

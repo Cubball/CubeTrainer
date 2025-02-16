@@ -54,7 +54,7 @@ internal class EdgeOrientationCoordinate : ICoordinate<ushort>
         _edges[BRIndex] = br;
     }
 
-    public static int PossibleCoordinatesCount => 2048;
+    public static int PossibleCoordinatesCount => Constants.EdgeOrientationPossibleCoordinatesCount;
 
     public ushort Coordinate => EdgesToCoordinate();
 
