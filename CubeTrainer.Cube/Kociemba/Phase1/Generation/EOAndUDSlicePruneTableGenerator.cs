@@ -31,7 +31,7 @@ internal static class EOAndUDSlicePruneTableGenerator
             }
 
             Console.WriteLine($"Finished EO = {eo}");
-            if (eo % 10 == 0)
+            if (eo % 4 == 0)
             {
                 WriteProgressToFile(table, filePath);
             }
