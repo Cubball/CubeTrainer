@@ -31,10 +31,7 @@ internal static class COAndUDSlicePruneTableGenerator
             }
 
             Console.WriteLine($"Finished CO = {co}");
-            if (co % 4 == 0)
-            {
-                WriteProgressToFile(table, filePath);
-            }
+            WriteProgressToFile(table, filePath);
         }
 
         WriteProgressToFile(table, filePath);
