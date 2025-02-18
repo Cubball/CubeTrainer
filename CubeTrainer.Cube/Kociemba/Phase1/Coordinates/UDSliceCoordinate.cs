@@ -1,9 +1,8 @@
 using CubeTrainer.Cube.Kociemba.Common;
-using CubeTrainer.Cube.Kociemba.Common.Coordinates;
 
 namespace CubeTrainer.Cube.Kociemba.Phase1.Coordinates;
 
-internal class UDSliceCoordinate : ICoordinate<ushort>
+internal class UDSliceCoordinate : ICoordinate
 {
     private const int URIndex = 0;
     private const int UFIndex = 1;
@@ -17,16 +16,16 @@ internal class UDSliceCoordinate : ICoordinate<ushort>
     private const int FLIndex = 9;
     private const int BLIndex = 10;
     private const int BRIndex = 11;
-    private const int MaxIndex = 11;
     private const int MaxK = 3;
 
-    private readonly bool[] _edges = new bool[MaxIndex + 1];
+    private readonly bool[] _edges = new bool[12];
 
     public UDSliceCoordinate(ushort coordinate)
     {
         CoordinateToEdges(coordinate);
     }
 
+    // TODO: remove?
     public UDSliceCoordinate(
         bool ur,
         bool uf,
@@ -55,11 +54,13 @@ internal class UDSliceCoordinate : ICoordinate<ushort>
         _edges[BRIndex] = br;
     }
 
-    public static int PossibleCoordinatesCount => Constants.UDSlicePossibleCoordinatesCount;
+    public static ushort PossibleCoordinatesCount => Constants.UDSlicePossibleCoordinatesCount;
+
+    public static List<Move> PossibleMoves { get; } = Constants.Phase1Moves;
 
     public ushort Coordinate => EdgesToCoordinate();
 
-    public static ICoordinate<ushort> Create(ushort value)
+    public static ICoordinate Create(ushort value)
     {
         return new UDSliceCoordinate(value);
     }
@@ -188,7 +189,7 @@ internal class UDSliceCoordinate : ICoordinate<ushort>
     {
         var k = MaxK;
         var coordinate = 0;
-        for (var idx = MaxIndex; idx >= 0; idx--)
+        for (var idx = _edges.Length - 1; idx >= 0; idx--)
         {
             if (k < 0)
             {
@@ -210,7 +211,7 @@ internal class UDSliceCoordinate : ICoordinate<ushort>
     private void CoordinateToEdges(ushort coordinate)
     {
         var k = MaxK;
-        for (var idx = MaxIndex; idx >= 0; idx--)
+        for (var idx = _edges.Length - 1; idx >= 0; idx--)
         {
             if (k < 0)
             {

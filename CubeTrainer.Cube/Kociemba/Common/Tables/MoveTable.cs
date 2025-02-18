@@ -1,36 +1,38 @@
 namespace CubeTrainer.Cube.Kociemba.Common.Tables;
 
-internal class MoveTable<T>
+internal class MoveTable<T> where T : ICoordinate
 {
-    private readonly T[] _buffer;
+    private readonly ushort[] _buffer;
+    private readonly List<Move> _possibleMoves;
 
-    public MoveTable(int possibleCoordinatesCount)
+    public MoveTable()
     {
-        var size = possibleCoordinatesCount * Constants.PossibleMovesCount;
-        _buffer = new T[size];
+        _possibleMoves = T.PossibleMoves;
+        var size = T.PossibleCoordinatesCount * _possibleMoves.Count;
+        _buffer = new ushort[size];
     }
 
-    public MoveTable(T[] buffer)
+    public MoveTable(ushort[] buffer)
     {
+        _possibleMoves = T.PossibleMoves;
         _buffer = buffer;
     }
 
-    public Span<T> Buffer => _buffer;
+    public Span<ushort> Buffer => _buffer;
 
-    public T GetValue(int coordinate, char move, int count)
+    public ushort GetValue(int coordinate, Move move)
     {
-        return _buffer[GetBufferIndex(coordinate, move, count)];
+        return _buffer[GetBufferIndex(coordinate, move)];
     }
 
-    public void SetValue(int coordinate, char move, int count, T value)
+    public void SetValue(int coordinate, Move move, ushort value)
     {
-        _buffer[GetBufferIndex(coordinate, move, count)] = value;
+        _buffer[GetBufferIndex(coordinate, move)] = value;
     }
 
-    private static int GetBufferIndex(int coordinate, char move, int count)
+    private int GetBufferIndex(int coordinate, Move move)
     {
-        var moveIdx = Constants.MoveIndexes[move];
-        // - 1 at the end since the count is in [1; 3], but buffer offset should be in [0; 2]
-        return (coordinate * Constants.PossibleMovesCount) + (moveIdx * Constants.PossibleMoveDirectionsCount) + count - 1;
+        var moveIdx = _possibleMoves.IndexOf(move);
+        return (coordinate * _possibleMoves.Count) + moveIdx;
     }
 }

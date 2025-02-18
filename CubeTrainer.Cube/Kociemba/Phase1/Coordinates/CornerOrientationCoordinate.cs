@@ -1,8 +1,8 @@
-using CubeTrainer.Cube.Kociemba.Common.Coordinates;
+using CubeTrainer.Cube.Kociemba.Common;
 
 namespace CubeTrainer.Cube.Kociemba.Phase1.Coordinates;
 
-internal class CornerOrientationCoordinate : ICoordinate<ushort>
+internal class CornerOrientationCoordinate : ICoordinate
 {
     private const ushort URFMod = 729; // 3^6
     private const ushort UFLMod = 243; // 3^5
@@ -17,6 +17,7 @@ internal class CornerOrientationCoordinate : ICoordinate<ushort>
         Coordinate = coordinate;
     }
 
+    // TODO: remove?
     public CornerOrientationCoordinate(
         byte urf,
         byte ufl,
@@ -43,11 +44,13 @@ internal class CornerOrientationCoordinate : ICoordinate<ushort>
             (dbl * DBLMod));
     }
 
-    public static int PossibleCoordinatesCount => Constants.CornerOrientationPossibleCoordinatesCount;
+    public static ushort PossibleCoordinatesCount { get; } = 2187; // 3^7
+
+    public static List<Move> PossibleMoves { get; } = Constants.Phase1Moves;
 
     public ushort Coordinate { get; private set; }
 
-    public static ICoordinate<ushort> Create(ushort value)
+    public static ICoordinate Create(ushort value)
     {
         return new CornerOrientationCoordinate(value);
     }

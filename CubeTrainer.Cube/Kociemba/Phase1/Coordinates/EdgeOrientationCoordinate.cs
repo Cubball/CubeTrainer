@@ -1,8 +1,8 @@
-using CubeTrainer.Cube.Kociemba.Common.Coordinates;
+using CubeTrainer.Cube.Kociemba.Common;
 
 namespace CubeTrainer.Cube.Kociemba.Phase1.Coordinates;
 
-internal class EdgeOrientationCoordinate : ICoordinate<ushort>
+internal class EdgeOrientationCoordinate : ICoordinate
 {
     private const int URIndex = 0;
     private const int UFIndex = 1;
@@ -16,16 +16,16 @@ internal class EdgeOrientationCoordinate : ICoordinate<ushort>
     private const int FLIndex = 9;
     private const int BLIndex = 10;
     private const int BRIndex = 11;
-    private const int MaxIndex = 11;
 
     // if _edges[i] == true, this means that the edge with index i is properly oriented
-    private readonly bool[] _edges = new bool[MaxIndex + 1];
+    private readonly bool[] _edges = new bool[12];
 
     public EdgeOrientationCoordinate(ushort coordinate)
     {
         CoordinateToEdges(coordinate);
     }
 
+    // TODO: remove?
     public EdgeOrientationCoordinate(
         bool ur,
         bool uf,
@@ -54,11 +54,13 @@ internal class EdgeOrientationCoordinate : ICoordinate<ushort>
         _edges[BRIndex] = br;
     }
 
-    public static int PossibleCoordinatesCount => Constants.EdgeOrientationPossibleCoordinatesCount;
+    public static ushort PossibleCoordinatesCount { get; } = 2048; // 2^11
+
+    public static List<Move> PossibleMoves { get; } = Constants.Phase1Moves;
 
     public ushort Coordinate => EdgesToCoordinate();
 
-    public static ICoordinate<ushort> Create(ushort value)
+    public static ICoordinate Create(ushort value)
     {
         return new EdgeOrientationCoordinate(value);
     }
@@ -191,6 +193,7 @@ internal class EdgeOrientationCoordinate : ICoordinate<ushort>
         {
             if (!_edges[i])
             {
+                // coordinate |= 1 << (10 - i);
                 coordinate |= 1 << i;
             }
         }
@@ -203,6 +206,7 @@ internal class EdgeOrientationCoordinate : ICoordinate<ushort>
         var count = 0;
         for (var i = 0; i < _edges.Length - 1; i++)
         {
+            // if ((coordinate & (1 << (10 - i))) == 0)
             if ((coordinate & (1 << i)) == 0)
             {
                 count++;
