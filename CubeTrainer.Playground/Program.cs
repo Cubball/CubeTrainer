@@ -66,8 +66,24 @@ for (var i = 0; i < 20; i++)
 }
 
 var stopwatch = Stopwatch.StartNew();
-var solution = Solver.Solve(co.Coordinate, eo.Coordinate, ud.Coordinate, coMoveTable, eoMoveTable, udMoveTable, coPruneTable, eoPruneTable);
+var solution = Phase1Solver.Solve(co.Coordinate, eo.Coordinate, ud.Coordinate, coMoveTable, eoMoveTable, udMoveTable, coPruneTable, eoPruneTable);
 stopwatch.Stop();
 Console.WriteLine(scramble);
-Console.WriteLine(solution);
+foreach (var move in solution)
+{
+    Console.Write(move.Face);
+    if (move.Count == 2)
+    {
+        Console.Write("2 ");
+    }
+    else if (move.Count == 3)
+    {
+        Console.Write("' ");
+    }
+    else
+    {
+        Console.Write(" ");
+    }
+}
+Console.WriteLine();
 Console.WriteLine(stopwatch.Elapsed);

@@ -29,6 +29,7 @@ internal static class PruneTableGenerator
             {
                 var moves = BFS(first, second, firstMoveTable, secondMoveTable, queue);
                 table.SetValue(first, second, moves);
+                Console.WriteLine($"Finished second coordinate = {second}");
             }
 
             Console.WriteLine($"Finished first coordinate = {first}");

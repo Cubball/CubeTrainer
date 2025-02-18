@@ -4,9 +4,9 @@ using CubeTrainer.Cube.Kociemba.Phase1.Coordinates;
 
 namespace CubeTrainer.Cube.Kociemba.Phase1;
 
-internal static class Solver
+internal static class Phase1Solver
 {
-    public static string Solve(
+    public static Move[] Solve(
         ushort co,
         ushort eo,
         ushort udSlice,
@@ -19,7 +19,7 @@ internal static class Solver
         return IDA(co, eo, udSlice, coMoveTable, eoMoveTable, udSliceMoveTable, coPruneTable, eoPruneTable, 12);
     }
 
-    private static string IDA(
+    private static Move[] IDA(
         ushort co,
         ushort eo,
         ushort udSlice,
@@ -30,28 +30,20 @@ internal static class Solver
         PruneTable<EdgeOrientationCoordinate, UDSliceCoordinate> eoPruneTable,
         int maxDepth)
     {
-        var estimate = Math.Max(
+        var minMovesToSolve = Math.Max(
             coPruneTable.GetValue(co, udSlice),
             eoPruneTable.GetValue(eo, udSlice)
         );
-        for (var depth = estimate; depth <= maxDepth; depth++)
+        for (var depth = minMovesToSolve; depth <= maxDepth; depth++)
         {
             var moves = new Move[depth];
             if (IDA(co, eo, udSlice, coMoveTable, eoMoveTable, udSliceMoveTable, coPruneTable, eoPruneTable, 0, depth, moves))
             {
-                var result = "";
-                for (var i = 0; i < moves.Length; i++)
-                {
-                    result += moves[i].Face;
-                    var count = moves[i].Count;
-                    result += count == 3 ? "' " : count == 1 ? " " : "2 ";
-                }
-
-                return result;
+                return moves;
             }
         }
 
-        return "";
+        return [];
     }
 
     private static bool IDA(
@@ -77,11 +69,11 @@ internal static class Solver
             return false;
         }
 
-        var estimate = Math.Max(
+        var minMovesToSolve = Math.Max(
             coPruneTable.GetValue(co, udSlice),
             eoPruneTable.GetValue(eo, udSlice)
         );
-        if (maxDepth - depth < estimate)
+        if (maxDepth - depth < minMovesToSolve)
         {
             return false;
         }
