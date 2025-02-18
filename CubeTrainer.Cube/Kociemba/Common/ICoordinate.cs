@@ -10,6 +10,7 @@ internal interface ICoordinate
 
     ushort Coordinate { get; }
 
+    // TODO: remove this, leave only Apply?
     void U(int count = 1);
 
     void R(int count = 1);

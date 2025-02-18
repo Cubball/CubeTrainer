@@ -23,15 +23,15 @@ internal static class PruneTableGenerator
         var startFirstCoord = (ushort)(startIndex / TSecondCoord.PossibleCoordinatesCount);
         Console.WriteLine($"Starting from first coordinate = {startFirstCoord} (byte index = {startIndex})");
         var queue = new Queue<(ushort, ushort, byte)>();
-        for (ushort co = startFirstCoord; co < TFirstCoord.PossibleCoordinatesCount; co++)
+        for (ushort first = startFirstCoord; first < TFirstCoord.PossibleCoordinatesCount; first++)
         {
-            for (ushort ud = 0; ud < TSecondCoord.PossibleCoordinatesCount; ud++)
+            for (ushort second = 0; second < TSecondCoord.PossibleCoordinatesCount; second++)
             {
-                var moves = BFS(co, ud, firstMoveTable, secondMoveTable, queue);
-                table.SetValue(co, ud, moves);
+                var moves = BFS(first, second, firstMoveTable, secondMoveTable, queue);
+                table.SetValue(first, second, moves);
             }
 
-            Console.WriteLine($"Finished CO = {co}");
+            Console.WriteLine($"Finished first coordinate = {first}");
             WriteProgressToFile(table.Buffer, filePath);
         }
 
