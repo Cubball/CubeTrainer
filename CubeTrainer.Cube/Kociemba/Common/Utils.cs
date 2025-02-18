@@ -2,6 +2,16 @@ namespace CubeTrainer.Cube.Kociemba.Common;
 
 internal static class Utils
 {
+    public static bool AreOppositeFaces(char first, char second)
+    {
+        return (first == 'U' && second == 'D')
+            || (first == 'D' && second == 'U')
+            || (first == 'R' && second == 'L')
+            || (first == 'L' && second == 'R')
+            || (first == 'F' && second == 'B')
+            || (first == 'B' && second == 'F');
+    }
+
     public static int NChooseK(int n, int k)
     {
         return Factorial(n) / Factorial(k) / Factorial(n - k);

@@ -32,6 +32,7 @@ internal class MoveTable<T> where T : ICoordinate
 
     private int GetBufferIndex(int coordinate, Move move)
     {
+        // PERF: use dictionary?
         var moveIdx = _possibleMoves.IndexOf(move);
         return (coordinate * _possibleMoves.Count) + moveIdx;
     }

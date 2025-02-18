@@ -1,16 +1,16 @@
 ﻿using System.Diagnostics;
+using CubeTrainer.Cube.Kociemba.Common.Tables;
 using CubeTrainer.Cube.Kociemba.Generation;
 using CubeTrainer.Cube.Kociemba.Phase1;
 using CubeTrainer.Cube.Kociemba.Phase1.Coordinates;
-using CubeTrainer.Cube.Kociemba.Phase1.PruneTables;
 
-var coMoveTable = MoveTableGenerator.Generate<CornerOrientationCoordinate, ushort>();
-var eoMoveTable = MoveTableGenerator.Generate<EdgeOrientationCoordinate, ushort>();
-var udMoveTable = MoveTableGenerator.Generate<UDSliceCoordinate, ushort>();
+var coMoveTable = MoveTableGenerator.Generate<CornerOrientationCoordinate>();
+var eoMoveTable = MoveTableGenerator.Generate<EdgeOrientationCoordinate>();
+var udMoveTable = MoveTableGenerator.Generate<UDSliceCoordinate>();
 var coPruneBuffer = File.ReadAllBytes("D:\\Tables\\Ready\\PruneCOAndUD");
-var coPruneTable = new COAndUDSlicePruneTable(coPruneBuffer);
+var coPruneTable = new PruneTable<CornerOrientationCoordinate, UDSliceCoordinate>(coPruneBuffer);
 var eoPruneBuffer = File.ReadAllBytes("D:\\Tables\\Ready\\PruneEOAndUD");
-var eoPruneTable = new EOAndUDSlicePruneTable(eoPruneBuffer);
+var eoPruneTable = new PruneTable<EdgeOrientationCoordinate, UDSliceCoordinate>(eoPruneBuffer);
 
 var eo = new EdgeOrientationCoordinate(0);
 var co = new CornerOrientationCoordinate(0);

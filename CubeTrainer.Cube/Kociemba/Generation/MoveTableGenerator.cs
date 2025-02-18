@@ -15,6 +15,7 @@ internal static class MoveTableGenerator
             foreach (var move in possibleMoves)
             {
                 var coordinate = TCoord.Create(coord);
+                coordinate.Apply(move);
                 moveTable.SetValue(coord, move, coordinate.Coordinate);
             }
         }

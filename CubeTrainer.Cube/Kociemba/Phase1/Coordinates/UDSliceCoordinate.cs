@@ -54,7 +54,7 @@ internal class UDSliceCoordinate : ICoordinate
         _edges[BRIndex] = br;
     }
 
-    public static ushort PossibleCoordinatesCount => Constants.UDSlicePossibleCoordinatesCount;
+    public static ushort PossibleCoordinatesCount { get; } = 495;
 
     public static List<Move> PossibleMoves { get; } = Constants.Phase1Moves;
 
