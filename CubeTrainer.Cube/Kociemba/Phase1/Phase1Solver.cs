@@ -4,40 +4,43 @@ using CubeTrainer.Cube.Kociemba.Phase1.Coordinates;
 
 namespace CubeTrainer.Cube.Kociemba.Phase1;
 
-internal static class Phase1Solver
+internal class Phase1Solver(
+    MoveTable<CornerOrientationCoordinate> coMoveTable,
+    MoveTable<EdgeOrientationCoordinate> eoMoveTable,
+    MoveTable<UDSliceCoordinate> udSliceMoveTable,
+    PruneTable<CornerOrientationCoordinate, UDSliceCoordinate> coPruneTable,
+    PruneTable<EdgeOrientationCoordinate, UDSliceCoordinate> eoPruneTable)
 {
-    public static Move[] Solve(
+    private const int MaxDepth = 12;
+
+    private readonly MoveTable<CornerOrientationCoordinate> _coMoveTable = coMoveTable;
+    private readonly MoveTable<EdgeOrientationCoordinate> _eoMoveTable = eoMoveTable;
+    private readonly MoveTable<UDSliceCoordinate> _udSliceMoveTable = udSliceMoveTable;
+    private readonly PruneTable<CornerOrientationCoordinate, UDSliceCoordinate> _coPruneTable = coPruneTable;
+    private readonly PruneTable<EdgeOrientationCoordinate, UDSliceCoordinate> _eoPruneTable = eoPruneTable;
+
+    public Move[] Solve(
         ushort co,
         ushort eo,
-        ushort udSlice,
-        MoveTable<CornerOrientationCoordinate> coMoveTable,
-        MoveTable<EdgeOrientationCoordinate> eoMoveTable,
-        MoveTable<UDSliceCoordinate> udSliceMoveTable,
-        PruneTable<CornerOrientationCoordinate, UDSliceCoordinate> coPruneTable,
-        PruneTable<EdgeOrientationCoordinate, UDSliceCoordinate> eoPruneTable)
+        ushort udSlice)
     {
-        return IDA(co, eo, udSlice, coMoveTable, eoMoveTable, udSliceMoveTable, coPruneTable, eoPruneTable, 12);
+        return IDA(co, eo, udSlice, MaxDepth);
     }
 
-    private static Move[] IDA(
+    private Move[] IDA(
         ushort co,
         ushort eo,
         ushort udSlice,
-        MoveTable<CornerOrientationCoordinate> coMoveTable,
-        MoveTable<EdgeOrientationCoordinate> eoMoveTable,
-        MoveTable<UDSliceCoordinate> udSliceMoveTable,
-        PruneTable<CornerOrientationCoordinate, UDSliceCoordinate> coPruneTable,
-        PruneTable<EdgeOrientationCoordinate, UDSliceCoordinate> eoPruneTable,
         int maxDepth)
     {
         var minMovesToSolve = Math.Max(
-            coPruneTable.GetValue(co, udSlice),
-            eoPruneTable.GetValue(eo, udSlice)
+            _coPruneTable.GetValue(co, udSlice),
+            _eoPruneTable.GetValue(eo, udSlice)
         );
         for (var depth = minMovesToSolve; depth <= maxDepth; depth++)
         {
             var moves = new Move[depth];
-            if (IDA(co, eo, udSlice, coMoveTable, eoMoveTable, udSliceMoveTable, coPruneTable, eoPruneTable, 0, depth, moves))
+            if (IDA(co, eo, udSlice, 0, depth, moves))
             {
                 return moves;
             }
@@ -46,15 +49,10 @@ internal static class Phase1Solver
         return [];
     }
 
-    private static bool IDA(
+    private bool IDA(
         ushort co,
         ushort eo,
         ushort udSlice,
-        MoveTable<CornerOrientationCoordinate> coMoveTable,
-        MoveTable<EdgeOrientationCoordinate> eoMoveTable,
-        MoveTable<UDSliceCoordinate> udSliceMoveTable,
-        PruneTable<CornerOrientationCoordinate, UDSliceCoordinate> coPruneTable,
-        PruneTable<EdgeOrientationCoordinate, UDSliceCoordinate> eoPruneTable,
         int depth,
         int maxDepth,
         Move[] moves)
@@ -70,8 +68,8 @@ internal static class Phase1Solver
         }
 
         var minMovesToSolve = Math.Max(
-            coPruneTable.GetValue(co, udSlice),
-            eoPruneTable.GetValue(eo, udSlice)
+            _coPruneTable.GetValue(co, udSlice),
+            _eoPruneTable.GetValue(eo, udSlice)
         );
         if (maxDepth - depth < minMovesToSolve)
         {
@@ -100,14 +98,9 @@ internal static class Phase1Solver
 
             moves[depth] = move;
             if (IDA(
-                    coMoveTable.GetValue(co, move),
-                    eoMoveTable.GetValue(eo, move),
-                    udSliceMoveTable.GetValue(udSlice, move),
-                    coMoveTable,
-                    eoMoveTable,
-                    udSliceMoveTable,
-                    coPruneTable,
-                    eoPruneTable,
+                    _coMoveTable.GetValue(co, move),
+                    _eoMoveTable.GetValue(eo, move),
+                    _udSliceMoveTable.GetValue(udSlice, move),
                     depth + 1,
                     maxDepth,
                     moves))

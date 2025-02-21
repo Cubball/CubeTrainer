@@ -17,7 +17,7 @@ internal static class Utils
         return Factorial(n) / Factorial(k) / Factorial(n - k);
     }
 
-    private static int Factorial(int n)
+    public static int Factorial(int n)
     {
         if (n <= 1)
         {

@@ -2,7 +2,7 @@ using CubeTrainer.Cube.Kociemba.Common;
 
 namespace CubeTrainer.Cube.Kociemba.Phase1;
 
-internal class Constants
+internal static class Constants
 {
     public static readonly List<Move> Phase1Moves = [
         new('U', 1),
