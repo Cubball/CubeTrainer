@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using CubeTrainer.Cube.Kociemba;
 using CubeTrainer.Cube.Kociemba.Common;
+using CubeTrainer.Cube.Kociemba.Common.Models;
 using CubeTrainer.Cube.Kociemba.Common.Tables;
 using CubeTrainer.Cube.Kociemba.Generation;
-using CubeTrainer.Cube.Kociemba.Phase1;
 using CubeTrainer.Cube.Kociemba.Phase1.Coordinates;
 using CubeTrainer.Cube.Kociemba.Phase2.Coordinates;
 using UDSliceCoordinatePhase1 = CubeTrainer.Cube.Kociemba.Phase1.Coordinates.UDSliceCoordinate;
