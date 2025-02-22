@@ -20,28 +20,6 @@ internal class CornerPermutationCoordinate : ICoordinate
         CoordinateToCorners(coordinate);
     }
 
-    // FIXME:
-    public void Print()
-    {
-        foreach (var corner in _corners)
-        {
-            var cornerName = corner switch
-            {
-                0 => "URF",
-                1 => "UFL",
-                2 => "ULB",
-                3 => "UBR",
-                4 => "DFR",
-                5 => "DLF",
-                6 => "DBL",
-                7 => "DRB",
-                _ => "",
-            };
-            Console.Write(cornerName + " ");
-        }
-        Console.WriteLine();
-    }
-
     public static ushort PossibleCoordinatesCount { get; } = 40_320; // 8!
 
     public static List<Move> PossibleMoves => Constants.Phase2Moves;

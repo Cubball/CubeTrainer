@@ -24,33 +24,6 @@ internal class EdgePermutationCoordinate : ICoordinate
         CoordinateToEdges(coordinate);
     }
 
-    // FIXME:
-    public string Print()
-    {
-        var result = "";
-        foreach (var edge in _edges)
-        {
-            var edgeName = edge switch
-            {
-                0 => "UR ",
-                1 => "UF ",
-                2 => "UL ",
-                3 => "UB ",
-                4 => "DR ",
-                5 => "DF ",
-                6 => "DL ",
-                7 => "DB ",
-                8 => "FR ",
-                9 => "FL ",
-                10 => "BL ",
-                11 => "BR ",
-                _ => "",
-            };
-            result += edgeName;
-        }
-        return result;
-    }
-
     public static ushort PossibleCoordinatesCount { get; } = 40_320; // 8!
 
     public static List<Move> PossibleMoves => Constants.Phase2Moves;

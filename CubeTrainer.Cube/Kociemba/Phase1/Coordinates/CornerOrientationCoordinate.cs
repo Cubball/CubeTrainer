@@ -2,7 +2,7 @@ using CubeTrainer.Cube.Kociemba.Common;
 
 namespace CubeTrainer.Cube.Kociemba.Phase1.Coordinates;
 
-internal class CornerOrientationCoordinate : ICoordinate
+internal class CornerOrientationCoordinate(ushort coordinate) : ICoordinate
 {
     private const ushort URFMod = 729; // 3^6
     private const ushort UFLMod = 243; // 3^5
@@ -12,43 +12,11 @@ internal class CornerOrientationCoordinate : ICoordinate
     private const ushort DLFMod = 3;   // 3^1
     private const ushort DBLMod = 1;   // 3^0
 
-    public CornerOrientationCoordinate(ushort coordinate)
-    {
-        Coordinate = coordinate;
-    }
-
-    // TODO: remove?
-    public CornerOrientationCoordinate(
-        byte urf,
-        byte ufl,
-        byte ulb,
-        byte ubr,
-        byte dfr,
-        byte dlf,
-        byte dbl)
-    {
-        ThrowIfCubieOrientationInvalid(urf);
-        ThrowIfCubieOrientationInvalid(ufl);
-        ThrowIfCubieOrientationInvalid(ulb);
-        ThrowIfCubieOrientationInvalid(ubr);
-        ThrowIfCubieOrientationInvalid(dfr);
-        ThrowIfCubieOrientationInvalid(dlf);
-        ThrowIfCubieOrientationInvalid(dbl);
-        Coordinate = (ushort)(
-            (urf * URFMod) +
-            (ufl * UFLMod) +
-            (ulb * ULBMod) +
-            (ubr * UBRMod) +
-            (dfr * DFRMod) +
-            (dlf * DLFMod) +
-            (dbl * DBLMod));
-    }
-
     public static ushort PossibleCoordinatesCount { get; } = 2187; // 3^7
 
     public static List<Move> PossibleMoves { get; } = Constants.Phase1Moves;
 
-    public ushort Coordinate { get; private set; }
+    public ushort Coordinate { get; private set; } = coordinate;
 
     public static ICoordinate Create(ushort value)
     {

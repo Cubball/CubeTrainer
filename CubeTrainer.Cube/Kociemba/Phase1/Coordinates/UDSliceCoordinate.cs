@@ -25,35 +25,6 @@ internal class UDSliceCoordinate : ICoordinate
         CoordinateToEdges(coordinate);
     }
 
-    // TODO: remove?
-    public UDSliceCoordinate(
-        bool ur,
-        bool uf,
-        bool ul,
-        bool ub,
-        bool dr,
-        bool df,
-        bool dl,
-        bool db,
-        bool fr,
-        bool fl,
-        bool bl,
-        bool br)
-    {
-        _edges[URIndex] = ur;
-        _edges[UFIndex] = uf;
-        _edges[ULIndex] = ul;
-        _edges[UBIndex] = ub;
-        _edges[DRIndex] = dr;
-        _edges[DFIndex] = df;
-        _edges[DLIndex] = dl;
-        _edges[DBIndex] = db;
-        _edges[FRIndex] = fr;
-        _edges[FLIndex] = fl;
-        _edges[BLIndex] = bl;
-        _edges[BRIndex] = br;
-    }
-
     public static ushort PossibleCoordinatesCount { get; } = 495;
 
     public static List<Move> PossibleMoves { get; } = Constants.Phase1Moves;
