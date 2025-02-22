@@ -1,4 +1,5 @@
 using CubeTrainer.Cube.Kociemba.Common;
+using CubeTrainer.Cube.Kociemba.Common.Models;
 
 namespace CubeTrainer.Cube.Kociemba.Phase1.Coordinates;
 

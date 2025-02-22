@@ -1,9 +1,12 @@
-using CubeTrainer.Cube.Kociemba.Common;
+using CubeTrainer.Cube.Kociemba.Common.Models;
 
-namespace CubeTrainer.Cube.Kociemba.Phase1;
+namespace CubeTrainer.Cube.Kociemba.Common;
 
 internal static class Constants
 {
+    public const int Phase1MaxDepth = 12;
+    public const int Phase2MaxDepth = 18;
+
     public static readonly List<Move> Phase1Moves = [
         new('U', 1),
         new('U', 2),
@@ -23,5 +26,17 @@ internal static class Constants
         new('B', 1),
         new('B', 2),
         new('B', 3),
+    ];
+    public static readonly List<Move> Phase2Moves = [
+        new('U', 1),
+        new('U', 2),
+        new('U', 3),
+        new('R', 2),
+        new('F', 2),
+        new('D', 1),
+        new('D', 2),
+        new('D', 3),
+        new('L', 2),
+        new('B', 2),
     ];
 }

@@ -1,4 +1,4 @@
-namespace CubeTrainer.Cube.Kociemba.Common;
+namespace CubeTrainer.Cube.Kociemba.Common.Models;
 
 internal interface ICoordinate
 {

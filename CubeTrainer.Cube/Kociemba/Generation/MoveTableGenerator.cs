@@ -1,4 +1,4 @@
-using CubeTrainer.Cube.Kociemba.Common;
+using CubeTrainer.Cube.Kociemba.Common.Models;
 using CubeTrainer.Cube.Kociemba.Common.Tables;
 
 namespace CubeTrainer.Cube.Kociemba.Generation;

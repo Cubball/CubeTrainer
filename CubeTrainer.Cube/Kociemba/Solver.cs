@@ -1,8 +1,7 @@
 using CubeTrainer.Cube.Kociemba.Common;
+using CubeTrainer.Cube.Kociemba.Common.Models;
 using CubeTrainer.Cube.Kociemba.Common.Tables;
-using CubeTrainer.Cube.Kociemba.Phase1;
 using CubeTrainer.Cube.Kociemba.Phase1.Coordinates;
-using CubeTrainer.Cube.Kociemba.Phase2;
 using CubeTrainer.Cube.Kociemba.Phase2.Coordinates;
 using UDSliceCoordinatePhase1 = CubeTrainer.Cube.Kociemba.Phase1.Coordinates.UDSliceCoordinate;
 using UDSliceCoordinatePhase2 = CubeTrainer.Cube.Kociemba.Phase2.Coordinates.UDSliceCoordinate;
@@ -21,20 +20,24 @@ internal class Solver(
     PruneTable<CornerPermutationCoordinate, UDSliceCoordinatePhase2> cpPruneTable,
     PruneTable<EdgePermutationCoordinate, UDSliceCoordinatePhase2> epPruneTable)
 {
-    private readonly Phase1Solver _phase1Solver = new(
+    private readonly PhaseSolver<CornerOrientationCoordinate, EdgeOrientationCoordinate, UDSliceCoordinatePhase1> _phase1Solver = new(
+        Constants.Phase1Moves,
+        Constants.Phase1MaxDepth,
         coMoveTable,
         eoMoveTable,
         udSlicePhase1MoveTable,
         coPruneTable,
         eoPruneTable);
-    private readonly Phase2Solver _phase2Solver = new(
+    private readonly PhaseSolver<CornerPermutationCoordinate, EdgePermutationCoordinate, UDSliceCoordinatePhase2> _phase2Solver = new(
+        Constants.Phase2Moves,
+        Constants.Phase2MaxDepth,
         cpMoveTable,
         epMoveTable,
         udSlicePhase2MoveTable,
         cpPruneTable,
         epPruneTable);
 
-    public Move[] Solve(
+    public List<Move> Solve(
         CornerOrientationCoordinate co,
         EdgeOrientationCoordinate eo,
         UDSliceCoordinatePhase1 ud1,
@@ -51,7 +54,7 @@ internal class Solver(
         }
 
         var phase2Moves = _phase2Solver.Solve(cp.Coordinate, ep.Coordinate, ud2.Coordinate);
-        if (phase1Moves.Length == 0 || phase2Moves.Length == 0)
+        if (phase1Moves.Count == 0 || phase2Moves.Count == 0)
         {
             return [.. phase1Moves, .. phase2Moves];
         }
@@ -67,11 +70,8 @@ internal class Solver(
         }
 
         var count = (lastPhase1Move.Count + firstPhase2Move.Count) % 4;
-        if (count == 0)
-        {
-            return [.. phase1Moves.SkipLast(1), .. phase2Moves.Skip(1)];
-        }
-
-        return [.. phase1Moves.SkipLast(1), new(lastPhase1Move.Face, count), .. phase2Moves.Skip(1)];
+        return count == 0
+            ? ([.. phase1Moves.SkipLast(1), .. phase2Moves.Skip(1)])
+            : ([.. phase1Moves.SkipLast(1), new(lastPhase1Move.Face, count), .. phase2Moves.Skip(1)]);
     }
 }

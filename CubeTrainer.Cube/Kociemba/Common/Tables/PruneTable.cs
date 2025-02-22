@@ -1,3 +1,5 @@
+using CubeTrainer.Cube.Kociemba.Common.Models;
+
 namespace CubeTrainer.Cube.Kociemba.Common.Tables;
 
 internal class PruneTable<TFirstCoord, TSecondCoord>
