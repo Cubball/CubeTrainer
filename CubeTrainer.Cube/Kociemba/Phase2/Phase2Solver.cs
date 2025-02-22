@@ -20,27 +20,27 @@ internal class Phase2Solver(
     private readonly PruneTable<EdgePermutationCoordinate, UDSliceCoordinate> _epPruneTable = epPruneTable;
 
     public Move[] Solve(
-        ushort co,
-        ushort eo,
+        ushort cp,
+        ushort ep,
         ushort udSlice)
     {
-        return IDA(co, eo, udSlice, MaxDepth);
+        return IDA(cp, ep, udSlice, MaxDepth);
     }
 
     private Move[] IDA(
-        ushort co,
-        ushort eo,
+        ushort cp,
+        ushort ep,
         ushort udSlice,
         int maxDepth)
     {
         var minMovesToSolve = Math.Max(
-            _cpPruneTable.GetValue(co, udSlice),
-            _epPruneTable.GetValue(eo, udSlice)
+            _cpPruneTable.GetValue(cp, udSlice),
+            _epPruneTable.GetValue(ep, udSlice)
         );
         for (var depth = minMovesToSolve; depth <= maxDepth; depth++)
         {
             var moves = new Move[depth];
-            if (IDA(co, eo, udSlice, 0, depth, moves))
+            if (IDA(cp, ep, udSlice, 0, depth, moves))
             {
                 return moves;
             }
@@ -50,14 +50,14 @@ internal class Phase2Solver(
     }
 
     private bool IDA(
-        ushort co,
-        ushort eo,
+        ushort cp,
+        ushort ep,
         ushort udSlice,
         int depth,
         int maxDepth,
         Move[] moves)
     {
-        if (co == 0 && eo == 0 && udSlice == 0)
+        if (cp == 0 && ep == 0 && udSlice == 0)
         {
             return true;
         }
@@ -68,8 +68,8 @@ internal class Phase2Solver(
         }
 
         var minMovesToSolve = Math.Max(
-            _cpPruneTable.GetValue(co, udSlice),
-            _epPruneTable.GetValue(eo, udSlice)
+            _cpPruneTable.GetValue(cp, udSlice),
+            _epPruneTable.GetValue(ep, udSlice)
         );
         if (maxDepth - depth < minMovesToSolve)
         {
@@ -98,8 +98,8 @@ internal class Phase2Solver(
 
             moves[depth] = move;
             if (IDA(
-                    _cpMoveTable.GetValue(co, move),
-                    _epMoveTable.GetValue(eo, move),
+                    _cpMoveTable.GetValue(cp, move),
+                    _epMoveTable.GetValue(ep, move),
                     _udSliceMoveTable.GetValue(udSlice, move),
                     depth + 1,
                     maxDepth,
