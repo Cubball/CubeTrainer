@@ -2,28 +2,23 @@
 using CubeTrainer.Cube.Kociemba;
 using CubeTrainer.Cube.Kociemba.Common;
 using CubeTrainer.Cube.Kociemba.Common.Models;
-using CubeTrainer.Cube.Kociemba.Common.Tables;
-using CubeTrainer.Cube.Kociemba.Generation;
+using CubeTrainer.Cube.Kociemba.Infrastructure;
 using CubeTrainer.Cube.Kociemba.Phase1.Coordinates;
 using CubeTrainer.Cube.Kociemba.Phase2.Coordinates;
 using UDSliceCoordinatePhase1 = CubeTrainer.Cube.Kociemba.Phase1.Coordinates.UDSliceCoordinate;
 using UDSliceCoordinatePhase2 = CubeTrainer.Cube.Kociemba.Phase2.Coordinates.UDSliceCoordinate;
 
-var coMoveTable = MoveTableGenerator.Generate<CornerOrientationCoordinate>();
-var eoMoveTable = MoveTableGenerator.Generate<EdgeOrientationCoordinate>();
-var ud1MoveTable = MoveTableGenerator.Generate<UDSliceCoordinatePhase1>();
-var coPruneBuffer = File.ReadAllBytes("D:\\Tables\\Ready\\PruneCOAndUD");
-var coPruneTable = new PruneTable<CornerOrientationCoordinate, UDSliceCoordinatePhase1>(coPruneBuffer);
-var eoPruneBuffer = File.ReadAllBytes("D:\\Tables\\Ready\\PruneEOAndUD");
-var eoPruneTable = new PruneTable<EdgeOrientationCoordinate, UDSliceCoordinatePhase1>(eoPruneBuffer);
+var coMoveTable = FileManager.LoadMoveTableFromFile<CornerOrientationCoordinate>(FileManager.COMoveTablePath);
+var eoMoveTable = FileManager.LoadMoveTableFromFile<EdgeOrientationCoordinate>(FileManager.EOMoveTablePath);
+var ud1MoveTable = FileManager.LoadMoveTableFromFile<UDSliceCoordinatePhase1>(FileManager.UDSlicePhase1MoveTablePath);
+var coPruneTable = FileManager.LoadPruneTableFromFile<CornerOrientationCoordinate, UDSliceCoordinatePhase1>(FileManager.COPruneTablePath);
+var eoPruneTable = FileManager.LoadPruneTableFromFile<EdgeOrientationCoordinate, UDSliceCoordinatePhase1>(FileManager.EOPruneTablePath);
 
-var cpMoveTable = MoveTableGenerator.Generate<CornerPermutationCoordinate>();
-var epMoveTable = MoveTableGenerator.Generate<EdgePermutationCoordinate>();
-var ud2MoveTable = MoveTableGenerator.Generate<UDSliceCoordinatePhase2>();
-var cpPruneBuffer = File.ReadAllBytes("D:\\Tables\\Ready\\PruneCPAndUD");
-var cpPruneTable = new PruneTable<CornerPermutationCoordinate, UDSliceCoordinatePhase2>(cpPruneBuffer);
-var epPruneBuffer = File.ReadAllBytes("D:\\Tables\\Ready\\PruneEPAndUD");
-var epPruneTable = new PruneTable<EdgePermutationCoordinate, UDSliceCoordinatePhase2>(epPruneBuffer);
+var cpMoveTable = FileManager.LoadMoveTableFromFile<CornerPermutationCoordinate>(FileManager.CPMoveTablePath);
+var epMoveTable = FileManager.LoadMoveTableFromFile<EdgePermutationCoordinate>(FileManager.EPMoveTablePath);
+var ud2MoveTable = FileManager.LoadMoveTableFromFile<UDSliceCoordinatePhase2>(FileManager.UDSlicePhase2MoveTablePath);
+var cpPruneTable = FileManager.LoadPruneTableFromFile<CornerPermutationCoordinate, UDSliceCoordinatePhase2>(FileManager.CPPruneTablePath);
+var epPruneTable = FileManager.LoadPruneTableFromFile<EdgePermutationCoordinate, UDSliceCoordinatePhase2>(FileManager.EPPruneTablePath);
 
 var solver = new Solver(
     coMoveTable,

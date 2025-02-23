@@ -20,34 +20,23 @@ internal static class FileManager
 
     public static MoveTable<T> LoadMoveTableFromFile<T>(string filePath) where T : ICoordinate
     {
-        var bytes = File.ReadAllBytes(filePath);
-        if (bytes.Length % 2 != 0)
+        using var binaryReader = new BinaryReader(File.Open(filePath, FileMode.Open));
+        var values = new List<ushort>();
+        while (binaryReader.BaseStream.Position < binaryReader.BaseStream.Length)
         {
-            throw new InvalidOperationException("The file containing the move table should have an even number of bytes");
+            values.Add(binaryReader.ReadUInt16());
         }
 
-        var buffer = new ushort[bytes.Length / 2];
-        for (var i = 0; i < buffer.Length; i++)
-        {
-            ushort entry = 0;
-            entry |= bytes[2 * i];
-            entry |= (ushort)(bytes[(2 * i) + 1] << 4);
-            buffer[i] = entry;
-        }
-
-        return new(buffer);
+        return new([.. values]);
     }
 
     public static void WriteMoveTableToFile<T>(string filePath, MoveTable<T> moveTable) where T : ICoordinate
     {
-        var bytes = new byte[moveTable.Buffer.Length * 2];
-        for (var i = 0; i < moveTable.Buffer.Length; i++)
+        using var binaryWriter = new BinaryWriter(File.Open(filePath, FileMode.Create));
+        foreach (var value in moveTable.Buffer)
         {
-            bytes[2 * i] = (byte)(moveTable.Buffer[i] & 0b1111);
-            bytes[(2 * i) + 1] = (byte)(moveTable.Buffer[i] >>> 4);
+            binaryWriter.Write(value);
         }
-
-        File.WriteAllBytes(filePath, bytes);
     }
 
     public static PruneTable<TFirstCoord, TSecondCoord> LoadPruneTableFromFile<TFirstCoord, TSecondCoord>(string filePath)
