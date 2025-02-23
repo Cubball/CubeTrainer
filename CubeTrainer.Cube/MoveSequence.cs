@@ -40,7 +40,7 @@ public class MoveSequence(List<Move> moves)
                 move = AllMoves[moveIndex];
             } while (
                 (lastMove is not null && move.Face == lastMove.Face) ||
-                (preLastMove is not null && move.Face == preLastMove.Face && move.IsOppositeFaceTo(move)));
+                (preLastMove is not null && move.Face == preLastMove.Face && move.IsOppositeFaceTo(lastMove!)));
             preLastMove = lastMove;
             lastMove = move;
             moves.Add(move);
