@@ -6,7 +6,7 @@ using UDSliceCoordinatePhase2 = CubeTrainer.Cube.Kociemba.Phase2.Coordinates.UDS
 
 namespace CubeTrainer.Cube;
 
-public class RubiksCube
+public sealed class RubiksCube
 {
     private RubiksCube()
     {

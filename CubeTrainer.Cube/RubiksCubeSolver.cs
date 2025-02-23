@@ -4,8 +4,6 @@ namespace CubeTrainer.Cube;
 
 public static class RubiksCubeSolver
 {
-    private static readonly Solver Solver = new();
-
     public static MoveSequence FindSolution(RubiksCube cube)
     {
         var solution = Solver.Solve(

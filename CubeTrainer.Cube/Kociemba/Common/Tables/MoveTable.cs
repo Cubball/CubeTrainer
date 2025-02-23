@@ -2,7 +2,7 @@ using CubeTrainer.Cube.Kociemba.Common.Models;
 
 namespace CubeTrainer.Cube.Kociemba.Common.Tables;
 
-internal class MoveTable<T> where T : ICoordinate
+internal sealed class MoveTable<T> where T : ICoordinate
 {
     private readonly ushort[] _buffer;
     private readonly List<Models.Move> _possibleMoves;

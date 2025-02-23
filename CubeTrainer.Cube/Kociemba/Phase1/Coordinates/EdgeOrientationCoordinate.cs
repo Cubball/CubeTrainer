@@ -3,7 +3,7 @@ using CubeTrainer.Cube.Kociemba.Common.Models;
 
 namespace CubeTrainer.Cube.Kociemba.Phase1.Coordinates;
 
-internal class EdgeOrientationCoordinate : ICoordinate
+internal sealed class EdgeOrientationCoordinate : ICoordinate
 {
     private const int URIndex = 0;
     private const int UFIndex = 1;

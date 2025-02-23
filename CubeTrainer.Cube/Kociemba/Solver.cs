@@ -8,9 +8,9 @@ using UDSliceCoordinatePhase2 = CubeTrainer.Cube.Kociemba.Phase2.Coordinates.UDS
 
 namespace CubeTrainer.Cube.Kociemba;
 
-internal class Solver
+internal static class Solver
 {
-    private readonly PhaseSolver<CornerOrientationCoordinate, EdgeOrientationCoordinate, UDSliceCoordinatePhase1> _phase1Solver = new(
+    private static readonly PhaseSolver<CornerOrientationCoordinate, EdgeOrientationCoordinate, UDSliceCoordinatePhase1> Phase1Solver = new(
         Constants.Phase1Moves,
         Constants.Phase1MaxDepth,
         FileManager.LoadMoveTableFromFile<CornerOrientationCoordinate>(FileManager.COMoveTablePath),
@@ -18,7 +18,7 @@ internal class Solver
         FileManager.LoadMoveTableFromFile<UDSliceCoordinatePhase1>(FileManager.UDSlicePhase1MoveTablePath),
         FileManager.LoadPruneTableFromFile<CornerOrientationCoordinate, UDSliceCoordinatePhase1>(FileManager.COPruneTablePath),
         FileManager.LoadPruneTableFromFile<EdgeOrientationCoordinate, UDSliceCoordinatePhase1>(FileManager.EOPruneTablePath));
-    private readonly PhaseSolver<CornerPermutationCoordinate, EdgePermutationCoordinate, UDSliceCoordinatePhase2> _phase2Solver = new(
+    private static readonly PhaseSolver<CornerPermutationCoordinate, EdgePermutationCoordinate, UDSliceCoordinatePhase2> Phase2Solver = new(
         Constants.Phase2Moves,
         Constants.Phase2MaxDepth,
         FileManager.LoadMoveTableFromFile<CornerPermutationCoordinate>(FileManager.CPMoveTablePath),
@@ -27,7 +27,7 @@ internal class Solver
         FileManager.LoadPruneTableFromFile<CornerPermutationCoordinate, UDSliceCoordinatePhase2>(FileManager.CPPruneTablePath),
         FileManager.LoadPruneTableFromFile<EdgePermutationCoordinate, UDSliceCoordinatePhase2>(FileManager.EPPruneTablePath));
 
-    public List<Common.Models.Move> Solve(
+    public static List<Common.Models.Move> Solve(
         CornerOrientationCoordinate co,
         EdgeOrientationCoordinate eo,
         UDSliceCoordinatePhase1 ud1,
@@ -35,7 +35,7 @@ internal class Solver
         EdgePermutationCoordinate ep,
         UDSliceCoordinatePhase2 ud2)
     {
-        var phase1Moves = _phase1Solver.Solve(co.Coordinate, eo.Coordinate, ud1.Coordinate);
+        var phase1Moves = Phase1Solver.Solve(co.Coordinate, eo.Coordinate, ud1.Coordinate);
         foreach (var move in phase1Moves)
         {
             ((ICoordinate)cp).Apply(move);
@@ -43,7 +43,7 @@ internal class Solver
             ((ICoordinate)ud2).Apply(move);
         }
 
-        var phase2Moves = _phase2Solver.Solve(cp.Coordinate, ep.Coordinate, ud2.Coordinate);
+        var phase2Moves = Phase2Solver.Solve(cp.Coordinate, ep.Coordinate, ud2.Coordinate);
         if (phase1Moves.Count == 0 || phase2Moves.Count == 0)
         {
             return [.. phase1Moves, .. phase2Moves];

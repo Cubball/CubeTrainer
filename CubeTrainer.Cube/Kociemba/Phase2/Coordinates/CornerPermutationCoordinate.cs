@@ -3,7 +3,7 @@ using CubeTrainer.Cube.Kociemba.Common.Models;
 
 namespace CubeTrainer.Cube.Kociemba.Phase2.Coordinates;
 
-internal class CornerPermutationCoordinate : ICoordinate
+internal sealed class CornerPermutationCoordinate : ICoordinate
 {
     private const int URFIndex = 0;
     private const int UFLIndex = 1;

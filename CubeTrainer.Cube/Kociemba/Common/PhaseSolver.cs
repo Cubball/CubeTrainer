@@ -3,7 +3,7 @@ using CubeTrainer.Cube.Kociemba.Common.Tables;
 
 namespace CubeTrainer.Cube.Kociemba.Common;
 
-internal class PhaseSolver<TFirstCoord, TSecondCoord, TThirdCoord>(
+internal sealed class PhaseSolver<TFirstCoord, TSecondCoord, TThirdCoord>(
     List<Models.Move> availableMoves,
     int maxDepth,
     MoveTable<TFirstCoord> firstMoveTable,

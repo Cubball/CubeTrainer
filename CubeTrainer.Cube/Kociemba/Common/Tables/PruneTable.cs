@@ -2,7 +2,7 @@ using CubeTrainer.Cube.Kociemba.Common.Models;
 
 namespace CubeTrainer.Cube.Kociemba.Common.Tables;
 
-internal class PruneTable<TFirstCoord, TSecondCoord>
+internal sealed class PruneTable<TFirstCoord, TSecondCoord>
     where TFirstCoord : ICoordinate
     where TSecondCoord : ICoordinate
 {

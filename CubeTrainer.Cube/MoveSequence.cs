@@ -1,6 +1,6 @@
 namespace CubeTrainer.Cube;
 
-public class MoveSequence(List<Move> moves)
+public sealed class MoveSequence(List<Move> moves)
 {
     private static readonly List<Move> AllMoves = [
         Move.R,

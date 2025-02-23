@@ -3,7 +3,7 @@ using CubeTrainer.Cube.Kociemba.Common.Models;
 
 namespace CubeTrainer.Cube.Kociemba.Phase1.Coordinates;
 
-internal class CornerOrientationCoordinate(ushort coordinate) : ICoordinate
+internal sealed class CornerOrientationCoordinate(ushort coordinate) : ICoordinate
 {
     private const ushort URFMod = 729; // 3^6
     private const ushort UFLMod = 243; // 3^5

@@ -1,6 +1,6 @@
 namespace CubeTrainer.Cube;
 
-public record Move
+public sealed record Move
 {
     internal Move(char face, int count)
     {

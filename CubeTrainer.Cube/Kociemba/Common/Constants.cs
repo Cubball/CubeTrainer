@@ -1,5 +1,3 @@
-using CubeTrainer.Cube.Kociemba.Common.Models;
-
 namespace CubeTrainer.Cube.Kociemba.Common;
 
 internal static class Constants

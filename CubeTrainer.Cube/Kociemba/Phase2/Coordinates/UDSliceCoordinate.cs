@@ -3,7 +3,7 @@ using CubeTrainer.Cube.Kociemba.Common.Models;
 
 namespace CubeTrainer.Cube.Kociemba.Phase2.Coordinates;
 
-internal class UDSliceCoordinate : ICoordinate
+internal sealed class UDSliceCoordinate : ICoordinate
 {
     private const int URIndex = 0;
     private const int UFIndex = 1;
