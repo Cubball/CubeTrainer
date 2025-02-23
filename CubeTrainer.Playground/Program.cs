@@ -2,35 +2,12 @@
 using CubeTrainer.Cube.Kociemba;
 using CubeTrainer.Cube.Kociemba.Common;
 using CubeTrainer.Cube.Kociemba.Common.Models;
-using CubeTrainer.Cube.Kociemba.Infrastructure;
 using CubeTrainer.Cube.Kociemba.Phase1.Coordinates;
 using CubeTrainer.Cube.Kociemba.Phase2.Coordinates;
 using UDSliceCoordinatePhase1 = CubeTrainer.Cube.Kociemba.Phase1.Coordinates.UDSliceCoordinate;
 using UDSliceCoordinatePhase2 = CubeTrainer.Cube.Kociemba.Phase2.Coordinates.UDSliceCoordinate;
 
-var coMoveTable = FileManager.LoadMoveTableFromFile<CornerOrientationCoordinate>(FileManager.COMoveTablePath);
-var eoMoveTable = FileManager.LoadMoveTableFromFile<EdgeOrientationCoordinate>(FileManager.EOMoveTablePath);
-var ud1MoveTable = FileManager.LoadMoveTableFromFile<UDSliceCoordinatePhase1>(FileManager.UDSlicePhase1MoveTablePath);
-var coPruneTable = FileManager.LoadPruneTableFromFile<CornerOrientationCoordinate, UDSliceCoordinatePhase1>(FileManager.COPruneTablePath);
-var eoPruneTable = FileManager.LoadPruneTableFromFile<EdgeOrientationCoordinate, UDSliceCoordinatePhase1>(FileManager.EOPruneTablePath);
-
-var cpMoveTable = FileManager.LoadMoveTableFromFile<CornerPermutationCoordinate>(FileManager.CPMoveTablePath);
-var epMoveTable = FileManager.LoadMoveTableFromFile<EdgePermutationCoordinate>(FileManager.EPMoveTablePath);
-var ud2MoveTable = FileManager.LoadMoveTableFromFile<UDSliceCoordinatePhase2>(FileManager.UDSlicePhase2MoveTablePath);
-var cpPruneTable = FileManager.LoadPruneTableFromFile<CornerPermutationCoordinate, UDSliceCoordinatePhase2>(FileManager.CPPruneTablePath);
-var epPruneTable = FileManager.LoadPruneTableFromFile<EdgePermutationCoordinate, UDSliceCoordinatePhase2>(FileManager.EPPruneTablePath);
-
-var solver = new Solver(
-    coMoveTable,
-    eoMoveTable,
-    ud1MoveTable,
-    coPruneTable,
-    eoPruneTable,
-    cpMoveTable,
-    epMoveTable,
-    ud2MoveTable,
-    cpPruneTable,
-    epPruneTable);
+var solver = new Solver();
 
 // TODO: implement algorithm for random scrambles
 var moves = Constants.Phase1Moves;

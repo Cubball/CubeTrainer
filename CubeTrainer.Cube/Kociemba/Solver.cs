@@ -1,6 +1,6 @@
 using CubeTrainer.Cube.Kociemba.Common;
 using CubeTrainer.Cube.Kociemba.Common.Models;
-using CubeTrainer.Cube.Kociemba.Common.Tables;
+using CubeTrainer.Cube.Kociemba.Infrastructure;
 using CubeTrainer.Cube.Kociemba.Phase1.Coordinates;
 using CubeTrainer.Cube.Kociemba.Phase2.Coordinates;
 using UDSliceCoordinatePhase1 = CubeTrainer.Cube.Kociemba.Phase1.Coordinates.UDSliceCoordinate;
@@ -8,34 +8,24 @@ using UDSliceCoordinatePhase2 = CubeTrainer.Cube.Kociemba.Phase2.Coordinates.UDS
 
 namespace CubeTrainer.Cube.Kociemba;
 
-internal class Solver(
-    MoveTable<CornerOrientationCoordinate> coMoveTable,
-    MoveTable<EdgeOrientationCoordinate> eoMoveTable,
-    MoveTable<UDSliceCoordinatePhase1> udSlicePhase1MoveTable,
-    PruneTable<CornerOrientationCoordinate, UDSliceCoordinatePhase1> coPruneTable,
-    PruneTable<EdgeOrientationCoordinate, UDSliceCoordinatePhase1> eoPruneTable,
-    MoveTable<CornerPermutationCoordinate> cpMoveTable,
-    MoveTable<EdgePermutationCoordinate> epMoveTable,
-    MoveTable<UDSliceCoordinatePhase2> udSlicePhase2MoveTable,
-    PruneTable<CornerPermutationCoordinate, UDSliceCoordinatePhase2> cpPruneTable,
-    PruneTable<EdgePermutationCoordinate, UDSliceCoordinatePhase2> epPruneTable)
+internal class Solver
 {
     private readonly PhaseSolver<CornerOrientationCoordinate, EdgeOrientationCoordinate, UDSliceCoordinatePhase1> _phase1Solver = new(
         Constants.Phase1Moves,
         Constants.Phase1MaxDepth,
-        coMoveTable,
-        eoMoveTable,
-        udSlicePhase1MoveTable,
-        coPruneTable,
-        eoPruneTable);
+        FileManager.LoadMoveTableFromFile<CornerOrientationCoordinate>(FileManager.COMoveTablePath),
+        FileManager.LoadMoveTableFromFile<EdgeOrientationCoordinate>(FileManager.EOMoveTablePath),
+        FileManager.LoadMoveTableFromFile<UDSliceCoordinatePhase1>(FileManager.UDSlicePhase1MoveTablePath),
+        FileManager.LoadPruneTableFromFile<CornerOrientationCoordinate, UDSliceCoordinatePhase1>(FileManager.COPruneTablePath),
+        FileManager.LoadPruneTableFromFile<EdgeOrientationCoordinate, UDSliceCoordinatePhase1>(FileManager.EOPruneTablePath));
     private readonly PhaseSolver<CornerPermutationCoordinate, EdgePermutationCoordinate, UDSliceCoordinatePhase2> _phase2Solver = new(
         Constants.Phase2Moves,
         Constants.Phase2MaxDepth,
-        cpMoveTable,
-        epMoveTable,
-        udSlicePhase2MoveTable,
-        cpPruneTable,
-        epPruneTable);
+        FileManager.LoadMoveTableFromFile<CornerPermutationCoordinate>(FileManager.CPMoveTablePath),
+        FileManager.LoadMoveTableFromFile<EdgePermutationCoordinate>(FileManager.EPMoveTablePath),
+        FileManager.LoadMoveTableFromFile<UDSliceCoordinatePhase2>(FileManager.UDSlicePhase2MoveTablePath),
+        FileManager.LoadPruneTableFromFile<CornerPermutationCoordinate, UDSliceCoordinatePhase2>(FileManager.CPPruneTablePath),
+        FileManager.LoadPruneTableFromFile<EdgePermutationCoordinate, UDSliceCoordinatePhase2>(FileManager.EPPruneTablePath));
 
     public List<Move> Solve(
         CornerOrientationCoordinate co,
