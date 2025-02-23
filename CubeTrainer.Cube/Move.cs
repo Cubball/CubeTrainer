@@ -2,8 +2,14 @@ namespace CubeTrainer.Cube;
 
 public record Move
 {
-    private Move(char face, int count)
+    internal Move(char face, int count)
     {
+        ThrowIfFaceIsInvalid(face);
+        if (count is < 1 or > 3)
+        {
+            throw new ArgumentException("The count should be between 1 and 3", nameof(count));
+        }
+
         Face = face;
         Count = count;
     }
@@ -48,6 +54,14 @@ public record Move
 
     public int Count { get; }
 
+    public static void ThrowIfFaceIsInvalid(char face)
+    {
+        if (face is not 'R' and not 'U' and not 'F' and not 'L' and not 'D' and not 'B')
+        {
+            throw new ArgumentException("The face should be one of the following: R, U, F, L, D, B", nameof(face));
+        }
+    }
+
     public static Move FromString(string value)
     {
         value = value.Trim();
@@ -58,6 +72,7 @@ public record Move
 
         var count = 1;
         var face = value[0];
+        ThrowIfFaceIsInvalid(face);
         if (value.Length == 2)
         {
             var direction = value[1];
@@ -69,9 +84,7 @@ public record Move
             };
         }
 
-        return face is 'R' or 'U' or 'F' or 'L' or 'D' or 'B'
-            ? new(face, count)
-            : throw new ArgumentException("The face should be one of the following: R, U, F, L, D, B", nameof(value));
+        return new(face, count);
     }
 
     public override string ToString()
