@@ -27,7 +27,7 @@ internal class Solver
         FileManager.LoadPruneTableFromFile<CornerPermutationCoordinate, UDSliceCoordinatePhase2>(FileManager.CPPruneTablePath),
         FileManager.LoadPruneTableFromFile<EdgePermutationCoordinate, UDSliceCoordinatePhase2>(FileManager.EPPruneTablePath));
 
-    public List<Move> Solve(
+    public List<Common.Models.Move> Solve(
         CornerOrientationCoordinate co,
         EdgeOrientationCoordinate eo,
         UDSliceCoordinatePhase1 ud1,

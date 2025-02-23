@@ -4,7 +4,7 @@ using CubeTrainer.Cube.Kociemba.Common.Tables;
 namespace CubeTrainer.Cube.Kociemba.Common;
 
 internal class PhaseSolver<TFirstCoord, TSecondCoord, TThirdCoord>(
-    List<Move> availableMoves,
+    List<Models.Move> availableMoves,
     int maxDepth,
     MoveTable<TFirstCoord> firstMoveTable,
     MoveTable<TSecondCoord> secondMoveTable,
@@ -15,7 +15,7 @@ internal class PhaseSolver<TFirstCoord, TSecondCoord, TThirdCoord>(
     where TSecondCoord : ICoordinate
     where TThirdCoord : ICoordinate
 {
-    private readonly List<Move> _availableMoves = availableMoves;
+    private readonly List<Models.Move> _availableMoves = availableMoves;
     private readonly int _maxDepth = maxDepth;
     private readonly MoveTable<TFirstCoord> _firstMoveTable = firstMoveTable;
     private readonly MoveTable<TSecondCoord> _secondMoveTable = secondMoveTable;
@@ -23,7 +23,7 @@ internal class PhaseSolver<TFirstCoord, TSecondCoord, TThirdCoord>(
     private readonly PruneTable<TFirstCoord, TThirdCoord> _firstThirdPruneTable = firstThirdPruneTable;
     private readonly PruneTable<TSecondCoord, TThirdCoord> _secondThirdPruneTable = secondThirdPruneTable;
 
-    public List<Move> Solve(
+    public List<Models.Move> Solve(
         ushort firstCoord,
         ushort secondCoord,
         ushort thirdCoord)
@@ -34,7 +34,7 @@ internal class PhaseSolver<TFirstCoord, TSecondCoord, TThirdCoord>(
         );
         for (var depth = minMovesToSolve; depth <= _maxDepth; depth++)
         {
-            var moves = new Move[depth];
+            var moves = new Models.Move[depth];
             if (IDA(firstCoord, secondCoord, thirdCoord, 0, depth, moves))
             {
                 return [.. moves];
@@ -50,7 +50,7 @@ internal class PhaseSolver<TFirstCoord, TSecondCoord, TThirdCoord>(
         ushort thirdCoord,
         int depth,
         int maxDepth,
-        Move[] moves)
+        Models.Move[] moves)
     {
         if (firstCoord == 0 && secondCoord == 0 && thirdCoord == 0)
         {

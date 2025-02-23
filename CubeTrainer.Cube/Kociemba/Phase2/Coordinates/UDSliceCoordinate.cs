@@ -27,7 +27,7 @@ internal class UDSliceCoordinate : ICoordinate
 
     public static ushort PossibleCoordinatesCount { get; } = 24; // 4!
 
-    public static List<Move> PossibleMoves => Constants.Phase2Moves;
+    public static List<Common.Models.Move> PossibleMoves => Constants.Phase2Moves;
 
     public ushort Coordinate => CornersToCoordinate();
 

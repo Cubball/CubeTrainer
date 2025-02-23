@@ -7,7 +7,7 @@ internal static class Constants
     public const int Phase1MaxDepth = 12;
     public const int Phase2MaxDepth = 18;
 
-    public static readonly List<Move> Phase1Moves = [
+    public static readonly List<Models.Move> Phase1Moves = [
         new('U', 1),
         new('U', 2),
         new('U', 3),
@@ -27,7 +27,7 @@ internal static class Constants
         new('B', 2),
         new('B', 3),
     ];
-    public static readonly List<Move> Phase2Moves = [
+    public static readonly List<Models.Move> Phase2Moves = [
         new('U', 1),
         new('U', 2),
         new('U', 3),

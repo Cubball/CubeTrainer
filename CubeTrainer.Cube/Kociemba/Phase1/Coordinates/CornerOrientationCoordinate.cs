@@ -15,7 +15,7 @@ internal class CornerOrientationCoordinate(ushort coordinate) : ICoordinate
 
     public static ushort PossibleCoordinatesCount { get; } = 2187; // 3^7
 
-    public static List<Move> PossibleMoves { get; } = Constants.Phase1Moves;
+    public static List<Common.Models.Move> PossibleMoves { get; } = Constants.Phase1Moves;
 
     public ushort Coordinate { get; private set; } = coordinate;
 

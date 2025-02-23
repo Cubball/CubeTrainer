@@ -28,7 +28,7 @@ internal class EdgeOrientationCoordinate : ICoordinate
 
     public static ushort PossibleCoordinatesCount { get; } = 2048; // 2^11
 
-    public static List<Move> PossibleMoves { get; } = Constants.Phase1Moves;
+    public static List<Common.Models.Move> PossibleMoves { get; } = Constants.Phase1Moves;
 
     public ushort Coordinate => EdgesToCoordinate();
 
