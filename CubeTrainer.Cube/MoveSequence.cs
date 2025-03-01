@@ -109,6 +109,17 @@ public sealed class MoveSequence(List<Move> moves)
             i = j - 1;
         }
 
-        return normalizedMoves;
+        // HACK:
+        // if the number of moves and normalized moves is the same
+        // that means that the moves are already normalized;
+        // we do a recursive call for cases like "R U U' R'"
+        // after the first normalization it'll get transformed
+        // to "R R'", after second it'll be no moves;
+        // the proper way to do it would be to implement an
+        // algorithm similar to checking whether the parentheses
+        // are valid, "R U U' R'" could be seen as "[{}]"
+        return moves.Count == normalizedMoves.Count
+            ? normalizedMoves
+            : Normalize(normalizedMoves);
     }
 }
