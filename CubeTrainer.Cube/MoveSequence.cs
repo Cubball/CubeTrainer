@@ -69,4 +69,7 @@ public sealed class MoveSequence(List<Move> moves)
     {
         return new([.. _moves, .. other._moves]);
     }
+
+    // TODO:
+    // public void Normalize()
 }

@@ -74,6 +74,9 @@ internal sealed class AppDbContext(DbContextOptions<AppDbContext> options) : Ide
             .Property(static c => c.ImageUrl)
             .HasMaxLength(500);
         builder.Entity<Case>()
+            .Property(static c => c.DefaultScramble)
+            .HasMaxLength(100);
+        builder.Entity<Case>()
             .Property(static c => c.Type)
             .HasConversion(
                 static t => t.ToString(),

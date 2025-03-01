@@ -30,10 +30,10 @@ internal static class Seeder
 
         var cases = new[]
         {
-            new Case { Type = CaseType.OLL, Name = "OLL 1", ImageUrl = "https://example.com/oll1.png" },
-            new Case { Type = CaseType.OLL, Name = "OLL 2", ImageUrl = "https://example.com/oll2.png" },
-            new Case { Type = CaseType.PLL, Name = "PLL 1", ImageUrl = "https://example.com/pll1.png" },
-            new Case { Type = CaseType.PLL, Name = "PLL 2", ImageUrl = "https://example.com/pll2.png" },
+            new Case { Type = CaseType.OLL, Name = "OLL 1", ImageUrl = "https://example.com/oll1.png", DefaultScramble = "R' U' R' F R F' U R", },
+            new Case { Type = CaseType.OLL, Name = "OLL 2", ImageUrl = "https://example.com/oll2.png", DefaultScramble = "F R U R' U' F", },
+            new Case { Type = CaseType.PLL, Name = "PLL 1", ImageUrl = "https://example.com/pll1.png", DefaultScramble = "R2 U R' U R' U' R U' R2 U' D R' U R D'", },
+            new Case { Type = CaseType.PLL, Name = "PLL 2", ImageUrl = "https://example.com/pll2.png", DefaultScramble = "R2 F R U R U' R' F' R U2 R' U2 R", },
         };
         context.Cases.AddRange(cases);
         await context.SaveChangesAsync();

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CubeTrainer.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250117190623_Init")]
-    partial class Init
+    [Migration("20250301160255_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -119,6 +119,11 @@ namespace CubeTrainer.API.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<string>("DefaultScramble")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()

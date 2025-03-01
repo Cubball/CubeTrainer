@@ -49,9 +49,6 @@ internal static class Solver
             return [.. phase1Moves, .. phase2Moves];
         }
 
-        // TODO: also check for second and second to last moves?
-        // could it be so that we have
-        // [phase 1] ... U D | U D ... [phase 2]?
         var lastPhase1Move = phase1Moves[^1];
         var firstPhase2Move = phase2Moves[0];
         if (lastPhase1Move.Face != firstPhase2Move.Face)

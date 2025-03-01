@@ -4,6 +4,7 @@ using CubeTrainer.API.Common.Endpoints;
 using CubeTrainer.API.Common.Exceptions;
 using CubeTrainer.API.Database;
 using CubeTrainer.API.Entities;
+using CubeTrainer.Cube;
 using Microsoft.EntityFrameworkCore;
 
 namespace CubeTrainer.API.Features.Scrambles;
@@ -54,12 +55,13 @@ internal static class GetRandomScramble
 
         var randomCase = userCases[Random.Shared.Next(userCases.Count)];
 
-        // TODO: use Kociemba to gen random scrable for randomCase
-        // add a few random moves before feeding it to it, to ensure randomness
-        // after that reverse both Kociemba and setup moves
-        var scramble = "R U R' U'";
+        var defaultScramble = MoveSequence.FromString(randomCase.Case.DefaultScramble);
+        var setupMoves = MoveSequence.Random(Random.Shared.Next(1, 4));
+        var cube = RubiksCube.Scrambled(defaultScramble.Append(setupMoves));
+        var solution = RubiksCubeSolver.FindSolution(cube);
+        var scramble = solution.Inverse().Append(setupMoves.Inverse());
 
-        var result = new ScrambleDto(scramble, new(
+        var result = new ScrambleDto(scramble.ToString(), new(
             randomCase.Case.Id,
             randomCase.Case.Name,
             randomCase.Case.ImageUrl,
