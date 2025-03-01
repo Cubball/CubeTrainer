@@ -1,7 +1,9 @@
 name: CubeTrainer
 services:
   api:
-    build: .
+    build:
+      context: .
+      dockerfile: ./CubeTrainer.API/Dockerfile
     environment:
       - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=cubetrainer;Username=postgres;Password=postgres
     ports:
