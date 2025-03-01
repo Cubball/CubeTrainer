@@ -22,7 +22,7 @@ public sealed class MoveSequence(List<Move> moves)
         Move.B2,
         Move.BPrime,
     ];
-    private readonly List<Move> _moves = moves;
+    private readonly List<Move> _moves = Normalize(moves);
 
     public IReadOnlyList<Move> Moves => _moves;
 
@@ -70,6 +70,45 @@ public sealed class MoveSequence(List<Move> moves)
         return new([.. _moves, .. other._moves]);
     }
 
-    // TODO:
-    // public void Normalize()
+    private static List<Move> Normalize(List<Move> moves)
+    {
+        var normalizedMoves = new List<Move>();
+        for (var i = 0; i < moves.Count; i++)
+        {
+            var sameFaceMove = default(Move);
+            var oppositeFaceMove = default(Move);
+            var j = i;
+            while (j < moves.Count)
+            {
+                if (moves[i].Face == moves[j].Face)
+                {
+                    sameFaceMove = sameFaceMove is null ? moves[j] : sameFaceMove.Add(moves[j]);
+                }
+                else if (moves[i].IsOppositeFaceTo(moves[j]))
+                {
+                    oppositeFaceMove = oppositeFaceMove is null ? moves[j] : oppositeFaceMove.Add(moves[j]);
+                }
+                else
+                {
+                    break;
+                }
+
+                j++;
+            }
+
+            if (sameFaceMove is not null)
+            {
+                normalizedMoves.Add(sameFaceMove);
+            }
+
+            if (oppositeFaceMove is not null)
+            {
+                normalizedMoves.Add(oppositeFaceMove);
+            }
+
+            i = j - 1;
+        }
+
+        return normalizedMoves;
+    }
 }

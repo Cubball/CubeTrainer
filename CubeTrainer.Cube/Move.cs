@@ -98,6 +98,17 @@ public sealed record Move
         return new(Face, count);
     }
 
+    public Move? Add(Move other)
+    {
+        if (Face != other.Face)
+        {
+            throw new InvalidOperationException("The moves should have the same face");
+        }
+
+        var count = (Count + other.Count) % 4;
+        return count == 0 ? null : new(Face, count);
+    }
+
     public bool IsOppositeFaceTo(Move other)
     {
         return (Face == 'U' && other.Face == 'D')

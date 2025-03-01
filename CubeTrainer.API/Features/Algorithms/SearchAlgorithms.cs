@@ -40,7 +40,6 @@ internal static class SearchAlgorithms
             builder
                 .MapGet("/algorithms/cases/{caseId:guid}", Handle)
                 .WithTags("Algorithms")
-                // NOTE: might make some routes, like this one, public
                 .RequireAuthorization();
         }
     }
@@ -61,7 +60,6 @@ internal static class SearchAlgorithms
             ?? throw new UnauthorizedException("User not found");
         var query = context.Algorithms
             .Include(a => a.Case)
-            // NOTE: this query will load the user's own public algorithms too, not sure if we want that
             .Where(a => a.IsPublic && !a.IsDeleted && a.CaseId == caseId);
         var totalCount = await query.CountAsync(cancellationToken);
         query = sortBy switch
