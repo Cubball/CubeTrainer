@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CubeTrainer.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250301160255_init")]
-    partial class init
+    [Migration("20250301170903_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
