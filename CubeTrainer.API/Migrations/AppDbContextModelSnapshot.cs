@@ -117,7 +117,7 @@ namespace CubeTrainer.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("DefaultScramble")
+                    b.Property<string>("DefaultSolution")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");

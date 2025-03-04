@@ -60,13 +60,9 @@ internal static class GetRandomScrambleForTrainingPlan
             .Include(uc => uc.SelectedAlgorithm)
             .FirstOrDefaultAsync(uc => uc.UserId == userId && uc.CaseId == randomCase.CaseId, cancellationToken);
 
-        var defaultScramble = MoveSequence.FromString(randomCase.Case.DefaultScramble);
-        var setupMoves = MoveSequence.Random(Random.Shared.Next(1, 4));
-        var cube = RubiksCube.Scrambled(defaultScramble.Append(setupMoves));
-        var solution = RubiksCubeSolver.FindSolution(cube);
-        var scramble = solution.Inverse().Append(setupMoves.Inverse());
+        var scramble = GetRandomScrambleForCase(userCase?.SelectedAlgorithm?.Moves ?? @case.DefaultSolution);
 
-        var result = new ScrambleDto(scramble.ToString(), new(
+        var result = new ScrambleDto(scramble, new(
             @case.Id,
             @case.Name,
             @case.ImageUrl,
@@ -75,5 +71,15 @@ internal static class GetRandomScrambleForTrainingPlan
                 : new(userCase.SelectedAlgorithm.Id, userCase.SelectedAlgorithm.Moves)
         ));
         return Results.Ok(new Response(result));
+    }
+
+    private static string GetRandomScrambleForCase(string caseSolution)
+    {
+        var caseScramble = MoveSequence.FromString(caseSolution).Inverse();
+        var setupMoves = MoveSequence.Random(Random.Shared.Next(1, 4));
+        var cube = RubiksCube.Scrambled(caseScramble.Append(setupMoves));
+        var cubeScramble = RubiksCubeSolver.FindSolution(cube).Inverse();
+        var scramble = cubeScramble.Append(setupMoves.Inverse());
+        return scramble.ToString();
     }
 }

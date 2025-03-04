@@ -10,5 +10,5 @@ internal sealed class Case
 
     public string ImageUrl { get; set; } = default!;
 
-    public string DefaultScramble { get; set; } = default!;
+    public string DefaultSolution { get; set; } = default!;
 }

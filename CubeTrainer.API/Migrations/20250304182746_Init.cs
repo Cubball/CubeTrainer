@@ -59,7 +59,7 @@ namespace CubeTrainer.API.Migrations
                     Type = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     ImageUrl = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
-                    DefaultScramble = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false)
+                    DefaultSolution = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {

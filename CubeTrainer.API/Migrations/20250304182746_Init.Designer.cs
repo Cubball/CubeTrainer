@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CubeTrainer.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250301170903_Init")]
+    [Migration("20250304182746_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -120,7 +120,7 @@ namespace CubeTrainer.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("DefaultScramble")
+                    b.Property<string>("DefaultSolution")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
