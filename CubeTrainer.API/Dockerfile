@@ -5,7 +5,8 @@ COPY ./CubeTrainer.Cube/CubeTrainer.Cube.csproj ./CubeTrainer.Cube/CubeTrainer.C
 COPY ./CubeTrainer.API/CubeTrainer.API.csproj ./CubeTrainer.API/CubeTrainer.API.csproj
 RUN dotnet restore ./CubeTrainer.API/CubeTrainer.API.csproj
 
-COPY . .
+COPY ./CubeTrainer.Cube/ ./CubeTrainer.Cube/
+COPY ./CubeTrainer.API/ ./CubeTrainer.API/
 RUN dotnet publish -c Release -o ./app ./CubeTrainer.API/CubeTrainer.API.csproj --no-restore
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
