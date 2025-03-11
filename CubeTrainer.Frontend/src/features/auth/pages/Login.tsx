@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
+import { axiosInstance } from '../../../lib/axios'
 import logo from '../../../assets/logo.png'
 import loader from '../../../assets/loader.svg'
 
@@ -24,10 +25,12 @@ const Login = () => {
   })
 
   const mutation = useMutation({
-    mutationFn: (data: FormData) => {
-      // TODO: configure axios
-      return axios.post('http://localhost:5000/login?useCookies=true', data)
-    },
+    mutationFn: (data: FormData) =>
+      axiosInstance.post('/login', data, {
+        params: {
+          useCookies: true,
+        },
+      }),
     onSuccess: () => {
       // TODO: navigate somewhere
     },
@@ -42,6 +45,7 @@ const Login = () => {
 
   // TODO: configure colors for theme?
   // TODO: extract common components
+  // TODO: link for sign up page
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center bg-gray-200">
       <img src={logo} width="100" className="mb-4" />
