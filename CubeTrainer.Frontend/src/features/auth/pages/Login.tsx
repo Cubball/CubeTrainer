@@ -6,6 +6,7 @@ import axios from 'axios'
 import { axiosInstance } from '../../../lib/axios'
 import logo from '../../../assets/logo.png'
 import loader from '../../../assets/loader.svg'
+import { useNavigate } from 'react-router'
 
 const schema = z.object({
   email: z.string().email('Please enter a valid email'),
@@ -23,7 +24,7 @@ const Login = () => {
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   })
-
+  const navigate = useNavigate()
   const mutation = useMutation({
     mutationFn: (data: FormData) =>
       axiosInstance.post('/login', data, {
@@ -31,9 +32,7 @@ const Login = () => {
           useCookies: true,
         },
       }),
-    onSuccess: () => {
-      // TODO: navigate somewhere
-    },
+    onSuccess: () => navigate('/'),
     onError: (error) => {
       if (axios.isAxiosError(error) && error.response?.status === 401) {
         setError('root', { message: 'Incorrect password' })
@@ -43,9 +42,7 @@ const Login = () => {
     },
   })
 
-  // TODO: configure colors for theme?
   // TODO: extract common components
-  // TODO: link for sign up page
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center bg-gray-200">
       <img src={logo} width="100" className="mb-4" />
@@ -83,6 +80,17 @@ const Login = () => {
             </button>
           )}
         </form>
+        <p className="text-center">
+          Don't have an account?
+          <br />
+          <button
+            type="button"
+            className="cursor-pointer text-gray-800 underline"
+            onClick={() => navigate('register')}
+          >
+            Sign up
+          </button>
+        </p>
       </div>
     </div>
   )
