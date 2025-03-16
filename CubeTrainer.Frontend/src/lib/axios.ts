@@ -1,8 +1,9 @@
-import axios from 'axios'
+import axios, { CreateAxiosDefaults } from 'axios'
 import { useNavigate } from 'react-router'
 
-const axiosConfig = {
+const axiosConfig: CreateAxiosDefaults = {
   baseURL: import.meta.env.VITE_API_BASE_URL,
+  withCredentials: true,
 }
 
 export const axiosInstance = axios.create(axiosConfig)
