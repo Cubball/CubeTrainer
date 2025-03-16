@@ -69,7 +69,7 @@ const Layout = () => {
           Log out
         </button>
       </header>
-      <div className="px-16 pt-24 pb-8">
+      <div className="px-16 pt-24 pb-8 text-gray-800">
         <Outlet />
       </div>
     </div>
