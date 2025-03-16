@@ -18,7 +18,19 @@ builder.Services.AddCors();
 
 builder.Services
     .AddAuthentication(IdentityConstants.ApplicationScheme)
-    .AddIdentityCookies();
+    .AddIdentityCookies(opts => opts.ApplicationCookie?.Configure(cookieOpts =>
+    {
+        cookieOpts.Events.OnRedirectToLogin = context =>
+        {
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            return Task.CompletedTask;
+        };
+        cookieOpts.Events.OnRedirectToAccessDenied = context =>
+        {
+            context.Response.StatusCode = StatusCodes.Status403Forbidden;
+            return Task.CompletedTask;
+        };
+    }));
 builder.Services.AddAuthorization();
 builder.Services.AddIdentityCore<User>(opts =>
     {
