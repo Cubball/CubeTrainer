@@ -87,7 +87,7 @@ const Login = () => {
         <button
           type="button"
           className="cursor-pointer text-gray-800 underline"
-          onClick={() => navigate('register')}
+          onClick={() => navigate('/register')}
         >
           Sign up
         </button>
