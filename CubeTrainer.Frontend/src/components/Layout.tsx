@@ -41,14 +41,14 @@ const Layout = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-200">
+    <div className="flex min-h-screen flex-col bg-gray-200">
       <header className="fixed flex h-16 w-full items-center justify-between bg-gray-900 px-16 text-white">
-        <nav className="flex items-center gap-16">
-          <NavLink to="/">
-            <div>
-              <img src={logo} className="h-12" />
-            </div>
-          </NavLink>
+        <NavLink to="/">
+          <div>
+            <img src={logo} className="h-12" />
+          </div>
+        </NavLink>
+        <div className="flex gap-12">
           <NavLink to="cases" className="hover:underline">
             My Cases
           </NavLink>
@@ -61,7 +61,7 @@ const Layout = () => {
           <NavLink to="profile" className="hover:underline">
             My Profile
           </NavLink>
-        </nav>
+        </div>
         <button
           className="cursor-pointer hover:underline"
           onClick={() => mutate()}
@@ -69,7 +69,7 @@ const Layout = () => {
           Log out
         </button>
       </header>
-      <div className="px-16 pt-24 pb-8 text-gray-800">
+      <div className="flex flex-1 px-16 pt-24 pb-8 text-gray-800">
         <Outlet />
       </div>
     </div>
