@@ -35,10 +35,9 @@ const Timer = () => {
 
   const scramble = data?.data.scramble.moves ?? ''
   return (
-    <div className="flex-1">
-      {/* TODO: width */}
-      <div className="flex h-full w-1/4 flex-col items-center justify-center gap-4">
-        <p className="w-full text-center text-xl font-bold">
+    <div className="flex flex-1 flex-col lg:flex-row">
+      <div className="flex h-full flex-col items-center justify-center gap-4">
+        <p className="w-full px-4 text-center text-xl font-bold">
           Scramble:
           <br />
           {scramble}
@@ -58,8 +57,8 @@ const Timer = () => {
         </button>
         <p
           className={
-            'w-full text-center text-xl font-bold ' +
-            (hintVisible ? '' : 'opacity-0')
+            'w-full px-4 text-center text-xl font-bold' +
+            (hintVisible ? '' : ' opacity-0')
           }
         >
           Hint:
@@ -67,6 +66,9 @@ const Timer = () => {
           {data?.data.scramble.case.selectedAlgorithm?.moves ??
             "You haven't seleceted an algorithm for this case!"}
         </p>
+      </div>
+      <div className="flex-1 rounded-lg border-2 border-gray-800 p-4">
+        Lorem ipsum
       </div>
     </div>
   )

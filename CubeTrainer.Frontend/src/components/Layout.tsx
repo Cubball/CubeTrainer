@@ -48,7 +48,7 @@ const Layout = () => {
             <img src={logo} className="h-12" />
           </div>
         </NavLink>
-        <div className="flex gap-12">
+        <div className="flex gap-8">
           <NavLink to="cases" className="hover:underline">
             My Cases
           </NavLink>
