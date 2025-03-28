@@ -56,12 +56,16 @@ const Timer = () => {
         >
           {hintVisible ? 'Hide hint' : 'Show hint'}
         </button>
-        {/* TODO: it jumps when toggling */}
-        <p className="invisible w-full text-center text-xl font-bold">
-          {hintVisible &&
-            'Hint: ' +
-              (data?.data.scramble.case.selectedAlgorithm?.moves ??
-                "You haven't seleceted an algorithm for this case!")}
+        <p
+          className={
+            'w-full text-center text-xl font-bold ' +
+            (hintVisible ? '' : 'opacity-0')
+          }
+        >
+          Hint:
+          <br />
+          {data?.data.scramble.case.selectedAlgorithm?.moves ??
+            "You haven't seleceted an algorithm for this case!"}
         </p>
       </div>
     </div>
