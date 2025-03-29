@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useAxiosWithAuth } from '../../../lib/axios'
 import { useState } from 'react'
 import Stopwatch from '../components/Stopwatch'
@@ -32,6 +32,7 @@ interface SolveData {
 const Trainer = () => {
   const [hintVisible, setHintVisible] = useState(false)
   const axios = useAxiosWithAuth()
+  const queryClient = useQueryClient()
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: [RANDOM_SCRAMBLE_QUERY_KEY],
     queryFn: () => axios.get<RandomScrambleResponse>('/scrambles/random'),
@@ -44,13 +45,18 @@ const Trainer = () => {
   })
 
   const onSolveFinished = (ms: number) => {
-    // TODO:
-    if (!data?.data.scramble.case.id) {
+    // HACK:
+    const caseId = queryClient.getQueryData<typeof data>([
+      RANDOM_SCRAMBLE_QUERY_KEY,
+    ])?.data.scramble.case.id
+    if (!caseId) {
+      // TODO:
+      console.log('TODO')
       return
     }
 
     const solveData: SolveData = {
-      caseId: data?.data.scramble.case.id,
+      caseId,
       time: ms / 1000,
     }
     mutate(solveData)

@@ -10,14 +10,14 @@ const MS_TO_HOLD_SPACE = 1000
 
 const formatTime = (ms: number) => {
   const seconds = Math.max(Math.floor(ms / 1000), 0)
-  const hundredths = Math.max(Math.floor(ms / 10), 0) - seconds * 100
+  const millisecondsRemainder = Math.max(ms, 0) - seconds * 1000
   if (seconds < 60) {
-    return `${seconds}.${hundredths.toString().padStart(2, '0')}`
+    return `${seconds}.${millisecondsRemainder.toString().padStart(3, '0')}`
   }
 
   const minutes = Math.floor(seconds / 60)
   const secondsRemainder = seconds - minutes * 60
-  return `${minutes}:${secondsRemainder.toString().padStart(2, '0')}.${hundredths.toString().padStart(2, '0')}`
+  return `${minutes}:${secondsRemainder.toString().padStart(2, '0')}.${millisecondsRemainder.toString().padStart(3, '0')}`
 }
 
 export interface StopwatchProps {
@@ -40,7 +40,9 @@ const Stopwatch = ({ onStop }: StopwatchProps) => {
   const handleKeyDown = (e: KeyboardEvent) => {
     if (stopwatchStateRef.current === StopwatchState.Running) {
       setStopwatchState(StopwatchState.Idle)
-      onStop(Math.max(endTimeMsRef.current - startTimeMsRef.current, 0))
+      const now = Date.now()
+      setEndTimeMs(now)
+      onStop(Math.max(now - startTimeMsRef.current, 0))
       return
     }
 
@@ -62,7 +64,9 @@ const Stopwatch = ({ onStop }: StopwatchProps) => {
   const handleTouchStart = (e: React.TouchEvent) => {
     if (stopwatchStateRef.current === StopwatchState.Running) {
       setStopwatchState(StopwatchState.Idle)
-      onStop(Math.max(endTimeMsRef.current - startTimeMsRef.current, 0))
+      const now = Date.now()
+      setEndTimeMs(now)
+      onStop(Math.max(now - startTimeMsRef.current, 0))
       return
     }
 
