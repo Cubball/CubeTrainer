@@ -65,8 +65,8 @@ internal static class GetMyCases
                 result.Add(new(
                     @case.Id,
                     @case.Name,
-                    userCase?.Status.ToString() ?? UserCaseStatus.NotLearned.ToString(),
                     @case.ImageUrl,
+                    userCase?.Status.ToString() ?? UserCaseStatus.NotLearned.ToString(),
                     null));
                 continue;
             }
