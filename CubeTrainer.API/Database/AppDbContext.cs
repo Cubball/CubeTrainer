@@ -62,10 +62,10 @@ internal sealed class AppDbContext(DbContextOptions<AppDbContext> options) : Ide
             .HasForeignKey(static s => s.UserId);
         builder.Entity<AlgorithmStatistic>()
             .Property(static s => s.TotalTimeSolvingInSeconds)
-            .HasColumnType("DECIMAL(10, 2)");
+            .HasColumnType("DECIMAL(10, 3)");
         builder.Entity<AlgorithmStatistic>()
             .Property(static s => s.BestTimeInSeconds)
-            .HasColumnType("DECIMAL(10, 2)");
+            .HasColumnType("DECIMAL(10, 3)");
 
         builder.Entity<Case>()
             .Property(static c => c.Name)
