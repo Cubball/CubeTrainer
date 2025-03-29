@@ -3,6 +3,8 @@ import { useAxiosWithAuth } from '../../../lib/axios'
 import ScrambleView from '../components/ScrambleView'
 import { useState } from 'react'
 import Stopwatch from '../components/Stopwatch'
+import Error from '../../../components/Error'
+import Loader from '../../../components/Loader'
 
 const RANDOM_SCRAMBLE_QUERY_KEY = 'random-scramble'
 
@@ -20,17 +22,24 @@ interface RandomScrambleResponse {
   }
 }
 
-const Timer = () => {
+// TODO: make this more generic, since
+// will probably use it in 2 places
+const Trainer = () => {
   const [hintVisible, setHintVisible] = useState(false)
   const axios = useAxiosWithAuth()
-  const { data, isLoading, error, refetch } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: [RANDOM_SCRAMBLE_QUERY_KEY],
     queryFn: () => axios.get<RandomScrambleResponse>('/scrambles/random'),
+    retry: true,
+    refetchOnWindowFocus: false,
   })
 
-  // TODO: loading + error
+  if (isError) {
+    return <Error />
+  }
+
   if (isLoading) {
-    return 'loading'
+    return <Loader />
   }
 
   const scramble = data?.data.scramble.moves ?? ''
@@ -68,10 +77,10 @@ const Timer = () => {
         </p>
       </div>
       <div className="flex flex-1 items-center justify-center rounded-lg border-2 border-gray-800 p-4 text-5xl font-bold">
-        <Stopwatch onStop={(n) => console.log(n)} />
+        <Stopwatch onStop={() => setHintVisible(false)} />
       </div>
     </div>
   )
 }
 
-export default Timer
+export default Trainer
