@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useAxiosWithAuth } from '../../../lib/axios'
 import { useState } from 'react'
 import Stopwatch from '../components/Stopwatch'
@@ -22,6 +22,11 @@ interface RandomScrambleResponse {
   }
 }
 
+interface SolveData {
+  caseId: string
+  time: number
+}
+
 // TODO: make this more generic, since
 // will probably use it in 2 places
 const Trainer = () => {
@@ -33,6 +38,25 @@ const Trainer = () => {
     retry: true,
     refetchOnWindowFocus: false,
   })
+  const { mutate } = useMutation({
+    mutationFn: (data: SolveData) => axios.post('/solves', data),
+    onError: (e) => console.log('error ', e), // TODO:
+  })
+
+  const onSolveFinished = (ms: number) => {
+    // TODO:
+    if (!data?.data.scramble.case.id) {
+      return
+    }
+
+    const solveData: SolveData = {
+      caseId: data?.data.scramble.case.id,
+      time: ms / 1000,
+    }
+    mutate(solveData)
+    setHintVisible(false)
+    refetch()
+  }
 
   if (isError) {
     return <Error />
@@ -54,7 +78,7 @@ const Trainer = () => {
         />
       </div>
       <div className="flex-1 rounded-lg border-2 border-gray-800 p-4 text-5xl font-bold">
-        <Stopwatch onStop={() => setHintVisible(false)} />
+        <Stopwatch onStop={onSolveFinished} />
       </div>
     </div>
   )
