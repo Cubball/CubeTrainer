@@ -42,19 +42,18 @@ const Trainer = () => {
     return <Loader />
   }
 
-  const scramble = data?.data.scramble.moves ?? ''
   return (
     <div className="flex flex-1 flex-col lg:flex-row">
       <div className="lg:w-1/3">
         <ScrambleSidebar
           hintVisible={hintVisible}
           setHintVisible={setHintVisible}
-          scramble={scramble}
+          scramble={data?.data.scramble.moves ?? ''}
           hint={data?.data.scramble.case.selectedAlgorithm?.moves}
           onRegenerateClick={refetch}
         />
       </div>
-      <div className="flex flex-1 items-center justify-center rounded-lg border-2 border-gray-800 p-4 text-5xl font-bold">
+      <div className="flex-1 rounded-lg border-2 border-gray-800 p-4 text-5xl font-bold">
         <Stopwatch onStop={() => setHintVisible(false)} />
       </div>
     </div>

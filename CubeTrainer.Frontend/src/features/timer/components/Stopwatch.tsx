@@ -59,6 +59,29 @@ const Stopwatch = ({ onStop }: StopwatchProps) => {
       }
     }
   }
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (stopwatchStateRef.current === StopwatchState.Running) {
+      setStopwatchState(StopwatchState.Idle)
+      onStop(Math.max(endTimeMsRef.current - startTimeMsRef.current, 0))
+      return
+    }
+
+    if (stopwatchStateRef.current === StopwatchState.Idle) {
+      setStopwatchState(StopwatchState.Held)
+      keyDownTimeStampRef.current = e.timeStamp
+    }
+  }
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (stopwatchStateRef.current === StopwatchState.Held) {
+      if (e.timeStamp - keyDownTimeStampRef.current >= MS_TO_HOLD_SPACE) {
+        setStopwatchState(StopwatchState.Running)
+        setStartTimeMs(Date.now())
+      } else {
+        setStopwatchState(StopwatchState.Idle)
+      }
+    }
+  }
+
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown)
     document.addEventListener('keyup', handleKeyUp)
@@ -77,7 +100,15 @@ const Stopwatch = ({ onStop }: StopwatchProps) => {
     return () => clearInterval(intervalId)
   }, [])
 
-  return <div>{formatTime(endTimeMs - startTimeMs)}</div>
+  return (
+    <div
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      className="flex h-full w-full items-center justify-center"
+    >
+      <div>{formatTime(endTimeMs - startTimeMs)}</div>
+    </div>
+  )
 }
 
 export default Stopwatch
