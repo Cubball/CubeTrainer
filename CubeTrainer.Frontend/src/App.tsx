@@ -3,7 +3,7 @@ import Login from './features/auth/pages/Login'
 import Register from './features/auth/pages/Register'
 import Layout from './components/Layout'
 import NotFound from './components/NotFound'
-import Trainer from './features/timer/pages/Trainer'
+import Trainer from './features/trainer/pages/Trainer'
 
 const App = () => {
   return (
