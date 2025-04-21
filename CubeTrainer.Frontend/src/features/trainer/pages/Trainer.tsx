@@ -1,11 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useAxiosWithAuth } from '../../../lib/axios'
 import { useState } from 'react'
+import { AxiosResponse } from 'axios'
 import Stopwatch from '../components/Stopwatch'
 import Error from '../../../components/Error'
 import Loader from '../../../components/Loader'
 import ScrambleSidebar from '../components/ScrambleSidebar'
-import { AxiosResponse } from 'axios'
+import CountdownStrip from '../components/CountdownStrip'
+import { useCountdownStore } from '../state/countdown'
 
 const RANDOM_SCRAMBLE_QUERY_KEY = 'random-scramble'
 
@@ -30,8 +32,13 @@ interface SolveData {
 
 // TODO: make this more generic, since
 // will probably use it in 2 places
+// to do this, just extract the calls to react-query and such
 const Trainer = () => {
   const [hintVisible, setHintVisible] = useState(false)
+  // TODO: clean up, wip
+  const isVisible = useCountdownStore((state) => state.isVisible)
+  const showCountdown = useCountdownStore((state) => state.show)
+  const hideCountdown = useCountdownStore((state) => state.hide)
   const axios = useAxiosWithAuth()
   const queryClient = useQueryClient()
   const { data, isLoading, isError, refetch } = useQuery({
@@ -81,8 +88,21 @@ const Trainer = () => {
           onRegenerateClick={refetch}
         />
       </div>
-      <div className="flex-1 rounded-lg border-2 border-gray-800 p-4 text-5xl font-bold">
+      <div
+        className="flex-1 rounded-lg border-2 border-gray-800 p-4 text-5xl font-bold"
+        onClick={() => {
+          if (isVisible) {
+            hideCountdown()
+          } else {
+            showCountdown()
+          }
+        }}
+      >
         <Stopwatch onStop={onSolveFinished} />
+        <CountdownStrip
+          duration={3000}
+          onComplete={() => console.log('hi there')}
+        />
       </div>
     </div>
   )
