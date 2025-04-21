@@ -5,6 +5,7 @@ import Stopwatch from '../components/Stopwatch'
 import Error from '../../../components/Error'
 import Loader from '../../../components/Loader'
 import ScrambleSidebar from '../components/ScrambleSidebar'
+import { AxiosResponse } from 'axios'
 
 const RANDOM_SCRAMBLE_QUERY_KEY = 'random-scramble'
 
@@ -45,13 +46,10 @@ const Trainer = () => {
   })
 
   const onSolveFinished = (ms: number) => {
-    // HACK:
-    const caseId = queryClient.getQueryData<typeof data>([
-      RANDOM_SCRAMBLE_QUERY_KEY,
-    ])?.data.scramble.case.id
+    const caseId = queryClient.getQueryData<
+      AxiosResponse<RandomScrambleResponse>
+    >([RANDOM_SCRAMBLE_QUERY_KEY])?.data.scramble.case.id
     if (!caseId) {
-      // TODO:
-      console.log('TODO')
       return
     }
 
