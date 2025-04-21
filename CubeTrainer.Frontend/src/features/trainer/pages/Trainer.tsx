@@ -100,7 +100,7 @@ const Trainer = () => {
       >
         <Stopwatch onStop={onSolveFinished} />
         <CountdownStrip
-          duration={3000}
+          durationMs={10000}
           onComplete={() => console.log('hi there')}
         />
       </div>

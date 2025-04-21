@@ -2,11 +2,11 @@ import { useEffect } from 'react'
 import { useCountdownStore } from '../state/countdown'
 
 export interface CountdownStripProps {
-  duration: number
+  durationMs: number
   onComplete: () => void
 }
 
-const CountdownStrip = ({ duration, onComplete }: CountdownStripProps) => {
+const CountdownStrip = ({ durationMs, onComplete }: CountdownStripProps) => {
   const isVisible = useCountdownStore((state) => state.isVisible)
   const isShrinking = useCountdownStore((state) => state.isShrinking)
   const start = useCountdownStore((state) => state.start)
@@ -16,29 +16,30 @@ const CountdownStrip = ({ duration, onComplete }: CountdownStripProps) => {
       return
     }
 
-    const shrinkTimeoutId = setTimeout(start, 10)
+    const startTimeoutId = setTimeout(start, 10)
     const completeTimeoutId = setTimeout(() => {
       onComplete()
       hide()
-    }, duration)
+    }, durationMs)
     return () => {
-      clearTimeout(shrinkTimeoutId)
+      clearTimeout(startTimeoutId)
       clearTimeout(completeTimeoutId)
     }
-  }, [isVisible, duration, onComplete])
+  }, [isVisible, durationMs, onComplete])
 
   if (!isVisible) {
     return null
   }
 
-  // TODO: refactor styles
   return (
-    <div className="h-4 w-full overflow-hidden">
+    <div className="flex h-4 w-full justify-center">
       <div
-        className={`mx-auto h-full bg-gray-800 transition-all ease-linear`}
+        className={
+          'h-full bg-gray-800 transition-all ease-linear ' +
+          (isShrinking ? 'w-0' : 'w-full')
+        }
         style={{
-          width: isShrinking ? '0%' : '100%',
-          transitionDuration: `${duration}ms`,
+          transitionDuration: `${durationMs}ms`,
         }}
       />
     </div>
