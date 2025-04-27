@@ -35,6 +35,7 @@ interface SolveData {
 // to do this, just extract the calls to react-query and such
 const Trainer = () => {
   const [hintVisible, setHintVisible] = useState(false)
+  const [lastSolveTimeMs, setLastSolveTimeMs] = useState(0)
   const isCountdownVisible = useCountdownStore((state) => state.isVisible)
   const startCountdown = useCountdownStore((state) => state.start)
   const stopCountdown = useCountdownStore((state) => state.stop)
@@ -53,21 +54,24 @@ const Trainer = () => {
   })
 
   const onSolveFinished = (ms: number) => {
+    setLastSolveTimeMs(ms)
+    startCountdown()
+    setHintVisible(false)
+    refetch()
+  }
+  const submitSolve = () => {
     const caseId = queryClient.getQueryData<
       AxiosResponse<RandomScrambleResponse>
     >([RANDOM_SCRAMBLE_QUERY_KEY])?.data.scramble.case.id
-    if (!caseId) {
+    if (!caseId || !lastSolveTimeMs) {
       return
     }
 
     const solveData: SolveData = {
       caseId,
-      time: ms / 1000,
+      time: lastSolveTimeMs / 1000,
     }
-    // mutate(solveData)
-    startCountdown()
-    setHintVisible(false)
-    refetch()
+    mutate(solveData)
   }
 
   if (isError) {
@@ -91,7 +95,13 @@ const Trainer = () => {
       </div>
       <div className="relative flex flex-1 flex-col rounded-lg border-2 border-gray-800 p-4">
         <div className="grow-1 text-5xl font-bold">
-          <Stopwatch onStop={onSolveFinished} />
+          <Stopwatch
+            onStart={() => {
+              submitSolve()
+              stopCountdown()
+            }}
+            onStop={onSolveFinished}
+          />
         </div>
         <div className="absolute bottom-0 left-0 w-full">
           <div className="flex justify-center">
@@ -102,10 +112,7 @@ const Trainer = () => {
               Delete this solve
             </button>
           </div>
-          <CountdownStrip
-            durationMs={5000}
-            onComplete={() => console.log('need to send the solve here')}
-          />
+          <CountdownStrip durationMs={5000} onComplete={submitSolve} />
         </div>
       </div>
     </div>

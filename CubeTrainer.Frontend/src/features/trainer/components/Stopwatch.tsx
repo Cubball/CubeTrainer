@@ -21,10 +21,11 @@ const formatTime = (ms: number) => {
 }
 
 export interface StopwatchProps {
+  onStart: () => void
   onStop: (msElapsed: number) => void
 }
 
-const Stopwatch = ({ onStop }: StopwatchProps) => {
+const Stopwatch = ({ onStart, onStop }: StopwatchProps) => {
   const [stopwatchState, setStopwatchState] = useState(StopwatchState.Idle)
   const [startTimeMs, setStartTimeMs] = useState(0)
   const [endTimeMs, setEndTimeMs] = useState(0)
@@ -56,6 +57,7 @@ const Stopwatch = ({ onStop }: StopwatchProps) => {
       if (e.timeStamp - keyDownTimeStampRef.current >= MS_TO_HOLD_SPACE) {
         setStopwatchState(StopwatchState.Running)
         setStartTimeMs(Date.now())
+        onStart()
       } else {
         setStopwatchState(StopwatchState.Idle)
       }
@@ -80,6 +82,7 @@ const Stopwatch = ({ onStop }: StopwatchProps) => {
       if (e.timeStamp - keyDownTimeStampRef.current >= MS_TO_HOLD_SPACE) {
         setStopwatchState(StopwatchState.Running)
         setStartTimeMs(Date.now())
+        onStart()
       } else {
         setStopwatchState(StopwatchState.Idle)
       }
