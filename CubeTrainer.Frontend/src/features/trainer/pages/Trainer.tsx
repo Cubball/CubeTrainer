@@ -101,7 +101,7 @@ const Trainer = () => {
         />
       </div>
       <div className="relative flex flex-1 flex-col rounded-lg border-2 border-gray-800 p-4">
-        <div className="min-h-60 grow-1 text-5xl font-bold">
+        <div className="min-h-[480px] grow-1 text-5xl font-bold">
           <Stopwatch
             onStart={() => {
               submitSolve()
