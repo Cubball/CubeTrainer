@@ -36,6 +36,8 @@ interface SolveData {
 const Trainer = () => {
   const [hintVisible, setHintVisible] = useState(false)
   const [lastSolveTimeMs, setLastSolveTimeMs] = useState(0)
+  const [lastSolveCaseId, setLastSolveCaseId] = useState('')
+
   const isCountdownVisible = useCountdownStore((state) => state.isVisible)
   const startCountdown = useCountdownStore((state) => state.start)
   const stopCountdown = useCountdownStore((state) => state.stop)
@@ -50,25 +52,28 @@ const Trainer = () => {
   })
   const { mutate } = useMutation({
     mutationFn: (data: SolveData) => axios.post('/solves', data),
-    onError: (e) => console.log('error ', e), // TODO:
+    onError: (e) => console.log('error ', e), // TODO: maybe add a toast
   })
 
   const onSolveFinished = (ms: number) => {
+    const caseId =
+      queryClient.getQueryData<AxiosResponse<RandomScrambleResponse>>([
+        RANDOM_SCRAMBLE_QUERY_KEY,
+      ])?.data.scramble.case.id ?? ''
+    setLastSolveCaseId(caseId)
     setLastSolveTimeMs(ms)
     startCountdown()
     setHintVisible(false)
     refetch()
   }
+
   const submitSolve = () => {
-    const caseId = queryClient.getQueryData<
-      AxiosResponse<RandomScrambleResponse>
-    >([RANDOM_SCRAMBLE_QUERY_KEY])?.data.scramble.case.id
-    if (!caseId || !lastSolveTimeMs) {
+    if (!lastSolveCaseId || !lastSolveTimeMs) {
       return
     }
 
     const solveData: SolveData = {
-      caseId,
+      caseId: lastSolveCaseId,
       time: lastSolveTimeMs / 1000,
     }
     mutate(solveData)
@@ -94,7 +99,7 @@ const Trainer = () => {
         />
       </div>
       <div className="relative flex flex-1 flex-col rounded-lg border-2 border-gray-800 p-4">
-        <div className="grow-1 text-5xl font-bold">
+        <div className="min-h-60 grow-1 text-5xl font-bold">
           <Stopwatch
             onStart={() => {
               submitSolve()
