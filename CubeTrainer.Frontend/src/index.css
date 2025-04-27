@@ -1,1 +1,7 @@
 @import "tailwindcss";
+
+:root {
+    --toastify-color-error: theme('colors.red.700');
+    --toastify-text-color-error: theme('colors.white');
+    --toastify-color-progress-error: theme('colors.red.900');
+}

@@ -8,6 +8,7 @@ import Loader from '../../../components/Loader'
 import ScrambleSidebar from '../../../components/ScrambleSidebar'
 import CountdownStrip from '../../../components/CountdownStrip'
 import { useCountdownStore } from '../../../state/countdown'
+import { toast } from 'react-toastify'
 
 const RANDOM_SCRAMBLE_QUERY_KEY = 'random-scramble'
 
@@ -30,9 +31,6 @@ interface SolveData {
   time: number
 }
 
-// TODO: make this more generic, since
-// will probably use it in 2 places
-// to do this, just extract the calls to react-query and such
 const Trainer = () => {
   const [hintVisible, setHintVisible] = useState(false)
   const [lastSolveTimeMs, setLastSolveTimeMs] = useState(0)
@@ -52,7 +50,11 @@ const Trainer = () => {
   })
   const { mutate } = useMutation({
     mutationFn: (data: SolveData) => axios.post('/solves', data),
-    onError: (e) => console.log('error ', e), // TODO: maybe add a toast
+    onError: () =>
+      toast('Failed to save the solve', {
+        type: 'error',
+        theme: 'colored',
+      }),
   })
 
   const onSolveFinished = (ms: number) => {
