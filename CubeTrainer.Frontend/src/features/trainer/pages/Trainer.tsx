@@ -35,10 +35,10 @@ interface SolveData {
 // to do this, just extract the calls to react-query and such
 const Trainer = () => {
   const [hintVisible, setHintVisible] = useState(false)
-  // TODO: clean up, wip
-  const isVisible = useCountdownStore((state) => state.isVisible)
-  const showCountdown = useCountdownStore((state) => state.show)
-  const hideCountdown = useCountdownStore((state) => state.hide)
+  const isCountdownVisible = useCountdownStore((state) => state.isVisible)
+  const startCountdown = useCountdownStore((state) => state.start)
+  const stopCountdown = useCountdownStore((state) => state.stop)
+
   const axios = useAxiosWithAuth()
   const queryClient = useQueryClient()
   const { data, isLoading, isError, refetch } = useQuery({
@@ -64,7 +64,8 @@ const Trainer = () => {
       caseId,
       time: ms / 1000,
     }
-    mutate(solveData)
+    // mutate(solveData)
+    startCountdown()
     setHintVisible(false)
     refetch()
   }
@@ -88,21 +89,24 @@ const Trainer = () => {
           onRegenerateClick={refetch}
         />
       </div>
-      <div
-        className="flex-1 rounded-lg border-2 border-gray-800 p-4 text-5xl font-bold"
-        onClick={() => {
-          if (isVisible) {
-            hideCountdown()
-          } else {
-            showCountdown()
-          }
-        }}
-      >
-        <Stopwatch onStop={onSolveFinished} />
-        <CountdownStrip
-          durationMs={10000}
-          onComplete={() => console.log('hi there')}
-        />
+      <div className="relative flex flex-1 flex-col rounded-lg border-2 border-gray-800 p-4">
+        <div className="grow-1 text-5xl font-bold">
+          <Stopwatch onStop={onSolveFinished} />
+        </div>
+        <div className="absolute bottom-0 left-0 w-full">
+          <div className="flex justify-center">
+            <button
+              className={`mb-2 cursor-pointer rounded-sm bg-red-700 px-4 py-2 text-white ${isCountdownVisible ? '' : 'hidden'}`}
+              onClick={stopCountdown}
+            >
+              Delete this solve
+            </button>
+          </div>
+          <CountdownStrip
+            durationMs={5000}
+            onComplete={() => console.log('need to send the solve here')}
+          />
+        </div>
       </div>
     </div>
   )

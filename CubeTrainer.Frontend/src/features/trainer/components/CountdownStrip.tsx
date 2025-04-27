@@ -9,17 +9,17 @@ export interface CountdownStripProps {
 const CountdownStrip = ({ durationMs, onComplete }: CountdownStripProps) => {
   const isVisible = useCountdownStore((state) => state.isVisible)
   const isShrinking = useCountdownStore((state) => state.isShrinking)
-  const start = useCountdownStore((state) => state.start)
-  const hide = useCountdownStore((state) => state.hide)
+  const startShrinking = useCountdownStore((state) => state.startShrinking)
+  const stop = useCountdownStore((state) => state.stop)
   useEffect(() => {
     if (!isVisible) {
       return
     }
 
-    const startTimeoutId = setTimeout(start, 10)
+    const startTimeoutId = setTimeout(startShrinking, 10)
     const completeTimeoutId = setTimeout(() => {
       onComplete()
-      hide()
+      stop()
     }, durationMs)
     return () => {
       clearTimeout(startTimeoutId)
