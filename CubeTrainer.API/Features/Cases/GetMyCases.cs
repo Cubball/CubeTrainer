@@ -4,6 +4,7 @@ using CubeTrainer.API.Common.Endpoints;
 using CubeTrainer.API.Common.Exceptions;
 using CubeTrainer.API.Database;
 using CubeTrainer.API.Entities;
+using CubeTrainer.Cube;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,7 @@ internal static class GetMyCases
         string Name,
         string ImageUrl,
         string Status,
+        string DefaultScramble,
         AlgorithmDto? SelectedAlgorithm);
 
     public sealed record AlgorithmDto(
@@ -67,6 +69,7 @@ internal static class GetMyCases
                     @case.Name,
                     @case.ImageUrl,
                     userCase?.Status.ToString() ?? UserCaseStatus.NotLearned.ToString(),
+                    MoveSequence.FromString(@case.DefaultSolution).Inverse().ToString(),
                     null));
                 continue;
             }
@@ -77,6 +80,7 @@ internal static class GetMyCases
                     @case.Name,
                     @case.ImageUrl,
                     userCase.Status.ToString(),
+                    MoveSequence.FromString(@case.DefaultSolution).Inverse().ToString(),
                     new(
                         userCase.SelectedAlgorithm.Id,
                         userCase.SelectedAlgorithm.Moves
