@@ -65,7 +65,7 @@ internal static class UpdateCaseStatus
 
         var @case = await context.Cases
             .FirstOrDefaultAsync(c => c.Id == id, cancellationToken)
-            ?? throw new UnauthorizedException("Case not found");
+            ?? throw new NotFoundException("Case not found");
         userCase = new()
         {
             CaseId = id,

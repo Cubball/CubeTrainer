@@ -15,7 +15,7 @@ internal static class GetAlgorithm
         string Name,
         string ImageUrl);
 
-    public sealed record AlgorithmRatingDto(int? Rating);
+    public sealed record AlgorithmRatingDto(int Rating);
 
     public sealed record AlgorithmStatisticDto(
         decimal TotalTimeSolvingInSeconds,
