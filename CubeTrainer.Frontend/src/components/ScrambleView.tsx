@@ -3,9 +3,10 @@ import { useEffect, useRef } from 'react'
 
 export interface ScrambleViewProps {
   scramble: string
+  forceAspectSquare?: boolean // I'm too stupid to figure out how to properly force it to behave like it should
 }
 
-const ScrambleView = ({ scramble }: ScrambleViewProps) => {
+const ScrambleView = ({ scramble, forceAspectSquare }: ScrambleViewProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null)
   useEffect(() => {
     if (!containerRef.current) {
@@ -19,6 +20,8 @@ const ScrambleView = ({ scramble }: ScrambleViewProps) => {
       alg: `z2 ${scramble}`,
       controlPanel: 'none',
     })
+    twistyPlayer.classList.add('max-w-full')
+    twistyPlayer.classList.add('max-h-full')
 
     containerRef.current.innerHTML = ''
     containerRef.current.appendChild(twistyPlayer)
@@ -30,7 +33,12 @@ const ScrambleView = ({ scramble }: ScrambleViewProps) => {
     }
   }, [scramble])
 
-  return <div ref={containerRef} />
+  return (
+    <div
+      ref={containerRef}
+      className={`max-w-full ${forceAspectSquare ? 'aspect-square' : ''}`}
+    />
+  )
 }
 
 export default ScrambleView

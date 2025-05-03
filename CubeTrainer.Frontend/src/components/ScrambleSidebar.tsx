@@ -22,7 +22,9 @@ const ScrambleSidebar = ({
         <br />
         {scramble}
       </p>
-      <ScrambleView scramble={scramble} />
+      <div className="h-fit">
+        <ScrambleView scramble={scramble} />
+      </div>
       <button
         className="w-1/2 cursor-pointer rounded-sm bg-gray-800 px-4 py-2 text-white"
         onClick={onRegenerateClick}

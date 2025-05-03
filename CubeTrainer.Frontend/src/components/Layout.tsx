@@ -43,7 +43,7 @@ const Layout = () => {
 
   return (
     <div className="flex min-h-screen flex-col bg-gray-200">
-      <header className="fixed z-30 flex h-16 w-full items-center justify-between bg-gray-900 px-4 text-white md:px-16">
+      <header className="fixed z-30 flex h-16 w-full items-center justify-between bg-gray-800 px-4 text-white md:px-16">
         <NavLink to="/">
           <div>
             <img src={logo} className="h-12" />
@@ -82,7 +82,7 @@ const Layout = () => {
       </header>
 
       {isMobileMenuOpen && (
-        <div className="fixed top-16 left-0 z-20 w-full bg-gray-900 md:hidden">
+        <div className="fixed top-16 left-0 z-20 w-full bg-gray-800 md:hidden">
           <div className="flex flex-col">
             <NavLink
               to="cases"
