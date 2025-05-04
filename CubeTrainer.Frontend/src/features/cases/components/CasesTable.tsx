@@ -27,7 +27,7 @@ const CasesTable = ({ cases }: CasesTableProps) => {
         {cases.map((c) => (
           <tr
             key={c.id}
-            className="border-t-2 border-t-gray-800 text-center *:px-4 md:*:p-6 lg:*:p-8"
+            className="border-t-2 border-t-gray-800 text-center *:px-4 *:py-1 md:*:px-6 md:*:py-2 lg:*:px-8"
           >
             <td>
               <Link to={c.id}>{c.name}</Link>
@@ -38,7 +38,11 @@ const CasesTable = ({ cases }: CasesTableProps) => {
               </Link>
             </td>
             <td>
-              <Link to={c.id}>{c.selectedAlgorithmMoves}</Link>
+              <Link to={c.id}>
+                {c.selectedAlgorithmMoves
+                  ? c.selectedAlgorithmMoves
+                  : 'Algorithm not selected'}
+              </Link>
             </td>
             <td>
               <Link to={c.id}>{getHumanReadableStatus(c.status)}</Link>

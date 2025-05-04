@@ -26,13 +26,13 @@ const ScrambleSidebar = ({
         <ScrambleView scramble={scramble} />
       </div>
       <button
-        className="w-1/2 cursor-pointer rounded-sm bg-gray-800 px-4 py-2 text-white"
+        className="w-1/2 max-w-60 cursor-pointer rounded-sm bg-gray-800 px-4 py-2 text-white"
         onClick={onRegenerateClick}
       >
         Regenerate
       </button>
       <button
-        className="w-1/2 cursor-pointer rounded-sm bg-gray-800 px-4 py-2 text-white"
+        className="w-1/2 max-w-60 cursor-pointer rounded-sm bg-gray-800 px-4 py-2 text-white"
         onClick={() => setHintVisible(!hintVisible)}
       >
         {hintVisible ? 'Hide hint' : 'Show hint'}

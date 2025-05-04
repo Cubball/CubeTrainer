@@ -1,7 +1,63 @@
 import CasesTable from '../components/CasesTable'
 import Tabs from '../components/Tabs'
+import { useQuery } from '@tanstack/react-query'
+import { useAxiosWithAuth } from '../../../lib/axios'
+import { OLL_CASES_QUERY_KEY, PLL_CASES_QUERY_KEY } from '../keys'
+import Loader from '../../../components/Loader'
+import Error from '../../../components/Error'
+
+interface CasesResponse {
+  items: {
+    id: string
+    name: string
+    status: string
+    defaultScramble: string
+    selectedAlgorithm: {
+      id: string
+      moves: string
+    }
+  }[]
+}
+
+const mapResponseToCases = (response?: CasesResponse) =>
+  response?.items
+    .map((item) => ({
+      id: item.id,
+      name: item.name,
+      status: item.status,
+      scramble: item.defaultScramble,
+      selectedAlgorithmMoves: item.selectedAlgorithm?.moves ?? '',
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name)) ?? []
 
 const MyCases = () => {
+  const axios = useAxiosWithAuth()
+  const {
+    data: ollData,
+    isLoading: isOllLoading,
+    isError: isOllError,
+  } = useQuery({
+    queryKey: [OLL_CASES_QUERY_KEY],
+    queryFn: () => axios.get<CasesResponse>('/cases/OLL/my'),
+  })
+
+  const {
+    data: pllData,
+    isLoading: isPllLoading,
+    isError: isPllError,
+  } = useQuery({
+    queryKey: [PLL_CASES_QUERY_KEY],
+    queryFn: () => axios.get<CasesResponse>('/cases/PLL/my'),
+  })
+
+  if (isOllLoading || isPllLoading) {
+    return <Loader />
+  }
+
+  if (isOllError || isPllError) {
+    return <Error />
+  }
+
   return (
     <div className="flex h-full w-full flex-col items-center gap-4">
       <h1 className="text-2xl font-bold">My Cases</h1>
@@ -13,29 +69,12 @@ const MyCases = () => {
         tabs={[
           {
             name: 'OLL',
-            element: (
-              <CasesTable
-                cases={[
-                  {
-                    id: '55168995-c2e9-4fea-8586-3904a1d4e68a',
-                    name: 'OLL 1',
-                    status: 'InProgress',
-                    scramble: "R' U' F R' F' R U R",
-                    selectedAlgorithmMoves:
-                      "R U R' U' R' F R2 U' R' U' R U R' F'",
-                  },
-                  {
-                    id: '704f19b7-2a35-4654-a8ad-e05d0be4a649',
-                    name: 'OLL 2',
-                    status: 'InProgress',
-                    scramble: "R U2 R' U' R U' R'",
-                    selectedAlgorithmMoves: "R U R' U R U2 R'",
-                  },
-                ]}
-              />
-            ),
+            element: <CasesTable cases={mapResponseToCases(ollData?.data)} />,
           },
-          { name: 'PLL', element: <div>PLL</div> },
+          {
+            name: 'PLL',
+            element: <CasesTable cases={mapResponseToCases(pllData?.data)} />,
+          },
         ]}
       />
     </div>
