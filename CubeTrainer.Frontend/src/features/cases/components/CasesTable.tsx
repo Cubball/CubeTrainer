@@ -16,7 +16,7 @@ const CasesTable = ({ cases }: CasesTableProps) => {
   return (
     <table className="border-2 border-gray-800">
       <thead>
-        <tr className="*:p-1">
+        <tr className="bg-gray-800 text-white *:p-2">
           <th>Name</th>
           <th>Case</th>
           <th>Solution</th>
@@ -27,7 +27,7 @@ const CasesTable = ({ cases }: CasesTableProps) => {
         {cases.map((c) => (
           <tr
             key={c.id}
-            className="border-t-2 border-t-gray-800 text-center *:px-4 *:py-1 md:*:px-6 md:*:py-2 lg:*:px-8"
+            className="border-t-2 border-t-gray-800 text-center *:px-4 *:py-2 md:*:px-6 lg:*:px-8"
           >
             <td>
               <Link to={c.id}>{c.name}</Link>

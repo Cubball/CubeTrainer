@@ -25,7 +25,7 @@ const Tabs = ({ tabs }: TabsProps) => {
               selectedTabIndex === index
                 ? 'border-b-2 border-gray-800 font-semibold text-gray-800'
                 : 'text-gray-500'
-            } px-4 py-2`}
+            } cursor-pointer px-4 py-2`}
             onClick={() => setSelectedTabIndex(index)}
           >
             {tab.name}

@@ -6,6 +6,7 @@ import NotFound from './components/NotFound'
 import Trainer from './features/trainer/pages/Trainer'
 import MyCases from './features/cases/pages/MyCases'
 import CaseDetails from './features/cases/pages/CaseDetails'
+import CaseAlgorithms from './features/cases/pages/CaseAlgorithms'
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
           <Route path="/" element={<Trainer />} />
           <Route path="cases" element={<MyCases />} />
           <Route path="cases/:id" element={<CaseDetails />} />
+          <Route path="cases/:id/algorithms" element={<CaseAlgorithms />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

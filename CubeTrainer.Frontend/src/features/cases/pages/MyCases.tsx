@@ -1,5 +1,5 @@
 import CasesTable from '../components/CasesTable'
-import Tabs from '../components/Tabs'
+import Tabs from '../../../components/Tabs'
 import { useQuery } from '@tanstack/react-query'
 import { useAxiosWithAuth } from '../../../lib/axios'
 import { OLL_CASES_QUERY_KEY, PLL_CASES_QUERY_KEY } from '../lib/keys'
