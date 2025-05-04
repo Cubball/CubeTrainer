@@ -3,6 +3,7 @@ using CubeTrainer.API.Common;
 using CubeTrainer.API.Common.Endpoints;
 using CubeTrainer.API.Common.Exceptions;
 using CubeTrainer.API.Database;
+using CubeTrainer.Cube;
 using Microsoft.EntityFrameworkCore;
 
 namespace CubeTrainer.API.Features.Algorithms;
@@ -13,7 +14,8 @@ internal static class GetAlgorithm
         Guid Id,
         string Type,
         string Name,
-        string ImageUrl);
+        string ImageUrl,
+        string DefaultScramble);
 
     public sealed record AlgorithmRatingDto(int Rating);
 
@@ -79,7 +81,12 @@ internal static class GetAlgorithm
             algorithm.UsersCount,
             algorithm.TotalRating,
             algorithm.UsersRatingsCount,
-            new(algorithm.Case.Id, algorithm.Case.Type.ToString(), algorithm.Case.Name, algorithm.Case.ImageUrl),
+            new(
+                algorithm.Case.Id,
+                algorithm.Case.Type.ToString(),
+                algorithm.Case.Name,
+                algorithm.Case.ImageUrl,
+                MoveSequence.FromString(algorithm.Case.DefaultSolution).Inverse().ToString()),
             algorithmRating is null ? null : new(algorithmRating.Rating),
             new(
                 algorithmStatistic?.TotalTimeSolvingInSeconds ?? 0,

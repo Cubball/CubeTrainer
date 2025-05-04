@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useAxiosWithAuth } from '../../../lib/axios'
 import { CASE_DETAILS_QUERY_KEY } from '../lib/keys'
 import { STATUS, STATUS_OPTIONS } from '../lib/types'
+import { ALGORITHM_DETAILS_QUERY_KEY } from '../../algorithms/pages/lib/keys'
 import Loader from '../../../components/Loader'
 import Error from '../../../components/Error'
 import ScrambleView from '../../../components/ScrambleView'
@@ -53,7 +54,7 @@ const calculateAverageTime = (algorithm?: Algorithm | null) => {
     !algorithm.myStatistic ||
     algorithm.myStatistic.timedSolvesCount === 0
   ) {
-    return '-'
+    return 'N/A'
   }
 
   const averageTime =
@@ -73,12 +74,15 @@ const CaseDetails = () => {
 
   const updateRatingMutation = useMutation({
     mutationFn: (rating: number | null) =>
-      // TODO: test if this works after the algorithm has changed
       axios.post(
         `/algorithms/${data?.data?.case?.selectedAlgorithm?.id}/rate`,
         { rating },
       ),
     onSuccess: () => {
+      // I'm not too happy about invalidating the query from a different feature
+      queryClient.invalidateQueries({
+        queryKey: [ALGORITHM_DETAILS_QUERY_KEY, id],
+      })
       queryClient.invalidateQueries({ queryKey: [CASE_DETAILS_QUERY_KEY, id] })
     },
   })
@@ -116,7 +120,7 @@ const CaseDetails = () => {
             to="algorithms"
             className="w-1/2 max-w-60 cursor-pointer rounded-sm bg-gray-800 px-4 py-2 text-center text-white"
           >
-            Change selected algorithm
+            View available algorithms
           </Link>
           {algorithm && (algorithm.isMine || algorithm.isPublic) && (
             <Link
