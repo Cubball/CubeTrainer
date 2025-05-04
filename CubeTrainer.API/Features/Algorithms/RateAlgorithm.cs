@@ -90,6 +90,11 @@ internal static class RateAlgorithm
             };
             context.AlgorithmRatings.Add(algorithmRating);
         }
+        else
+        {
+            algorithm.TotalRating -= algorithmRating.Rating;
+            algorithm.UsersRatingsCount--;
+        }
 
         algorithmRating.Rating = request.Rating.Value;
         algorithm.UsersRatingsCount++;
