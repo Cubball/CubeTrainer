@@ -1,8 +1,10 @@
+import { STATUS } from './types'
+
 export const getHumanReadableStatus = (status: string) => {
   switch (status) {
-    case 'Learned':
+    case STATUS.LEARNED:
       return 'Learned'
-    case 'InProgress':
+    case STATUS.IN_PROGRESS:
       return 'In Progress'
     default:
       return 'Not Learned'

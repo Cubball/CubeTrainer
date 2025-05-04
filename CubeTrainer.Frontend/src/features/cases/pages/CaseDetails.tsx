@@ -1,7 +1,8 @@
-import { useParams } from 'react-router'
-import { useAxiosWithAuth } from '../../../lib/axios'
-import { CASE_DETAILS_QUERY_KEY } from '../keys'
+import { Link, useParams } from 'react-router'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useAxiosWithAuth } from '../../../lib/axios'
+import { CASE_DETAILS_QUERY_KEY } from '../lib/keys'
+import { STATUS, STATUS_OPTIONS } from '../lib/types'
 import Loader from '../../../components/Loader'
 import Error from '../../../components/Error'
 import ScrambleView from '../../../components/ScrambleView'
@@ -82,9 +83,12 @@ const CaseDetails = () => {
     },
   })
 
-  const handleRatingChange = (newRating: number | null) => {
-    updateRatingMutation.mutate(newRating)
-  }
+  const updateStatusMutation = useMutation({
+    mutationFn: (status: string) => axios.put(`/cases/${id}`, { status }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [CASE_DETAILS_QUERY_KEY, id] })
+    },
+  })
 
   if (isLoading) {
     return <Loader />
@@ -101,13 +105,27 @@ const CaseDetails = () => {
     <div className="flex w-full flex-col items-center gap-4">
       <h1 className="text-2xl font-bold">{caseData?.name}</h1>
       <div className="grid w-full max-w-7xl grid-cols-1 gap-6 md:grid-cols-2">
-        <div className="flex items-center justify-center">
+        <div className="flex flex-col items-center justify-center gap-4">
           <div className="aspect-square max-w-60">
             <ScrambleView
               scramble={caseData?.defaultScramble ?? ''}
               forceAspectSquare
             />
           </div>
+          <Link
+            to="algorithms"
+            className="w-1/2 max-w-60 cursor-pointer rounded-sm bg-gray-800 px-4 py-2 text-center text-white"
+          >
+            Change algorithm
+          </Link>
+          {algorithm && (algorithm.isMine || algorithm.isPublic) && (
+            <Link
+              to={`/algorithms/${algorithm.id}`}
+              className="w-1/2 max-w-60 cursor-pointer rounded-sm bg-gray-800 px-4 py-2 text-center text-white"
+            >
+              View this algorithm
+            </Link>
+          )}
         </div>
         <div className="flex flex-col gap-4 p-4">
           <div>
@@ -117,6 +135,23 @@ const CaseDetails = () => {
             ) : (
               <div className="text-gray-500 italic">No algorithm selected</div>
             )}
+          </div>
+          <div>
+            <h2 className="mb-2 text-xl font-semibold">Status</h2>
+            <div>
+              <select
+                value={caseData?.status || STATUS.NOT_LEARNED}
+                onChange={(e) => updateStatusMutation.mutate(e.target.value)}
+                className="w-fit cursor-pointer rounded pr-4"
+                disabled={updateStatusMutation.isPending}
+              >
+                {STATUS_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
           {algorithm && (
             <div>
@@ -147,7 +182,7 @@ const CaseDetails = () => {
                 Community Statistics
               </h2>
               <div className="grid grid-cols-2 gap-2">
-                <div>Users count:</div>
+                <div>People using it currently:</div>
                 <div className="font-semibold">{algorithm.usersCount}</div>
                 <div>Average rating:</div>
                 <div>
@@ -177,7 +212,7 @@ const CaseDetails = () => {
                       <StarRating
                         interactive={true}
                         rating={algorithm?.myRating?.rating || 0}
-                        onRatingChange={handleRatingChange}
+                        onRatingChange={(r) => updateRatingMutation.mutate(r)}
                       />
                     </div>
                   </>
