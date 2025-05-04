@@ -116,7 +116,7 @@ const CaseDetails = () => {
             to="algorithms"
             className="w-1/2 max-w-60 cursor-pointer rounded-sm bg-gray-800 px-4 py-2 text-center text-white"
           >
-            Change algorithm
+            Change selected algorithm
           </Link>
           {algorithm && (algorithm.isMine || algorithm.isPublic) && (
             <Link

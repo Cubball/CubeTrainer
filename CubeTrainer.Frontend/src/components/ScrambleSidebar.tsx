@@ -45,7 +45,7 @@ const ScrambleSidebar = ({
       >
         Hint:
         <br />
-        {hint ?? "You haven't seleceted an algorithm for this case!"}
+        {hint ?? "You haven't seleceted an algorithm for this case"}
       </p>
     </div>
   )
