@@ -7,6 +7,7 @@ import Error from '../../../components/Error'
 import ScrambleView from '../../../components/ScrambleView'
 import StarRating from '../../../components/StarRating'
 import Pagination from '../../../components/Pagination'
+import TitleWithBackButton from '../../../components/TitleWithBackButton'
 
 interface Algorithm {
   id: string
@@ -59,7 +60,6 @@ const CaseAlgorithms = () => {
   const sortBy = (searchParams.get('sortBy') || 'users') as SortBy
   const ascending = searchParams.get('ascending') === 'true'
 
-  // Fetch case details
   const {
     data: caseData,
     isLoading: isCaseLoading,
@@ -145,10 +145,10 @@ const CaseAlgorithms = () => {
 
   return (
     <>
-      <div className="flex w-full flex-col items-center gap-4">
-        <h1 className="text-2xl font-bold">
-          Algorithms for {caseData?.data.case.name}
-        </h1>
+      <div className="flex w-full flex-col items-center gap-4 overflow-x-auto">
+        <TitleWithBackButton
+          title={`Algorithms for ${caseData?.data.case.name}`}
+        />
         {algorithms.length > 0 && (
           <div className="flex justify-center">
             <div className="aspect-square max-w-60">
@@ -159,7 +159,7 @@ const CaseAlgorithms = () => {
             </div>
           </div>
         )}
-        <div className="w-3/4 max-w-7xl">
+        <div className="max-w-7xl min-w-md md:w-3/4">
           <table className="w-full border-2 border-gray-800">
             <thead>
               <tr className="bg-gray-800 text-white *:p-2">

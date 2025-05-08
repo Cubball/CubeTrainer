@@ -8,6 +8,7 @@ import Loader from '../../../components/Loader'
 import Error from '../../../components/Error'
 import ScrambleView from '../../../components/ScrambleView'
 import StarRating from '../../../components/StarRating'
+import TitleWithBackButton from '../../../components/TitleWithBackButton'
 
 interface Algorithm {
   id: string
@@ -107,7 +108,7 @@ const CaseDetails = () => {
 
   return (
     <div className="flex w-full flex-col items-center gap-4">
-      <h1 className="text-2xl font-bold">{caseData?.name}</h1>
+      <TitleWithBackButton title={caseData?.name} />
       <div className="grid w-full max-w-7xl grid-cols-1 gap-6 md:grid-cols-2">
         <div className="flex flex-col items-center justify-center gap-4">
           <div className="aspect-square max-w-60">
