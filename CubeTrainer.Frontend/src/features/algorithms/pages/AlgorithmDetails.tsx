@@ -135,6 +135,9 @@ const AlgorithmDetails = () => {
     mutationFn: () => axios.post(`/algorithms/${id}/select`, { id }),
     onSuccess: () => {
       queryClient.invalidateQueries({
+        queryKey: [ALGORITHM_DETAILS_QUERY_KEY, id],
+      })
+      queryClient.invalidateQueries({
         queryKey: [CASE_DETAILS_QUERY_KEY, id],
       })
       toast('Algorithm selected', {
@@ -203,6 +206,12 @@ const AlgorithmDetails = () => {
           >
             View Case
           </Link>
+          {
+            // NOTE:
+            // Ideally, we wouldn't show this if the algorithm is already selected
+            // Or show a different message
+            // But the API does not return this info currently
+          }
           <button
             className="w-1/2 max-w-60 cursor-pointer rounded-sm bg-gray-800 px-4 py-2 text-center text-white"
             onClick={() => selectAlgorithmMutation.mutate()}

@@ -120,7 +120,14 @@ const CaseDetails = () => {
           >
             View Available Algorithms
           </Link>
-          {algorithm && (algorithm.isMine || algorithm.isPublic) && (
+          {
+            // NOTE:
+            // If algorithm `isMine` but not `isPublic`, this won't show
+            // which is not ideal, since it makes sense for the creator
+            // of the algorithm to be able to go to it's details, if it's
+            // not public
+          }
+          {algorithm && algorithm.isPublic && (
             <Link
               to={`/algorithms/${algorithm.id}`}
               className="w-1/2 max-w-60 cursor-pointer rounded-sm bg-gray-800 px-4 py-2 text-center text-white"

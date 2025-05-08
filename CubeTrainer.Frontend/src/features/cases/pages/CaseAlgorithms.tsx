@@ -131,83 +131,90 @@ const CaseAlgorithms = () => {
 
   return (
     <>
-      <div className="flex w-full flex-col items-center gap-4 overflow-x-auto">
+      <div className="flex w-full flex-col items-center gap-4">
         <TitleWithBackButton
           title={`Algorithms for ${caseData?.data.case.name}`}
         />
-        {algorithms.length > 0 && (
-          <div className="flex justify-center">
-            <div className="aspect-square max-w-60">
-              <ScrambleView
-                scramble={caseData?.data.case.defaultScramble || ''}
-                forceAspectSquare
-              />
-            </div>
+        <div className="flex justify-center">
+          <div className="aspect-square max-w-60">
+            <ScrambleView
+              scramble={caseData?.data.case.defaultScramble || ''}
+              forceAspectSquare
+            />
           </div>
-        )}
-        <div className="max-w-7xl min-w-md md:w-3/4">
-          <table className="w-full border-2 border-gray-800">
-            <thead>
-              <tr className="bg-gray-800 text-white *:p-2">
-                <th>Algorithm</th>
-                <th
-                  onClick={() => toggleSort('users')}
-                  className="cursor-pointer hover:underline"
-                >
-                  Users{getSortIcon('users')}
-                </th>
-                <th
-                  onClick={() => toggleSort('rating')}
-                  className="cursor-pointer hover:underline"
-                >
-                  Rating{getSortIcon('rating')}
-                </th>
-                <th
-                  onClick={() => toggleSort('created')}
-                  className="cursor-pointer hover:underline"
-                >
-                  Created{getSortIcon('created')}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {algorithms.map((a) => (
-                <tr
-                  key={a.id}
-                  className="border-t-2 border-t-gray-800 text-center *:px-4 *:py-2 md:*:px-6 lg:*:px-8"
-                >
-                  <td className="text-center font-mono">
-                    <Link to={`/algorithms/${a.id}`}>{a.moves}</Link>
-                  </td>
-                  <td className="text-center">
-                    <Link to={`/algorithms/${a.id}`}>{a.usersCount}</Link>
-                  </td>
-                  <td>
-                    <Link
-                      to={`/algorithms/${a.id}`}
-                      className="flex items-center justify-center gap-2"
-                    >
-                      <StarRating rating={calculateAverageRating(a)} />
-                      <span className="text-sm text-gray-500">
-                        ({a.usersRatingsCount})
-                      </span>
-                    </Link>
-                  </td>
-                  <td className="text-center">
-                    <Link to={`/algorithms/${a.id}`}>
-                      {new Date(a.createdAt).toLocaleDateString()}
-                    </Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
         </div>
-        <Pagination
-          currentPage={page}
-          totalPages={totalPages}
-          onPageChange={(p) => updateParams({ page: p })}
-        />
+        <div className="max-w-7xl min-w-md md:w-3/4">
+          {algorithms.length === 0 && (
+            <h2 className="text-center text-xl text-gray-500 italic">
+              There are no algorithms for this case
+            </h2>
+          )}
+          {algorithms.length > 0 && (
+            <table className="w-full border-2 border-gray-800">
+              <thead>
+                <tr className="bg-gray-800 text-white *:p-2">
+                  <th>Algorithm</th>
+                  <th
+                    onClick={() => toggleSort('users')}
+                    className="cursor-pointer hover:underline"
+                  >
+                    Users{getSortIcon('users')}
+                  </th>
+                  <th
+                    onClick={() => toggleSort('rating')}
+                    className="cursor-pointer hover:underline"
+                  >
+                    Rating{getSortIcon('rating')}
+                  </th>
+                  <th
+                    onClick={() => toggleSort('created')}
+                    className="cursor-pointer hover:underline"
+                  >
+                    Created{getSortIcon('created')}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {algorithms.map((a) => (
+                  <tr
+                    key={a.id}
+                    className="border-t-2 border-t-gray-800 text-center *:px-4 *:py-2 md:*:px-6 lg:*:px-8"
+                  >
+                    <td className="text-center font-mono">
+                      <Link to={`/algorithms/${a.id}`}>{a.moves}</Link>
+                    </td>
+                    <td className="text-center">
+                      <Link to={`/algorithms/${a.id}`}>{a.usersCount}</Link>
+                    </td>
+                    <td>
+                      <Link
+                        to={`/algorithms/${a.id}`}
+                        className="flex items-center justify-center gap-2"
+                      >
+                        <StarRating rating={calculateAverageRating(a)} />
+                        <span className="text-sm text-gray-500">
+                          ({a.usersRatingsCount})
+                        </span>
+                      </Link>
+                    </td>
+                    <td className="text-center">
+                      <Link to={`/algorithms/${a.id}`}>
+                        {new Date(a.createdAt).toLocaleDateString()}
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+        {algorithms.length > 0 && (
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={(p) => updateParams({ page: p })}
+          />
+        )}
       </div>
     </>
   )
