@@ -17,8 +17,7 @@ internal static class SearchAlgorithms
     public sealed record CaseDto(
         Guid Id,
         string Type,
-        string Name,
-        string ImageUrl);
+        string Name);
 
     public sealed record AlgorithmDto(
         Guid Id,
@@ -82,8 +81,7 @@ internal static class SearchAlgorithms
                 new CaseDto(
                     a.Case.Id,
                     a.Case.Type.ToString(),
-                    a.Case.Name,
-                    a.Case.ImageUrl),
+                    a.Case.Name),
                 a.Moves,
                 a.IsPublic,
                 a.CreatorId == userId,

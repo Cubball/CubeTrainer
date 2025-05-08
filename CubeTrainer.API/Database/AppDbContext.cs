@@ -71,9 +71,6 @@ internal sealed class AppDbContext(DbContextOptions<AppDbContext> options) : Ide
             .Property(static c => c.Name)
             .HasMaxLength(100);
         builder.Entity<Case>()
-            .Property(static c => c.ImageUrl)
-            .HasMaxLength(500);
-        builder.Entity<Case>()
             .Property(static c => c.DefaultSolution)
             .HasMaxLength(100);
         builder.Entity<Case>()

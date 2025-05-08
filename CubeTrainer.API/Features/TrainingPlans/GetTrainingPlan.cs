@@ -11,8 +11,7 @@ internal static class GetTrainingPlan
 {
     public sealed record CaseDto(
         Guid Id,
-        string Name,
-        string ImageUrl);
+        string Name);
 
     public sealed record TrainingPlanCaseDto(
         int SolvesToLearnCount,
@@ -56,7 +55,7 @@ internal static class GetTrainingPlan
                 tpc.SolvesToLearnCount,
                 tpc.LastDifficultyRating?.ToString(),
                 tpc.LastSolved,
-                new(tpc.Case.Id, tpc.Case.Name, tpc.Case.ImageUrl)
+                new(tpc.Case.Id, tpc.Case.Name)
             )).ToList());
         return Results.Ok(new Response(result));
     }

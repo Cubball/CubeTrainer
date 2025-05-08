@@ -14,7 +14,6 @@ internal static class GetRandomScramble
     public sealed record CaseDto(
         Guid Id,
         string Name,
-        string ImageUrl,
         AlgorithmDto? SelectedAlgorithm);
 
     public sealed record AlgorithmDto(
@@ -60,7 +59,6 @@ internal static class GetRandomScramble
         var result = new ScrambleDto(scramble, new(
             randomCase.Case.Id,
             randomCase.Case.Name,
-            randomCase.Case.ImageUrl,
             randomCase.SelectedAlgorithm is null
                 ? null
                 : new(randomCase.SelectedAlgorithm.Id, randomCase.SelectedAlgorithm.Moves)
