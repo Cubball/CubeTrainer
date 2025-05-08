@@ -72,6 +72,30 @@ const CaseAlgorithms = () => {
       }),
   })
 
+  const getSortIcon = (field: SortBy) => {
+    if (sortBy !== field) {
+      return null
+    }
+
+    return ascending ? ' ↑' : ' ↓'
+  }
+
+  const toggleSort = (field: SortBy) => {
+    if (sortBy === field) {
+      updateParams({ ascending: !ascending })
+    } else {
+      updateParams({ sortBy: field, ascending: false })
+    }
+  }
+
+  const calculateAverageRating = (algorithm: Algorithm) => {
+    if (algorithm.usersRatingsCount === 0) {
+      return 0
+    }
+
+    return algorithm.totalRating / algorithm.usersRatingsCount
+  }
+
   const updateParams = (newParams: {
     page?: number
     sortBy?: SortBy
@@ -104,30 +128,6 @@ const CaseAlgorithms = () => {
   const algorithmData = algorithmsData?.data.algorithms
   const algorithms = algorithmData?.items || []
   const totalPages = algorithmData?.totalPages || 1
-
-  const getSortIcon = (field: SortBy) => {
-    if (sortBy !== field) {
-      return null
-    }
-
-    return ascending ? ' ↑' : ' ↓'
-  }
-
-  const toggleSort = (field: SortBy) => {
-    if (sortBy === field) {
-      updateParams({ ascending: !ascending })
-    } else {
-      updateParams({ sortBy: field, ascending: false })
-    }
-  }
-
-  const calculateAverageRating = (algorithm: Algorithm) => {
-    if (algorithm.usersRatingsCount === 0) {
-      return 0
-    }
-
-    return algorithm.totalRating / algorithm.usersRatingsCount
-  }
 
   return (
     <>
