@@ -17,9 +17,7 @@ interface RandomScrambleResponse {
     moves: string
     case: {
       id: string
-      name: string
       selectedAlgorithm?: {
-        id: string
         moves: string
       }
     }

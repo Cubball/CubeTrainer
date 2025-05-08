@@ -15,7 +15,6 @@ interface Algorithm {
   moves: string
   isPublic: boolean
   isMine: boolean
-  createdAt: string
   usersCount: number
   totalRating: number
   usersRatingsCount: number
@@ -23,7 +22,6 @@ interface Algorithm {
   myStatistic: {
     totalTimeSolvingInSeconds: number
     timedSolvesCount: number
-    untimedSolvesCount: number
     bestTimeInSeconds: number
   }
 }
@@ -32,7 +30,6 @@ interface CaseDetailsResponse {
   case: {
     id: string
     name: string
-    imageUrl: string
     status: string
     defaultScramble: string
     selectedAlgorithm: Algorithm | null

@@ -17,22 +17,18 @@ interface Algorithm {
   moves: string
   isPublic: boolean
   isMine: boolean
-  createdAt: string
   usersCount: number
   totalRating: number
   usersRatingsCount: number
   case: {
     id: string
-    type: string
     name: string
-    imageUrl: string
     defaultScramble: string
   }
   myRating: null | { rating: number }
   myStatistic: {
     totalTimeSolvingInSeconds: number
     timedSolvesCount: number
-    untimedSolvesCount: number
     bestTimeInSeconds: number
   }
 }

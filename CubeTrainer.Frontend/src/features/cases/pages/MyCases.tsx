@@ -13,7 +13,6 @@ interface CasesResponse {
     status: string
     defaultScramble: string
     selectedAlgorithm: {
-      id: string
       moves: string
     }
   }[]

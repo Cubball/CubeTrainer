@@ -11,15 +11,7 @@ import TitleWithBackButton from '../../../components/TitleWithBackButton'
 
 interface Algorithm {
   id: string
-  case: {
-    id: string
-    type: string
-    name: string
-    imageUrl: string
-  }
   moves: string
-  isPublic: boolean
-  isMine: boolean
   createdAt: string
   usersCount: number
   totalRating: number
@@ -28,10 +20,7 @@ interface Algorithm {
 
 interface AlgorithmsResponse {
   algorithms: {
-    page: number
-    pageSize: number
     totalPages: number
-    totalCount: number
     items: Algorithm[]
   }
 }
@@ -40,10 +29,7 @@ interface CaseDetailsResponse {
   case: {
     id: string
     name: string
-    imageUrl: string
-    status: string
     defaultScramble: string
-    selectedAlgorithm: Algorithm | null
   }
 }
 
