@@ -4,6 +4,7 @@ using CubeTrainer.API.Common.Endpoints;
 using CubeTrainer.API.Common.Exceptions;
 using CubeTrainer.API.Database;
 using CubeTrainer.API.Entities;
+using CubeTrainer.Cube;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +16,8 @@ internal static class GetMyAlgorithms
     public sealed record CaseDto(
         Guid Id,
         string Type,
-        string Name);
+        string Name,
+        string DefaultScramble);
 
     public sealed record AlgorithmDto(
         Guid Id,
@@ -64,7 +66,8 @@ internal static class GetMyAlgorithms
                 new CaseDto(
                     a.Case.Id,
                     a.Case.Type.ToString(),
-                    a.Case.Name),
+                    a.Case.Name,
+                    MoveSequence.FromString(a.Case.DefaultSolution).Inverse().ToString()),
                 a.Moves,
                 a.IsPublic,
                 a.CreatedAt,
