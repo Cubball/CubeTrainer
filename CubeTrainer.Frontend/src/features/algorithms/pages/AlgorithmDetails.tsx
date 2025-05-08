@@ -10,6 +10,7 @@ import StarRating from '../../../components/StarRating'
 import Modal from '../../../components/Modal'
 import { useState } from 'react'
 import TitleWithBackButton from '../../../components/TitleWithBackButton'
+import { toast } from 'react-toastify'
 
 interface Algorithm {
   id: string
@@ -88,6 +89,12 @@ const AlgorithmDetails = () => {
         queryKey: [ALGORITHM_DETAILS_QUERY_KEY, id],
       })
     },
+    onError: () => {
+      toast('Failed to update the rating', {
+        type: 'error',
+        theme: 'colored',
+      })
+    },
   })
 
   const publishAlgorithmMutation = useMutation({
@@ -95,6 +102,16 @@ const AlgorithmDetails = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [ALGORITHM_DETAILS_QUERY_KEY, id],
+      })
+      toast('Algorithm published', {
+        type: 'success',
+        theme: 'colored',
+      })
+    },
+    onError: () => {
+      toast('Failed to publish the algorithm', {
+        type: 'error',
+        theme: 'colored',
       })
     },
   })
@@ -105,6 +122,16 @@ const AlgorithmDetails = () => {
       queryClient.invalidateQueries({
         queryKey: [ALGORITHM_DETAILS_QUERY_KEY, id],
       })
+      toast('Algorithm unpublished', {
+        type: 'success',
+        theme: 'colored',
+      })
+    },
+    onError: () => {
+      toast('Failed to unpublish the algorithm', {
+        type: 'error',
+        theme: 'colored',
+      })
     },
   })
 
@@ -113,6 +140,16 @@ const AlgorithmDetails = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [CASE_DETAILS_QUERY_KEY, id],
+      })
+      toast('Algorithm selected', {
+        type: 'success',
+        theme: 'colored',
+      })
+    },
+    onError: () => {
+      toast('Failed to select the algorithm', {
+        type: 'error',
+        theme: 'colored',
       })
     },
   })
@@ -124,6 +161,16 @@ const AlgorithmDetails = () => {
         queryKey: [ALGORITHM_DETAILS_QUERY_KEY, id],
       })
       navigate(`/cases/${algorithmCase?.id}/algorithms`)
+      toast('Algorithm deleted', {
+        type: 'success',
+        theme: 'colored',
+      })
+    },
+    onError: () => {
+      toast('Failed to delete the algorithm', {
+        type: 'error',
+        theme: 'colored',
+      })
     },
   })
 
