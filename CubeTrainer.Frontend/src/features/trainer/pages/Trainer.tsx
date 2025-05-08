@@ -116,7 +116,7 @@ const Trainer = () => {
               className={`mb-2 cursor-pointer rounded-sm bg-red-700 px-4 py-2 text-white ${isCountdownVisible ? '' : 'hidden'}`}
               onClick={stopCountdown}
             >
-              Delete this solve
+              Delete This Solve
             </button>
           </div>
           <CountdownStrip durationMs={5000} onComplete={submitSolve} />

@@ -35,11 +35,11 @@ const ScrambleSidebar = ({
         className="w-1/2 max-w-60 cursor-pointer rounded-sm bg-gray-800 px-4 py-2 text-white"
         onClick={() => setHintVisible(!hintVisible)}
       >
-        {hintVisible ? 'Hide hint' : 'Show hint'}
+        {hintVisible ? 'Hide Hint' : 'Show Hint'}
       </button>
       <p
         className={
-          'w-full px-4 text-center text-xl font-bold' +
+          'mb-4 w-full px-4 text-center text-xl font-bold' +
           (hintVisible ? '' : ' opacity-0')
         }
       >

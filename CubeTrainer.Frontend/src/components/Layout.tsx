@@ -1,4 +1,4 @@
-import { NavLink, Outlet, useNavigate } from 'react-router'
+import { Link, Outlet, useNavigate } from 'react-router'
 import { useAxiosWithAuth } from '../lib/axios'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import Loader from './Loader'
@@ -44,11 +44,11 @@ const Layout = () => {
   return (
     <div className="flex min-h-screen flex-col bg-gray-200">
       <header className="fixed z-30 flex h-16 w-full items-center justify-between bg-gray-800 px-4 text-white md:px-16">
-        <NavLink to="/">
+        <Link to="/">
           <div>
             <img src={logo} className="h-12" />
           </div>
-        </NavLink>
+        </Link>
 
         <button
           className="flex h-10 w-10 flex-col items-center justify-center md:hidden"
@@ -60,23 +60,23 @@ const Layout = () => {
         </button>
 
         <div className="hidden gap-8 md:flex">
-          <NavLink to="cases" className="hover:underline">
+          <Link to="cases" className="hover:underline">
             My Cases
-          </NavLink>
-          <NavLink to="training-plans" className="hover:underline">
+          </Link>
+          <Link to="training-plans" className="hover:underline">
             My Training Plans
-          </NavLink>
-          <NavLink to="algorithms" className="hover:underline">
+          </Link>
+          <Link to="algorithms" className="hover:underline">
             My Algorithms
-          </NavLink>
-          <NavLink to="profile" className="hover:underline">
+          </Link>
+          <Link to="profile" className="hover:underline">
             My Profile
-          </NavLink>
+          </Link>
           <button
             className="cursor-pointer hover:underline"
             onClick={() => mutate()}
           >
-            Log out
+            Log Out
           </button>
         </div>
       </header>
@@ -84,34 +84,34 @@ const Layout = () => {
       {isMobileMenuOpen && (
         <div className="fixed top-16 left-0 z-20 w-full bg-gray-800 md:hidden">
           <div className="flex flex-col">
-            <NavLink
+            <Link
               to="cases"
               className="border-b border-gray-700 px-4 py-4 text-white hover:bg-gray-800"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               My Cases
-            </NavLink>
-            <NavLink
+            </Link>
+            <Link
               to="training-plans"
               className="border-b border-gray-700 px-4 py-4 text-white hover:bg-gray-800"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               My Training Plans
-            </NavLink>
-            <NavLink
+            </Link>
+            <Link
               to="algorithms"
               className="border-b border-gray-700 px-4 py-4 text-white hover:bg-gray-800"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               My Algorithms
-            </NavLink>
-            <NavLink
+            </Link>
+            <Link
               to="profile"
               className="border-b border-gray-700 px-4 py-4 text-white hover:bg-gray-800"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               My Profile
-            </NavLink>
+            </Link>
             <button
               className="px-4 py-4 text-left text-white hover:bg-gray-800"
               onClick={() => {
@@ -119,7 +119,7 @@ const Layout = () => {
                 mutate()
               }}
             >
-              Log out
+              Log Out
             </button>
           </div>
         </div>

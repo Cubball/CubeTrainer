@@ -14,7 +14,7 @@ const NotFound = () => {
           className="cursor-pointer rounded-sm bg-gray-800 px-4 py-2 text-white"
           onClick={() => navigate('/')}
         >
-          Return to the home page
+          Return to the Home Page
         </button>
       </div>
     </div>

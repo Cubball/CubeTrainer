@@ -158,13 +158,13 @@ const AlgorithmDetails = () => {
             to={`/cases/${algorithmCase?.id}`}
             className="w-1/2 max-w-60 cursor-pointer rounded-sm bg-gray-800 px-4 py-2 text-center text-white"
           >
-            View case
+            View Case
           </Link>
           <button
             className="w-1/2 max-w-60 cursor-pointer rounded-sm bg-gray-800 px-4 py-2 text-center text-white"
             onClick={() => selectAlgorithmMutation.mutate()}
           >
-            Pick this algorithm
+            Pick This Algorithm
           </button>
           {algorithm?.isMine && (
             <>
@@ -173,14 +173,14 @@ const AlgorithmDetails = () => {
                   className="w-1/2 max-w-60 cursor-pointer rounded-sm bg-gray-800 px-4 py-2 text-center text-white"
                   onClick={() => unpublishAlgorithmMutation.mutate()}
                 >
-                  Make private
+                  Make Private
                 </button>
               ) : (
                 <button
                   className="w-1/2 max-w-60 cursor-pointer rounded-sm bg-gray-800 px-4 py-2 text-center text-white"
                   onClick={() => publishAlgorithmMutation.mutate()}
                 >
-                  Make public
+                  Make Public
                 </button>
               )}
               <button

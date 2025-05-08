@@ -121,14 +121,14 @@ const CaseDetails = () => {
             to="algorithms"
             className="w-1/2 max-w-60 cursor-pointer rounded-sm bg-gray-800 px-4 py-2 text-center text-white"
           >
-            View available algorithms
+            View Available Algorithms
           </Link>
           {algorithm && (algorithm.isMine || algorithm.isPublic) && (
             <Link
               to={`/algorithms/${algorithm.id}`}
               className="w-1/2 max-w-60 cursor-pointer rounded-sm bg-gray-800 px-4 py-2 text-center text-white"
             >
-              View this algorithm
+              View This Algorithm
             </Link>
           )}
         </div>

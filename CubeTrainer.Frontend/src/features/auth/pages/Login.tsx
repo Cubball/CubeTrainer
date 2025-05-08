@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
 import { axiosInstance } from '../../../lib/axios'
 import loader from '../../../assets/loader.svg'
-import { useNavigate } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import AuthContainer from '../components/AuthContainer'
 
 const schema = z.object({
@@ -84,13 +84,9 @@ const Login = () => {
       <p className="text-center">
         Don't have an account?
         <br />
-        <button
-          type="button"
-          className="cursor-pointer text-gray-800 underline"
-          onClick={() => navigate('/register')}
-        >
+        <Link to="/register" className="text-gray-800 underline">
           Sign up
-        </button>
+        </Link>
       </p>
     </AuthContainer>
   )
