@@ -145,9 +145,17 @@ const CaseAlgorithms = () => {
         </div>
         <div className="max-w-7xl min-w-md md:w-3/4">
           {algorithms.length === 0 && (
-            <h2 className="text-center text-xl text-gray-500 italic">
-              There are no algorithms for this case
-            </h2>
+            <div className="flex w-full flex-col items-center gap-4">
+              <h2 className="text-center text-xl text-gray-500 italic">
+                There are no algorithms for this case
+              </h2>
+              <Link
+                to={`/cases/${caseData?.data.case.id}/algorithms/new`}
+                className="w-fit cursor-pointer rounded-sm bg-gray-800 px-4 py-2 text-center text-white"
+              >
+                Create a New Algorithm
+              </Link>
+            </div>
           )}
           {algorithms.length > 0 && (
             <table className="w-full border-2 border-gray-800">

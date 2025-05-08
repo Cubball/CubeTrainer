@@ -9,6 +9,7 @@ import CaseDetails from './features/cases/pages/CaseDetails'
 import CaseAlgorithms from './features/cases/pages/CaseAlgorithms'
 import AlgorithmDetails from './features/algorithms/pages/AlgorithmDetails'
 import MyAlgorithms from './features/algorithms/pages/MyAlgorithms'
+import CreateAlgorithm from './features/algorithms/pages/CreateAlgorithm'
 
 const App = () => {
   return (
@@ -21,6 +22,10 @@ const App = () => {
           <Route path="cases" element={<MyCases />} />
           <Route path="cases/:id" element={<CaseDetails />} />
           <Route path="cases/:id/algorithms" element={<CaseAlgorithms />} />
+          <Route
+            path="cases/:id/algorithms/new"
+            element={<CreateAlgorithm />}
+          />
           <Route path="algorithms" element={<MyAlgorithms />} />
           <Route path="algorithms/:id" element={<AlgorithmDetails />} />
         </Route>

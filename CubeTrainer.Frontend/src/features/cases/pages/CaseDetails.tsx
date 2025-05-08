@@ -9,6 +9,7 @@ import Error from '../../../components/Error'
 import ScrambleView from '../../../components/ScrambleView'
 import StarRating from '../../../components/StarRating'
 import TitleWithBackButton from '../../../components/TitleWithBackButton'
+import { toast } from 'react-toastify'
 
 interface Algorithm {
   id: string
@@ -83,12 +84,24 @@ const CaseDetails = () => {
       })
       queryClient.invalidateQueries({ queryKey: [CASE_DETAILS_QUERY_KEY, id] })
     },
+    onError: () => {
+      toast('Failed to update the algorithm rating', {
+        type: 'error',
+        theme: 'colored',
+      })
+    },
   })
 
   const updateStatusMutation = useMutation({
     mutationFn: (status: string) => axios.put(`/cases/${id}`, { status }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [CASE_DETAILS_QUERY_KEY, id] })
+    },
+    onError: () => {
+      toast('Failed to update the case status', {
+        type: 'error',
+        theme: 'colored',
+      })
     },
   })
 
@@ -135,6 +148,12 @@ const CaseDetails = () => {
               View This Algorithm
             </Link>
           )}
+          <Link
+            to="algorithms/new"
+            className="w-1/2 max-w-60 cursor-pointer rounded-sm bg-gray-800 px-4 py-2 text-center text-white"
+          >
+            Create a New Algorithm
+          </Link>
         </div>
         <div className="flex flex-col gap-4 p-4">
           <div>
