@@ -329,7 +329,6 @@ const AlgorithmDetails = () => {
           )}
         </div>
       </div>
-
       <Modal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}

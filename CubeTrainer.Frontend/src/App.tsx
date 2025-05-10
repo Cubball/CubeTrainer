@@ -10,6 +10,7 @@ import CaseAlgorithms from './features/cases/pages/CaseAlgorithms'
 import AlgorithmDetails from './features/algorithms/pages/AlgorithmDetails'
 import MyAlgorithms from './features/algorithms/pages/MyAlgorithms'
 import CreateAlgorithm from './features/algorithms/pages/CreateAlgorithm'
+import MyTrainingPlans from './features/training-plans/pages/MyTrainingPlans'
 import Profile from './features/profile/pages/Profile'
 
 const App = () => {
@@ -29,6 +30,7 @@ const App = () => {
           />
           <Route path="algorithms" element={<MyAlgorithms />} />
           <Route path="algorithms/:id" element={<AlgorithmDetails />} />
+          <Route path="training-plans" element={<MyTrainingPlans />} />
           <Route path="profile" element={<Profile />} />
         </Route>
         <Route path="*" element={<NotFound />} />
