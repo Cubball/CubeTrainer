@@ -102,6 +102,7 @@ const Trainer = () => {
         <div className="min-h-[480px] grow-1 text-5xl font-bold">
           <Stopwatch
             onStart={() => {
+              // TODO: check if it'll double count
               submitSolve()
               stopCountdown()
             }}
