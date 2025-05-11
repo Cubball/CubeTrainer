@@ -12,6 +12,8 @@ import MyAlgorithms from './features/algorithms/pages/MyAlgorithms'
 import CreateAlgorithm from './features/algorithms/pages/CreateAlgorithm'
 import MyTrainingPlans from './features/training-plans/pages/MyTrainingPlans'
 import Profile from './features/profile/pages/Profile'
+import CreateTrainingPlan from './features/training-plans/pages/CreateTrainingPlan'
+import TrainingPlanDetails from './features/training-plans/pages/TrainingPlanDetails'
 import PlanTrainer from './features/training-plans/pages/PlanTrainer'
 
 const App = () => {
@@ -32,6 +34,8 @@ const App = () => {
           <Route path="algorithms" element={<MyAlgorithms />} />
           <Route path="algorithms/:id" element={<AlgorithmDetails />} />
           <Route path="training-plans" element={<MyTrainingPlans />} />
+          <Route path="training-plans/new" element={<CreateTrainingPlan />} />
+          <Route path="training-plans/:id" element={<TrainingPlanDetails />} />
           <Route path="training-plans/:id/train" element={<PlanTrainer />} />
           <Route path="profile" element={<Profile />} />
         </Route>

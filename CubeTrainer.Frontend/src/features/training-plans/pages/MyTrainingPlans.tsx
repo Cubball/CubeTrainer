@@ -5,6 +5,7 @@ import Loader from '../../../components/Loader'
 import Error from '../../../components/Error'
 import TrainingPlansTable from '../components/TrainingPlansTable'
 import { toast } from 'react-toastify'
+import { Link } from 'react-router'
 
 interface TrainingPlan {
   id: string
@@ -61,6 +62,12 @@ const MyTrainingPlans = () => {
         trainingPlans={sortTrainingPlans(data?.data.items)}
         onTrainingPlanDelete={deleteTrainingPlanMutation.mutate}
       />
+      <Link
+        className="cursor-pointer rounded-sm bg-gray-800 px-4 py-2 text-white"
+        to="new"
+      >
+        Create a New Training Plan
+      </Link>
     </div>
   )
 }

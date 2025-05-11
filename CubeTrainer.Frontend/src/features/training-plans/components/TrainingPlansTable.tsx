@@ -34,7 +34,7 @@ const TrainingPlansTable = ({
 
   return (
     <>
-      <table className="min-w-lg border-2 border-gray-800">
+      <table className="border-2 border-gray-800 md:min-w-lg">
         <thead>
           <tr className="bg-gray-800 text-white *:p-2">
             <th>Name</th>

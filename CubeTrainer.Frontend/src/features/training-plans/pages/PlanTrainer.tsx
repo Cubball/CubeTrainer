@@ -11,7 +11,7 @@ import Loader from '../../../components/Loader'
 import ScrambleSidebar from '../../../components/ScrambleSidebar'
 import TitleWithBackButton from '../../../components/TitleWithBackButton'
 
-interface RandomScrambleResponse {
+interface TrainingPlanRandomScrambleResponse {
   scramble: {
     moves: string
     case: {
@@ -40,7 +40,7 @@ const PlanTrainer = () => {
   const { data, isLoading, isError, refetch, error } = useQuery({
     queryKey: [TRAINING_PLAN_RANDOM_SCRAMBLE_QUERY_KEY, id],
     queryFn: () =>
-      axiosInstance.get<RandomScrambleResponse>(
+      axiosInstance.get<TrainingPlanRandomScrambleResponse>(
         `/scrambles/training-plans/${id}/random`,
       ),
     retry: false,
@@ -57,10 +57,10 @@ const PlanTrainer = () => {
 
   const onSolveFinished = (ms: number) => {
     const caseId =
-      queryClient.getQueryData<AxiosResponse<RandomScrambleResponse>>([
-        TRAINING_PLAN_RANDOM_SCRAMBLE_QUERY_KEY,
-        id,
-      ])?.data.scramble.case.id ?? ''
+      queryClient.getQueryData<
+        AxiosResponse<TrainingPlanRandomScrambleResponse>
+      >([TRAINING_PLAN_RANDOM_SCRAMBLE_QUERY_KEY, id])?.data.scramble.case.id ??
+      ''
     setLastSolveData({
       caseId,
       time: ms / 1000,

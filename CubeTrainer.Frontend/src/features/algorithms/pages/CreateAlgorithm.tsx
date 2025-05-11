@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'react-toastify'
 import { useAxiosWithAuth } from '../../../lib/axios'
 import { CASE_DETAILS_QUERY_KEY } from '../../cases/lib/keys'
 import Loader from '../../../components/Loader'
 import Error from '../../../components/Error'
 import ScrambleView from '../../../components/ScrambleView'
 import TitleWithBackButton from '../../../components/TitleWithBackButton'
-import { toast } from 'react-toastify'
 
 interface CaseDetailsResponse {
   case: {
