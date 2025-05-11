@@ -83,6 +83,10 @@ const CaseDetails = () => {
         queryKey: [ALGORITHM_DETAILS_QUERY_KEY, id],
       })
       queryClient.invalidateQueries({ queryKey: [CASE_DETAILS_QUERY_KEY, id] })
+      toast('Rating updated', {
+        type: 'success',
+        theme: 'colored',
+      })
     },
     onError: () => {
       toast('Failed to update the algorithm rating', {
@@ -96,6 +100,10 @@ const CaseDetails = () => {
     mutationFn: (status: string) => axios.put(`/cases/${id}`, { status }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [CASE_DETAILS_QUERY_KEY, id] })
+      toast('Case status updated', {
+        type: 'success',
+        theme: 'colored',
+      })
     },
     onError: () => {
       toast('Failed to update the case status', {

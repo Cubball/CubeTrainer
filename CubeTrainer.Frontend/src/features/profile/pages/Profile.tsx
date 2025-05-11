@@ -66,6 +66,10 @@ const Profile = () => {
       } else {
         setError('root', { message: 'An unknown error occurred' })
       }
+      toast('Failed to change password', {
+        type: 'error',
+        theme: 'colored',
+      })
     },
   })
 

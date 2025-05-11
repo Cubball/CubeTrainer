@@ -84,6 +84,10 @@ const AlgorithmDetails = () => {
       queryClient.invalidateQueries({
         queryKey: [ALGORITHM_DETAILS_QUERY_KEY, id],
       })
+      toast('Rating updated', {
+        type: 'success',
+        theme: 'colored',
+      })
     },
     onError: () => {
       toast('Failed to update the rating', {
