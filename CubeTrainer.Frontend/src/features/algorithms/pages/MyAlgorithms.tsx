@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { OLL_ALGORITHMS_QUERY_KEY, PLL_ALGORITHMS_QUERY_KEY } from './lib/keys'
+import { OLL_ALGORITHMS_QUERY_KEY, PLL_ALGORITHMS_QUERY_KEY } from '../lib/keys'
 import { useAxiosWithAuth } from '../../../lib/axios'
 import Tabs from '../../../components/Tabs'
 import Loader from '../../../components/Loader'

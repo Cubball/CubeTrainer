@@ -1,7 +1,7 @@
 import { Link, useNavigate, useParams } from 'react-router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useAxiosWithAuth } from '../../../lib/axios'
-import { ALGORITHM_DETAILS_QUERY_KEY } from './lib/keys'
+import { ALGORITHM_DETAILS_QUERY_KEY } from '../lib/keys'
 import { CASE_DETAILS_QUERY_KEY } from '../../cases/lib/keys'
 import Loader from '../../../components/Loader'
 import Error from '../../../components/Error'
