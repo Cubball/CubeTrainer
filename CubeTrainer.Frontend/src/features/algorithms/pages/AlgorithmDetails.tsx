@@ -17,6 +17,7 @@ interface Algorithm {
   moves: string
   isPublic: boolean
   isMine: boolean
+  isSelected: boolean
   usersCount: number
   totalRating: number
   usersRatingsCount: number
@@ -77,7 +78,6 @@ const AlgorithmDetails = () => {
     mutationFn: (rating: number | null) =>
       axios.post(`/algorithms/${id}/rate`, { rating }),
     onSuccess: () => {
-      // I'm not too happy about invalidating the query from a different feature
       queryClient.invalidateQueries({
         queryKey: [CASE_DETAILS_QUERY_KEY, algorithm?.case.id],
       })
@@ -98,7 +98,7 @@ const AlgorithmDetails = () => {
   })
 
   const publishAlgorithmMutation = useMutation({
-    mutationFn: () => axios.post(`/algorithms/${id}/publish`, {}),
+    mutationFn: () => axios.post(`/algorithms/${id}/publish`),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [ALGORITHM_DETAILS_QUERY_KEY, id],
@@ -117,7 +117,7 @@ const AlgorithmDetails = () => {
   })
 
   const unpublishAlgorithmMutation = useMutation({
-    mutationFn: () => axios.post(`/algorithms/${id}/unpublish`, {}),
+    mutationFn: () => axios.post(`/algorithms/${id}/unpublish`),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [ALGORITHM_DETAILS_QUERY_KEY, id],
@@ -139,10 +139,10 @@ const AlgorithmDetails = () => {
     mutationFn: () => axios.post(`/algorithms/${id}/select`, { id }),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [ALGORITHM_DETAILS_QUERY_KEY, id],
+        queryKey: [CASE_DETAILS_QUERY_KEY, algorithm?.case.id],
       })
       queryClient.invalidateQueries({
-        queryKey: [CASE_DETAILS_QUERY_KEY, id],
+        queryKey: [ALGORITHM_DETAILS_QUERY_KEY, id],
       })
       toast('Algorithm selected', {
         type: 'success',
@@ -157,9 +157,34 @@ const AlgorithmDetails = () => {
     },
   })
 
+  const deselectAlgorithmMutation = useMutation({
+    mutationFn: () => axios.delete(`/cases/${algorithm?.case.id}/algorithm`),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [CASE_DETAILS_QUERY_KEY, algorithm?.case.id],
+      })
+      queryClient.invalidateQueries({
+        queryKey: [ALGORITHM_DETAILS_QUERY_KEY, id],
+      })
+      toast('Algorithm deselected', {
+        type: 'success',
+        theme: 'colored',
+      })
+    },
+    onError: () => {
+      toast('Failed to deselect the algorithm', {
+        type: 'error',
+        theme: 'colored',
+      })
+    },
+  })
+
   const deleteAlgorithmMutation = useMutation({
     mutationFn: () => axios.delete(`/algorithms/${id}`),
     onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [CASE_DETAILS_QUERY_KEY, algorithm?.case.id],
+      })
       queryClient.invalidateQueries({
         queryKey: [ALGORITHM_DETAILS_QUERY_KEY, id],
       })
@@ -210,18 +235,21 @@ const AlgorithmDetails = () => {
           >
             View Case
           </Link>
-          {
-            // NOTE:
-            // Ideally, we wouldn't show this if the algorithm is already selected
-            // Or show a different message
-            // But the API does not return this info currently
-          }
-          <button
-            className="w-1/2 max-w-60 cursor-pointer rounded-sm bg-gray-800 px-4 py-2 text-center text-white"
-            onClick={() => selectAlgorithmMutation.mutate()}
-          >
-            Pick This Algorithm
-          </button>
+          {algorithm?.isSelected ? (
+            <button
+              className="w-1/2 max-w-60 cursor-pointer rounded-sm bg-gray-800 px-4 py-2 text-center text-white"
+              onClick={() => deselectAlgorithmMutation.mutate()}
+            >
+              Deselect This Algorithm
+            </button>
+          ) : (
+            <button
+              className="w-1/2 max-w-60 cursor-pointer rounded-sm bg-gray-800 px-4 py-2 text-center text-white"
+              onClick={() => selectAlgorithmMutation.mutate()}
+            >
+              Select This Algorithm
+            </button>
+          )}
           {algorithm?.isMine && (
             <>
               {algorithm?.isPublic ? (

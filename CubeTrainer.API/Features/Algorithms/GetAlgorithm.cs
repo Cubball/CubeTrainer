@@ -29,6 +29,7 @@ internal static class GetAlgorithm
         string Moves,
         bool IsPublic,
         bool IsMine,
+        bool IsSelected,
         DateTime CreatedAt,
         int UsersCount,
         int TotalRating,
@@ -67,6 +68,8 @@ internal static class GetAlgorithm
             throw new NotFoundException("Algorithm not found");
         }
 
+        var userCase = await context.UserCases
+            .FirstOrDefaultAsync(uc => uc.UserId == userId && uc.CaseId == algorithm.CaseId, cancellationToken);
         var algorithmStatistic = await context.AlgorithmStatistics
             .FirstOrDefaultAsync(@as => @as.UserId == userId && @as.AlgorithmId == id, cancellationToken);
         var algorithmRating = await context.AlgorithmRatings
@@ -76,6 +79,7 @@ internal static class GetAlgorithm
             algorithm.Moves,
             algorithm.IsPublic,
             algorithm.CreatorId == userId,
+            userCase?.SelectedAlgorithmId == algorithm.Id,
             algorithm.CreatedAt,
             algorithm.UsersCount,
             algorithm.TotalRating,

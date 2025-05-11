@@ -27,7 +27,6 @@ const TrainingPlansTable = ({
   const handleDeleteConfirm = () => {
     setIsDeleteModalOpen(false)
     if (plan && onTrainingPlanDelete) {
-      // TODO: check for capture
       onTrainingPlanDelete?.(plan.id)
     }
   }

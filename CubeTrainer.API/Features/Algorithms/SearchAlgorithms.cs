@@ -57,9 +57,10 @@ internal static class SearchAlgorithms
         pageSize = pageSize > 0 ? pageSize : DefaultPageSize;
         var userId = (user.Claims.FirstOrDefault(static c => c.Type == Constants.Auth.UserIdClaimType)?.Value)
             ?? throw new UnauthorizedException("User not found");
+        // NOTE: this query can probably be optimized, but whatever
         var query = context.Algorithms
             .Include(a => a.Case)
-            .Where(a => a.IsPublic && !a.IsDeleted && a.CaseId == caseId);
+            .Where(a => (a.IsPublic || a.CreatorId == userId) && !a.IsDeleted && a.CaseId == caseId);
         var totalCount = await query.CountAsync(cancellationToken);
         query = sortBy switch
         {
