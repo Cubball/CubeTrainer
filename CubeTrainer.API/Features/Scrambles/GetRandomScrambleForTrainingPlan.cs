@@ -59,7 +59,7 @@ internal static class GetRandomScrambleForTrainingPlan
             .Include(uc => uc.SelectedAlgorithm)
             .FirstOrDefaultAsync(uc => uc.UserId == userId && uc.CaseId == randomCase.CaseId, cancellationToken);
 
-        var scramble = GetRandomScrambleForCase(userCase?.SelectedAlgorithm?.Moves ?? @case.DefaultSolution);
+        var scramble = GetRandomScrambleForCase(@case.DefaultSolution);
 
         var result = new ScrambleDto(scramble, new(
             @case.Id,

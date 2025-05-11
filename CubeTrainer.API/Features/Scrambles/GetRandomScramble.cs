@@ -54,7 +54,7 @@ internal static class GetRandomScramble
 
         var randomCase = userCases[Random.Shared.Next(userCases.Count)];
 
-        var scramble = GetRandomScrambleForCase(randomCase.SelectedAlgorithm?.Moves ?? randomCase.Case.DefaultSolution);
+        var scramble = GetRandomScrambleForCase(randomCase.Case.DefaultSolution);
 
         var result = new ScrambleDto(scramble, new(
             randomCase.Case.Id,
