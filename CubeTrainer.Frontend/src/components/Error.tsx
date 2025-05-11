@@ -9,7 +9,7 @@ const Error = ({ fullscreen }: ErrorProps) => {
     <div
       className={
         'flex w-full items-center justify-center ' +
-        (fullscreen ? 'h-screen' : '')
+        (fullscreen ? 'h-screen bg-gray-200' : '')
       }
     >
       <div className="flex flex-col items-center">
