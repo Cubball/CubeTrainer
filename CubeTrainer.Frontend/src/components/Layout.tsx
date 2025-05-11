@@ -1,28 +1,39 @@
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { Link, Outlet, useNavigate } from 'react-router'
 import { useAxiosWithAuth } from '../lib/axios'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { PROFILE_QUERY_KEY } from '../features/profile/lib/keys'
 import Loader from './Loader'
 import Error from './Error'
 import logo from '../assets/logo-white.png'
-import { useState } from 'react'
-import { PROFILE_QUERY_KEY } from '../features/profile/lib/keys'
 
 const Layout = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const axios = useAxiosWithAuth()
+  const axiosInstance = useAxiosWithAuth()
   const navigate = useNavigate()
-  const { isLoading, isError } = useQuery({
+  const { isLoading, isError, error } = useQuery({
     queryKey: [PROFILE_QUERY_KEY],
-    queryFn: () => axios.get('/manage/info'),
+    queryFn: () => axiosInstance.get('/manage/info'),
   })
   const {
     mutate,
     isPending,
     isError: isLogoutError,
   } = useMutation({
-    mutationFn: () => axios.post('/logout'),
+    mutationFn: () => axiosInstance.post('/logout'),
     onSuccess: () => navigate('/login'),
   })
+
+  useEffect(() => {
+    if (
+      isError &&
+      axios.isAxiosError(error) &&
+      error.response?.status === 404
+    ) {
+      navigate('/login')
+    }
+  }, [isError, error])
 
   if (isLoading || isPending) {
     return (
