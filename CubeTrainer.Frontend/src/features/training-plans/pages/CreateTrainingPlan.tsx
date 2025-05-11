@@ -1,23 +1,37 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
+import { z } from 'zod'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useAxiosWithAuth } from '../../../lib/axios'
-import TitleWithBackButton from '../../../components/TitleWithBackButton'
 import { TRAINING_PLANS_QUERY_KEY } from '../lib/keys'
+import TitleWithBackButton from '../../../components/TitleWithBackButton'
 
-// TODO: use form hook here and in the create algorithm page
+const schema = z.object({
+  name: z
+    .string()
+    .min(1, 'Training plan name is required')
+    .max(100, 'Training plan name is too long'),
+})
+
+type FormData = z.infer<typeof schema>
+
 const CreateTrainingPlan = () => {
   const axios = useAxiosWithAuth()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
-  const [name, setName] = useState('')
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+  })
 
   const createTrainingPlanMutation = useMutation({
-    mutationFn: () =>
-      axios.post('/training-plans', {
-        name: name.trim(),
-      }),
+    mutationFn: (data: FormData) => axios.post('/training-plans', data),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: [TRAINING_PLANS_QUERY_KEY] })
       toast('Training plan created successfully', {
@@ -34,33 +48,26 @@ const CreateTrainingPlan = () => {
     },
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!name.trim()) {
-      toast('Please enter the training plan name', {
-        type: 'error',
-        theme: 'colored',
-      })
-      return
-    }
-
-    createTrainingPlanMutation.mutate()
-  }
-
   return (
     <div className="flex w-full flex-col items-center gap-4">
       <TitleWithBackButton title="Create a Training Plan" />
       <div className="flex w-full max-w-2xl flex-col items-center gap-4">
-        <form onSubmit={handleSubmit} className="flex w-full flex-col gap-4">
+        <form
+          onSubmit={handleSubmit((data) =>
+            createTrainingPlanMutation.mutate(data),
+          )}
+          className="flex w-full flex-col gap-4"
+        >
           <div>
             <h2 className="mb-2 text-xl font-semibold">Name</h2>
             <input
               className="w-full rounded border p-2"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              {...register('name')}
               placeholder="Enter training plan name"
-              required
             />
+            {errors.name && (
+              <p className="mt-1 text-red-500">{errors.name.message}</p>
+            )}
           </div>
           <button
             type="submit"

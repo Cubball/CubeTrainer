@@ -1,9 +1,14 @@
-import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useAxiosWithAuth } from '../../../lib/axios'
-import { CASE_DETAILS_QUERY_KEY } from '../../cases/lib/keys'
+import {
+  CASE_ALGORITHMS_QUERY_KEY,
+  CASE_DETAILS_QUERY_KEY,
+} from '../../cases/lib/keys'
 import Loader from '../../../components/Loader'
 import Error from '../../../components/Error'
 import ScrambleView from '../../../components/ScrambleView'
@@ -17,12 +22,28 @@ interface CaseDetailsResponse {
   }
 }
 
+const schema = z.object({
+  moves: z
+    .string()
+    .min(2, 'Algorithm moves are too short')
+    .max(500, 'Algorithm moves are too long'),
+})
+
+type FormData = z.infer<typeof schema>
+
 const CreateAlgorithm = () => {
   const axios = useAxiosWithAuth()
   const { id } = useParams()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
-  const [moves, setMoves] = useState('')
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+  })
 
   const { data, isLoading, isError } = useQuery({
     queryKey: [CASE_DETAILS_QUERY_KEY, id],
@@ -30,13 +51,15 @@ const CreateAlgorithm = () => {
   })
 
   const createAlgorithmMutation = useMutation({
-    mutationFn: () =>
+    mutationFn: (data: FormData) =>
       axios.post('/algorithms', {
         caseId: id,
-        moves: moves.trim(),
+        moves: data.moves.trim(),
       }),
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: [CASE_DETAILS_QUERY_KEY, id] })
+      queryClient.invalidateQueries({
+        queryKey: [CASE_ALGORITHMS_QUERY_KEY, id],
+      })
       toast('Algorithm created successfully', {
         type: 'success',
         theme: 'colored',
@@ -50,19 +73,6 @@ const CreateAlgorithm = () => {
       })
     },
   })
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!moves.trim()) {
-      toast('Please enter the algorithm moves', {
-        type: 'error',
-        theme: 'colored',
-      })
-      return
-    }
-
-    createAlgorithmMutation.mutate()
-  }
 
   if (isLoading) {
     return <Loader />
@@ -86,16 +96,22 @@ const CreateAlgorithm = () => {
             forceAspectSquare
           />
         </div>
-        <form onSubmit={handleSubmit} className="flex w-full flex-col gap-4">
+        <form
+          onSubmit={handleSubmit((data) =>
+            createAlgorithmMutation.mutate(data),
+          )}
+          className="flex w-full flex-col gap-4"
+        >
           <div>
             <h2 className="mb-2 text-xl font-semibold">Algorithm Moves</h2>
             <input
               className="w-full rounded border p-2 font-mono"
-              value={moves}
-              onChange={(e) => setMoves(e.target.value)}
+              {...register('moves')}
               placeholder="Enter algorithm moves (e.g., R U R' U')"
-              required
             />
+            {errors.moves && (
+              <p className="text-red-500">{errors.moves.message}</p>
+            )}
             <p className="mt-2 text-sm text-gray-500">
               Enter the moves using standard cube notation
             </p>
