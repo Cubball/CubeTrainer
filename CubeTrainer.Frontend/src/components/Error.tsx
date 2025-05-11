@@ -1,3 +1,4 @@
+import { Link } from 'react-router'
 import error from '../assets/error.svg'
 
 interface ErrorProps {
@@ -17,6 +18,14 @@ const Error = ({ fullscreen }: ErrorProps) => {
         <p className="text-center text-lg text-gray-800">
           An unexpected error occured. Please try again later
         </p>
+        {fullscreen && (
+          <Link
+            to="/"
+            className="mt-4 cursor-pointer rounded-sm bg-gray-800 p-2 text-white"
+          >
+            Return to the Home Page
+          </Link>
+        )}
       </div>
     </div>
   )
