@@ -102,7 +102,7 @@ internal static class Seeder
             new Case { Type = CaseType.PLL, Name = "Rb Perm", DefaultSolution = "R' U2 R U2 R' F R U R' U' R' F' R2", },
             new Case { Type = CaseType.PLL, Name = "T Perm", DefaultSolution = "R U R' U' R' F R2 U' R' U' R U R' F'", },
             new Case { Type = CaseType.PLL, Name = "Ua Perm", DefaultSolution = "R U R' U R' U' R2 U' R' U R' U R", },
-            new Case { Type = CaseType.PLL, Name = "Ub Perm", DefaultSolution = "R2' U R U R' U' R' U' R' U R'", },
+            new Case { Type = CaseType.PLL, Name = "Ub Perm", DefaultSolution = "R2 U R U R' U' R' U' R' U R'", },
             new Case { Type = CaseType.PLL, Name = "V Perm", DefaultSolution = "R' U R' U' R D' R' D R' U D' R2 U' R2 D R2", },
             new Case { Type = CaseType.PLL, Name = "Y Perm", DefaultSolution = "F R U' R' U' R U R' F' R U R' U' R' F R F'", },
             new Case { Type = CaseType.PLL, Name = "Z Perm", DefaultSolution = "R' U' R U' R U R U' R' U R U R2 U' R'", },

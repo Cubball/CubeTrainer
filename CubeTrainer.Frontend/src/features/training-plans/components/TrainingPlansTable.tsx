@@ -32,6 +32,14 @@ const TrainingPlansTable = ({
     }
   }
 
+  if (trainingPlans.length === 0) {
+    return (
+      <h2 className="text-center text-xl text-gray-500 italic">
+        You don't have any training plans yet
+      </h2>
+    )
+  }
+
   return (
     <>
       <table className="border-2 border-gray-800 md:min-w-lg">
