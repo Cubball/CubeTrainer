@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import axios, { AxiosResponse } from 'axios'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
@@ -32,6 +32,7 @@ interface SolveData {
 const Trainer = () => {
   const [hintVisible, setHintVisible] = useState(false)
   const [lastSolveData, setLastSolveData] = useState<SolveData | null>(null)
+  const lastSolveDataRef = useRef(lastSolveData)
 
   const isCountdownVisible = useCountdownStore((state) => state.isVisible)
   const startCountdown = useCountdownStore((state) => state.start)
@@ -54,6 +55,18 @@ const Trainer = () => {
       }),
   })
 
+  useEffect(() => {
+    lastSolveDataRef.current = lastSolveData
+  }, [lastSolveData])
+
+  useEffect(
+    () => () => {
+      submitSolve(lastSolveDataRef.current)
+      stopCountdown()
+    },
+    [],
+  )
+
   const onSolveFinished = (ms: number) => {
     const caseId =
       queryClient.getQueryData<AxiosResponse<RandomScrambleResponse>>([
@@ -68,9 +81,9 @@ const Trainer = () => {
     refetch()
   }
 
-  const submitSolve = () => {
-    if (lastSolveData) {
-      mutate(lastSolveData)
+  const submitSolve = (solveData: SolveData | null) => {
+    if (solveData) {
+      mutate(solveData)
       setLastSolveData(null)
     }
   }
@@ -112,7 +125,7 @@ const Trainer = () => {
         <div className="min-h-[480px] grow-1 text-5xl font-bold">
           <Stopwatch
             onStart={() => {
-              submitSolve()
+              submitSolve(lastSolveDataRef.current)
               stopCountdown()
             }}
             onStop={onSolveFinished}
@@ -127,7 +140,10 @@ const Trainer = () => {
               Delete This Solve
             </button>
           </div>
-          <CountdownStrip durationMs={5000} onComplete={submitSolve} />
+          <CountdownStrip
+            durationMs={5000}
+            onComplete={() => submitSolve(lastSolveData)}
+          />
         </div>
       </div>
     </div>
