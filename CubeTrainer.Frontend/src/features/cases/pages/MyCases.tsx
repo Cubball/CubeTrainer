@@ -27,7 +27,9 @@ const mapResponseToCases = (response?: CasesResponse) =>
       scramble: item.defaultScramble,
       selectedAlgorithmMoves: item.selectedAlgorithm?.moves ?? '',
     }))
-    .sort((a, b) => a.name.localeCompare(b.name)) ?? []
+    .sort((a, b) =>
+      a.name.localeCompare(b.name, undefined, { numeric: true }),
+    ) ?? []
 
 const MyCases = () => {
   const axios = useAxiosWithAuth()

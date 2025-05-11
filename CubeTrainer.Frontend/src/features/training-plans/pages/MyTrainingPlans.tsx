@@ -17,7 +17,9 @@ interface TrainingPlansResponse {
 }
 
 const sortTrainingPlans = (plans?: TrainingPlan[]) =>
-  plans?.sort((a, b) => a.name.localeCompare(b.name)) ?? []
+  plans?.sort((a, b) =>
+    a.name.localeCompare(b.name, undefined, { numeric: true }),
+  ) ?? []
 
 const MyTrainingPlans = () => {
   const axios = useAxiosWithAuth()

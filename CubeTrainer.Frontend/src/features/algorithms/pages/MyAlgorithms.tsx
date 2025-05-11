@@ -34,7 +34,9 @@ const mapResponseToAlgorithms = (response?: AlgorithmsResponse) =>
       totalRating: item.totalRating,
       usersRatingsCount: item.usersRatingsCount,
     }))
-    .sort((a, b) => a.caseName.localeCompare(b.caseName)) ?? []
+    .sort((a, b) =>
+      a.caseName.localeCompare(b.caseName, undefined, { numeric: true }),
+    ) ?? []
 
 const MyAlgorithms = () => {
   const axios = useAxiosWithAuth()

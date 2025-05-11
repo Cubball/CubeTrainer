@@ -38,8 +38,12 @@ interface CasesResponse {
 }
 
 const sortCases = (oll: Case[], pll: Case[]) => {
-  const ollSorted = oll.sort((a, b) => a.name.localeCompare(b.name))
-  const pllSorted = pll.sort((a, b) => a.name.localeCompare(b.name))
+  const ollSorted = oll.sort((a, b) =>
+    a.name.localeCompare(b.name, undefined, { numeric: true }),
+  )
+  const pllSorted = pll.sort((a, b) =>
+    a.name.localeCompare(b.name, undefined, { numeric: true }),
+  )
   return [...ollSorted, ...pllSorted]
 }
 
