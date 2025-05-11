@@ -1,15 +1,16 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useAxiosWithAuth } from '../../../lib/axios'
 import { useState } from 'react'
-import { AxiosResponse } from 'axios'
+import axios, { AxiosResponse } from 'axios'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'react-toastify'
+import { useCountdownStore } from '../../../state/countdown'
+import { RANDOM_SCRAMBLE_QUERY_KEY } from '../lib/keys'
+import { useAxiosWithAuth } from '../../../lib/axios'
 import Stopwatch from '../../../components/Stopwatch'
 import Error from '../../../components/Error'
 import Loader from '../../../components/Loader'
 import ScrambleSidebar from '../../../components/ScrambleSidebar'
 import CountdownStrip from '../../../components/CountdownStrip'
-import { useCountdownStore } from '../../../state/countdown'
-import { toast } from 'react-toastify'
-import { RANDOM_SCRAMBLE_QUERY_KEY } from '../lib/keys'
+import { Link } from 'react-router'
 
 interface RandomScrambleResponse {
   scramble: {
@@ -36,14 +37,16 @@ const Trainer = () => {
   const startCountdown = useCountdownStore((state) => state.start)
   const stopCountdown = useCountdownStore((state) => state.stop)
 
-  const axios = useAxiosWithAuth()
+  const axiosInstance = useAxiosWithAuth()
   const queryClient = useQueryClient()
-  const { data, isLoading, isError, refetch } = useQuery({
+  const { data, isLoading, isError, refetch, error } = useQuery({
     queryKey: [RANDOM_SCRAMBLE_QUERY_KEY],
-    queryFn: () => axios.get<RandomScrambleResponse>('/scrambles/random'),
+    queryFn: () =>
+      axiosInstance.get<RandomScrambleResponse>('/scrambles/random'),
+    retry: false,
   })
   const { mutate } = useMutation({
-    mutationFn: (data: SolveData) => axios.post('/solves', data),
+    mutationFn: (data: SolveData) => axiosInstance.post('/solves', data),
     onError: () =>
       toast('Failed to save the solve', {
         type: 'error',
@@ -70,6 +73,20 @@ const Trainer = () => {
       mutate(lastSolveData)
       setLastSolveData(null)
     }
+  }
+
+  if (axios.isAxiosError(error) && error.response?.status === 404) {
+    return (
+      <div className="my-auto flex h-full w-full flex-col items-center justify-center gap-4">
+        <div className="text-xl">There are no cases to learn</div>
+        <Link
+          to="/cases"
+          className="cursor-pointer rounded-sm bg-gray-800 px-4 py-2 text-white"
+        >
+          Go to My Cases
+        </Link>
+      </div>
+    )
   }
 
   if (isError) {

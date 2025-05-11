@@ -21,8 +21,8 @@ const formatTime = (ms: number) => {
 }
 
 export interface StopwatchProps {
-  onStart: () => void
-  onStop: (msElapsed: number) => void
+  onStart?: () => void
+  onStop?: (msElapsed: number) => void
 }
 
 const Stopwatch = ({ onStart, onStop }: StopwatchProps) => {
@@ -43,7 +43,7 @@ const Stopwatch = ({ onStart, onStop }: StopwatchProps) => {
       setStopwatchState(StopwatchState.Idle)
       const now = Date.now()
       setEndTimeMs(now)
-      onStop(Math.max(now - startTimeMsRef.current, 0))
+      onStop?.(Math.max(now - startTimeMsRef.current, 0))
       return
     }
 
@@ -57,7 +57,7 @@ const Stopwatch = ({ onStart, onStop }: StopwatchProps) => {
       if (e.timeStamp - keyDownTimeStampRef.current >= MS_TO_HOLD_SPACE) {
         setStopwatchState(StopwatchState.Running)
         setStartTimeMs(Date.now())
-        onStart()
+        onStart?.()
       } else {
         setStopwatchState(StopwatchState.Idle)
       }
@@ -68,7 +68,7 @@ const Stopwatch = ({ onStart, onStop }: StopwatchProps) => {
       setStopwatchState(StopwatchState.Idle)
       const now = Date.now()
       setEndTimeMs(now)
-      onStop(Math.max(now - startTimeMsRef.current, 0))
+      onStop?.(Math.max(now - startTimeMsRef.current, 0))
       return
     }
 
@@ -82,7 +82,7 @@ const Stopwatch = ({ onStart, onStop }: StopwatchProps) => {
       if (e.timeStamp - keyDownTimeStampRef.current >= MS_TO_HOLD_SPACE) {
         setStopwatchState(StopwatchState.Running)
         setStartTimeMs(Date.now())
-        onStart()
+        onStart?.()
       } else {
         setStopwatchState(StopwatchState.Idle)
       }
