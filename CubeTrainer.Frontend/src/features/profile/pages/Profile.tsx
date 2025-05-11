@@ -8,8 +8,7 @@ import { toast } from 'react-toastify'
 import { useAxiosWithAuth } from '../../../lib/axios'
 import Loader from '../../../components/Loader'
 import Error from '../../../components/Error'
-
-const PROFILE_INFO_QUERY_KEY = 'profile-info'
+import { PROFILE_QUERY_KEY } from '../lib/keys'
 
 interface ProfileInfoResponse {
   email: string
@@ -42,7 +41,7 @@ const Profile = () => {
   })
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: [PROFILE_INFO_QUERY_KEY],
+    queryKey: [PROFILE_QUERY_KEY],
     queryFn: () => axiosInstance.get<ProfileInfoResponse>('/manage/info'),
   })
 

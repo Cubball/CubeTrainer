@@ -9,7 +9,8 @@ import ScrambleSidebar from '../../../components/ScrambleSidebar'
 import CountdownStrip from '../../../components/CountdownStrip'
 import { useCountdownStore } from '../../../state/countdown'
 import { toast } from 'react-toastify'
-import { RANDOM_SCRAMBLE_QUERY_KEY } from '../lib/keys'
+import { useParams } from 'react-router'
+import { TRAINING_PLAN_RANDOM_SCRAMBLE_QUERY_KEY } from '../lib/keys'
 
 interface RandomScrambleResponse {
   scramble: {
@@ -28,9 +29,11 @@ interface SolveData {
   time: number
 }
 
-const Trainer = () => {
+const PlanTrainer = () => {
+  const { id } = useParams()
   const [hintVisible, setHintVisible] = useState(false)
-  const [lastSolveData, setLastSolveData] = useState<SolveData | null>(null)
+  const [lastSolveTimeMs, setLastSolveTimeMs] = useState(0)
+  const [lastSolveCaseId, setLastSolveCaseId] = useState('')
 
   const isCountdownVisible = useCountdownStore((state) => state.isVisible)
   const startCountdown = useCountdownStore((state) => state.start)
@@ -39,8 +42,12 @@ const Trainer = () => {
   const axios = useAxiosWithAuth()
   const queryClient = useQueryClient()
   const { data, isLoading, isError, refetch } = useQuery({
-    queryKey: [RANDOM_SCRAMBLE_QUERY_KEY],
-    queryFn: () => axios.get<RandomScrambleResponse>('/scrambles/random'),
+    queryKey: [TRAINING_PLAN_RANDOM_SCRAMBLE_QUERY_KEY, id],
+    queryFn: () =>
+      axios.get<RandomScrambleResponse>(
+        `/scrambles/training-plans/${id}/random`,
+      ),
+    refetchOnWindowFocus: false,
   })
   const { mutate } = useMutation({
     mutationFn: (data: SolveData) => axios.post('/solves', data),
@@ -51,25 +58,34 @@ const Trainer = () => {
       }),
   })
 
+  // TODO: move countdown and stuff into its feature, since it wont be used here???
+
   const onSolveFinished = (ms: number) => {
     const caseId =
       queryClient.getQueryData<AxiosResponse<RandomScrambleResponse>>([
-        RANDOM_SCRAMBLE_QUERY_KEY,
+        TRAINING_PLAN_RANDOM_SCRAMBLE_QUERY_KEY,
+        id,
       ])?.data.scramble.case.id ?? ''
-    setLastSolveData({
-      caseId,
-      time: ms / 1000,
-    })
+    setLastSolveCaseId(caseId)
+    setLastSolveTimeMs(ms)
     startCountdown()
     setHintVisible(false)
     refetch()
   }
 
   const submitSolve = () => {
-    if (lastSolveData) {
-      mutate(lastSolveData)
-      setLastSolveData(null)
+    if (!lastSolveCaseId || !lastSolveTimeMs) {
+      return
     }
+
+    const solveData: SolveData = {
+      caseId: lastSolveCaseId,
+      time: lastSolveTimeMs / 1000,
+    }
+    mutate(solveData)
+    // TODO: this should prevent double counting
+    setLastSolveCaseId('')
+    setLastSolveTimeMs(0)
   }
 
   if (isError) {
@@ -95,6 +111,7 @@ const Trainer = () => {
         <div className="min-h-[480px] grow-1 text-5xl font-bold">
           <Stopwatch
             onStart={() => {
+              // TODO: check if it'll double count
               submitSolve()
               stopCountdown()
             }}
@@ -117,4 +134,4 @@ const Trainer = () => {
   )
 }
 
-export default Trainer
+export default PlanTrainer

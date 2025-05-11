@@ -5,8 +5,7 @@ import Loader from './Loader'
 import Error from './Error'
 import logo from '../assets/logo-white.png'
 import { useState } from 'react'
-
-const PROFILE_QUERY_KEY = 'profile'
+import { PROFILE_QUERY_KEY } from '../features/profile/lib/keys'
 
 const Layout = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
