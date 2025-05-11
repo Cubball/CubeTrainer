@@ -78,7 +78,7 @@ const Trainer = () => {
   if (axios.isAxiosError(error) && error.response?.status === 404) {
     return (
       <div className="my-auto flex h-full w-full flex-col items-center justify-center gap-4">
-        <div className="text-xl">There are no cases to learn</div>
+        <div className="text-xl">There are no cases in progress to learn</div>
         <Link
           to="/cases"
           className="cursor-pointer rounded-sm bg-gray-800 px-4 py-2 text-white"

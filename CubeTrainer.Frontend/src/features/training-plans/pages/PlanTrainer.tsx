@@ -1,14 +1,14 @@
+import { toast } from 'react-toastify'
+import { Link, useParams } from 'react-router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useAxiosWithAuth } from '../../../lib/axios'
 import { useState } from 'react'
 import axios, { AxiosResponse } from 'axios'
+import { useAxiosWithAuth } from '../../../lib/axios'
+import { TRAINING_PLAN_RANDOM_SCRAMBLE_QUERY_KEY } from '../lib/keys'
 import Stopwatch from '../../../components/Stopwatch'
 import Error from '../../../components/Error'
 import Loader from '../../../components/Loader'
 import ScrambleSidebar from '../../../components/ScrambleSidebar'
-import { toast } from 'react-toastify'
-import { Link, useParams } from 'react-router'
-import { TRAINING_PLAN_RANDOM_SCRAMBLE_QUERY_KEY } from '../lib/keys'
 import TitleWithBackButton from '../../../components/TitleWithBackButton'
 
 interface RandomScrambleResponse {
