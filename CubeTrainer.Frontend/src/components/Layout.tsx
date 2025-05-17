@@ -29,7 +29,7 @@ const Layout = () => {
     if (
       isError &&
       axios.isAxiosError(error) &&
-      error.response?.status === 404
+      (error.response?.status === 401 || error.response?.status === 404)
     ) {
       navigate('/login')
     }
