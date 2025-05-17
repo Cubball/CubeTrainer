@@ -1,7 +1,7 @@
 import { Link } from 'react-router'
-import ScrambleView from '../../../components/ScrambleView'
-import { getHumanReadableStatus } from '../lib/utils'
 import { useState } from 'react'
+import { getHumanReadableStatus } from '../lib/utils'
+import ScrambleView from '../../../components/ScrambleView'
 
 export interface Case {
   id: string
