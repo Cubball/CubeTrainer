@@ -53,15 +53,20 @@ builder.Services.AddValidatorsFromAssemblyContaining<Program>(includeInternalTyp
 
 builder.Services.AddEndpoints();
 
+
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+var migrateAndSeed = app.Configuration.GetValue<bool>("MigrateAndSeed");
+if (migrateAndSeed || app.Environment.IsDevelopment())
 {
-    var scope = app.Services.CreateScope();
+    using var scope = app.Services.CreateScope();
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
     await Seeder.SeedAsync(context, userManager);
+}
 
+if (app.Environment.IsDevelopment())
+{
     app.UseSwagger();
     app.UseSwaggerUI();
 }

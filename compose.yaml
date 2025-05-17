@@ -15,8 +15,12 @@ services:
     environment:
       - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=cubetrainer;Username=postgres;Password=postgres
       - Cors__AllowedOrigins__0=http://localhost:3000
+      - MigrateAndSeed=true
     ports:
       - 5000:8080
+    depends_on:
+      postgres:
+        condition: service_healthy
 
   postgres:
     image: postgres:17.2
