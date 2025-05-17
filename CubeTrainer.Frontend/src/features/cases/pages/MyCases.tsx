@@ -19,17 +19,13 @@ interface CasesResponse {
 }
 
 const mapResponseToCases = (response?: CasesResponse) =>
-  response?.items
-    .map((item) => ({
-      id: item.id,
-      name: item.name,
-      status: item.status,
-      scramble: item.defaultScramble,
-      selectedAlgorithmMoves: item.selectedAlgorithm?.moves ?? '',
-    }))
-    .sort((a, b) =>
-      a.name.localeCompare(b.name, undefined, { numeric: true }),
-    ) ?? []
+  response?.items.map((item) => ({
+    id: item.id,
+    name: item.name,
+    status: item.status,
+    scramble: item.defaultScramble,
+    selectedAlgorithmMoves: item.selectedAlgorithm?.moves ?? '',
+  })) ?? []
 
 const MyCases = () => {
   const axios = useAxiosWithAuth()
