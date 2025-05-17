@@ -6,7 +6,7 @@ enum StopwatchState {
   Running = 'RUNNING',
 }
 
-const MS_TO_HOLD_SPACE = 1000
+const MS_TO_HOLD_SPACE = 500
 
 const formatTime = (ms: number) => {
   const seconds = Math.max(Math.floor(ms / 1000), 0)
