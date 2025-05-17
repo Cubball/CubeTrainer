@@ -53,7 +53,6 @@ builder.Services.AddValidatorsFromAssemblyContaining<Program>(includeInternalTyp
 
 builder.Services.AddEndpoints();
 
-
 var app = builder.Build();
 
 var migrateAndSeed = app.Configuration.GetValue<bool>("MigrateAndSeed");
