@@ -42,10 +42,8 @@ public class RubiksCubeSolverTests
 
     [Theory]
     [InlineData(5)]
-    [InlineData(10)]
-    [InlineData(15)]
-    [InlineData(20)]
     [InlineData(25)]
+    [InlineData(100)]
     public void FindSolution_WithRandomScramble_ProducesSolvingSequence(int scrambleLength)
     {
         var scramble = MoveSequence.Random(scrambleLength);
