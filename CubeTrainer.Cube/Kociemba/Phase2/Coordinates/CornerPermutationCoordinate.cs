@@ -21,6 +21,11 @@ internal sealed class CornerPermutationCoordinate : ICoordinate
         CoordinateToCorners(coordinate);
     }
 
+    internal CornerPermutationCoordinate(CornerPermutationCoordinate other)
+    {
+        Array.Copy(other._corners, _corners, _corners.Length);
+    }
+
     public static ushort PossibleCoordinatesCount { get; } = 40_320; // 8!
 
     public static List<Common.Models.Move> PossibleMoves => Constants.Phase2Moves;

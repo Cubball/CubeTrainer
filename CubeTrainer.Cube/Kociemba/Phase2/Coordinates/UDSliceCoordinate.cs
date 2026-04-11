@@ -25,6 +25,11 @@ internal sealed class UDSliceCoordinate : ICoordinate
         CoordinateToCorners(coordinate);
     }
 
+    internal UDSliceCoordinate(UDSliceCoordinate other)
+    {
+        Array.Copy(other._edges, _edges, _edges.Length);
+    }
+
     public static ushort PossibleCoordinatesCount { get; } = 24; // 4!
 
     public static List<Common.Models.Move> PossibleMoves => Constants.Phase2Moves;

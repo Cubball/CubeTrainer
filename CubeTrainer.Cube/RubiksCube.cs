@@ -30,6 +30,14 @@ public sealed class RubiksCube
 
     internal UDSliceCoordinatePhase2 UDSliceCoordinatePhase2 { get; }
 
+    public bool IsSolved =>
+        CornerOrientationCoordinate.Coordinate == 0 &&
+        EdgeOrientationCoordinate.Coordinate == 0 &&
+        UDSliceCoordinatePhase1.Coordinate == 0 &&
+        CornerPermutationCoordinate.Coordinate == 0 &&
+        EdgePermutationCoordinate.Coordinate == 0 &&
+        UDSliceCoordinatePhase2.Coordinate == 0;
+
     public static RubiksCube Solved()
     {
         return new();

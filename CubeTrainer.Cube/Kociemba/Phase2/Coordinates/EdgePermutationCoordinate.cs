@@ -25,6 +25,11 @@ internal sealed class EdgePermutationCoordinate : ICoordinate
         CoordinateToEdges(coordinate);
     }
 
+    internal EdgePermutationCoordinate(EdgePermutationCoordinate other)
+    {
+        Array.Copy(other._edges, _edges, _edges.Length);
+    }
+
     public static ushort PossibleCoordinatesCount { get; } = 40_320; // 8!
 
     public static List<Common.Models.Move> PossibleMoves => Constants.Phase2Moves;
