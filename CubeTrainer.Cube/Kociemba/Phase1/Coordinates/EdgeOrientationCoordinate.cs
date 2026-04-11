@@ -26,6 +26,11 @@ internal sealed class EdgeOrientationCoordinate : ICoordinate
         CoordinateToEdges(coordinate);
     }
 
+    internal EdgeOrientationCoordinate(EdgeOrientationCoordinate other)
+    {
+        Array.Copy(other._edges, _edges, _edges.Length);
+    }
+
     public static ushort PossibleCoordinatesCount { get; } = 2048; // 2^11
 
     public static List<Common.Models.Move> PossibleMoves { get; } = Constants.Phase1Moves;

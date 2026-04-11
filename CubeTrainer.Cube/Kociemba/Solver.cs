@@ -35,6 +35,12 @@ internal static class Solver
         EdgePermutationCoordinate ep,
         UDSliceCoordinatePhase2 ud2)
     {
+        // Create a copy of phase 2 coords because we apply
+        // moves from phase 1 before running phase 2 solver,
+        // therefore mutating them
+        cp = new CornerPermutationCoordinate(cp);
+        ep = new EdgePermutationCoordinate(ep);
+        ud2 = new UDSliceCoordinatePhase2(ud2);
         var phase1Moves = Phase1Solver.Solve(co.Coordinate, eo.Coordinate, ud1.Coordinate);
         foreach (var move in phase1Moves)
         {

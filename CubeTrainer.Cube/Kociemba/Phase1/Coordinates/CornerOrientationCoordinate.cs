@@ -19,6 +19,8 @@ internal sealed class CornerOrientationCoordinate(ushort coordinate) : ICoordina
 
     public ushort Coordinate { get; private set; } = coordinate;
 
+    internal CornerOrientationCoordinate(CornerOrientationCoordinate other) : this(other.Coordinate) { }
+
     public static ICoordinate Create(ushort value)
     {
         return new CornerOrientationCoordinate(value);
