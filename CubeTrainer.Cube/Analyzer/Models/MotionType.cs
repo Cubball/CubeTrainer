@@ -1,0 +1,19 @@
+internal enum MotionType
+{
+    WristUp,
+    WristDown,
+    DoubleWristUp,
+    DoubleWristDown,
+    TripleWristUp,
+    TripleWristDown,
+    IndexPull,
+    IndexPush,
+    IndexDoublePull,
+    ThumbPush,
+    ThumbPull,
+    RingPull,
+    RingPush,
+    DoubleRingPull,
+    MiddlePull,
+    MiddlePush,
+};

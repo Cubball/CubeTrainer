@@ -3,24 +3,24 @@ namespace CubeTrainer.Cube;
 public sealed class MoveSequence(List<Move> moves)
 {
     private static readonly List<Move> AllMoves = [
-        Move.R,
-        Move.R2,
-        Move.RPrime,
-        Move.U,
-        Move.U2,
-        Move.UPrime,
-        Move.F,
-        Move.F2,
-        Move.FPrime,
-        Move.L,
-        Move.L2,
-        Move.LPrime,
-        Move.D,
-        Move.D2,
-        Move.DPrime,
-        Move.B,
-        Move.B2,
-        Move.BPrime,
+        Move.FromString("R"),
+        Move.FromString("R2"),
+        Move.FromString("R'"),
+        Move.FromString("U"),
+        Move.FromString("U2"),
+        Move.FromString("U'"),
+        Move.FromString("F"),
+        Move.FromString("F2"),
+        Move.FromString("F'"),
+        Move.FromString("L"),
+        Move.FromString("L2"),
+        Move.FromString("L'"),
+        Move.FromString("D"),
+        Move.FromString("D2"),
+        Move.FromString("D'"),
+        Move.FromString("B"),
+        Move.FromString("B2"),
+        Move.FromString("B'")
     ];
     private readonly List<Move> _moves = Normalize(moves);
 

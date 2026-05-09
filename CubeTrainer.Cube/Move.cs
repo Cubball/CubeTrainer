@@ -14,51 +14,27 @@ public sealed record Move
         Count = count;
     }
 
-    public static Move R { get; } = new('R', 1);
-
-    public static Move R2 { get; } = new('R', 2);
-
-    public static Move RPrime { get; } = new('R', 3);
-
-    public static Move U { get; } = new('U', 1);
-
-    public static Move U2 { get; } = new('U', 2);
-
-    public static Move UPrime { get; } = new('U', 3);
-
-    public static Move F { get; } = new('F', 1);
-
-    public static Move F2 { get; } = new('F', 2);
-
-    public static Move FPrime { get; } = new('F', 3);
-
-    public static Move L { get; } = new('L', 1);
-
-    public static Move L2 { get; } = new('L', 2);
-
-    public static Move LPrime { get; } = new('L', 3);
-
-    public static Move D { get; } = new('D', 1);
-
-    public static Move D2 { get; } = new('D', 2);
-
-    public static Move DPrime { get; } = new('D', 3);
-
-    public static Move B { get; } = new('B', 1);
-
-    public static Move B2 { get; } = new('B', 2);
-
-    public static Move BPrime { get; } = new('B', 3);
-
     public char Face { get; }
 
     public int Count { get; }
 
+    public bool IsRotation => Face is 'x' or 'y' or 'z';
+
+    public bool IsSlice => Face is 'S' or 'M' or 'E';
+
+    public bool IsWide => !IsRotation && Face == char.ToLowerInvariant(Face);
+
     public static void ThrowIfFaceIsInvalid(char face)
     {
+        if (face is 'S' or 'M' or 'E' or 'x' or 'y' or 'z')
+        {
+            return;
+        }
+
+        face = char.ToUpperInvariant(face);
         if (face is not 'R' and not 'U' and not 'F' and not 'L' and not 'D' and not 'B')
         {
-            throw new ArgumentException("The face should be one of the following: R, U, F, L, D, B", nameof(face));
+            throw new ArgumentException("The face should be one of the following: R, U, F, L, D, B, S, M, E, r, u, f, l, d, b", nameof(face));
         }
     }
 

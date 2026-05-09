@@ -45,6 +45,11 @@ internal interface ICoordinate
                 B(move.Count);
                 break;
             default:
+                // NOTE: not supporting wide moves, rotaions or slice moves
+                // since the Kociemba is used to generate random scrambles.
+                // Scrambles usually don't include these moves and we can
+                // use a default solution for each case that does not include
+                // these moves as well.
                 break;
         }
     }
