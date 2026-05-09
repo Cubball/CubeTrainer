@@ -1,4 +1,4 @@
-using CubeTrainer.Cube;
+using CubeTrainer.Cube.Kociemba;
 using Xunit;
 
 namespace CubeTrainer.Cube.Tests;

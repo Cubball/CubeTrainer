@@ -4,7 +4,7 @@ using CubeTrainer.Cube.Kociemba.Phase2.Coordinates;
 using UDSliceCoordinatePhase1 = CubeTrainer.Cube.Kociemba.Phase1.Coordinates.UDSliceCoordinate;
 using UDSliceCoordinatePhase2 = CubeTrainer.Cube.Kociemba.Phase2.Coordinates.UDSliceCoordinate;
 
-namespace CubeTrainer.Cube;
+namespace CubeTrainer.Cube.Kociemba;
 
 public sealed class RubiksCube
 {
@@ -60,7 +60,7 @@ public sealed class RubiksCube
 
     public void Apply(Move move)
     {
-        var moveModel = new Kociemba.Common.Models.Move(move.Face, move.Count);
+        var moveModel = new Common.Models.Move(move.Face, move.Count);
         ((ICoordinate)CornerOrientationCoordinate).Apply(moveModel);
         ((ICoordinate)EdgeOrientationCoordinate).Apply(moveModel);
         ((ICoordinate)UDSliceCoordinatePhase1).Apply(moveModel);

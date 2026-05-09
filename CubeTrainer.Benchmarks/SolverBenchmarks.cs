@@ -1,5 +1,6 @@
 using BenchmarkDotNet.Attributes;
 using CubeTrainer.Cube;
+using CubeTrainer.Cube.Kociemba;
 
 namespace CubeTrainer.Benchmarks;
 

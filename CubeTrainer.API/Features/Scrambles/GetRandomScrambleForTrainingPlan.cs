@@ -4,6 +4,7 @@ using CubeTrainer.API.Common.Endpoints;
 using CubeTrainer.API.Common.Exceptions;
 using CubeTrainer.API.Database;
 using CubeTrainer.Cube;
+using CubeTrainer.Cube.Kociemba;
 using Microsoft.EntityFrameworkCore;
 
 namespace CubeTrainer.API.Features.Scrambles;

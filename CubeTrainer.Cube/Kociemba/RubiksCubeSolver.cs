@@ -1,7 +1,4 @@
-using CubeTrainer.Cube.Kociemba;
-using CubeTrainer.Cube.Kociemba.Phase2.Coordinates;
-
-namespace CubeTrainer.Cube;
+namespace CubeTrainer.Cube.Kociemba;
 
 public static class RubiksCubeSolver
 {
