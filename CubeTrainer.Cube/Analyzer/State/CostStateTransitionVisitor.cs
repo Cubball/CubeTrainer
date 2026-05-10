@@ -13,7 +13,8 @@ internal class CostStateTransitionVisitor : IStateTransitionVisitor
 
     public void Visit(RegripStateTransition regripStateTransition)
     {
-        LastCost = regripStateTransition.NewHandOffset == HandOffset.FlippedBottom || regripStateTransition.NewHandOffset == HandOffset.FlippedTop
+        var regrip = regripStateTransition.Regrip;
+        LastCost = regrip.NewHandOffset == HandOffset.FlippedBottom || regrip.NewHandOffset == HandOffset.FlippedTop
             ? CostConfig.FlippedRegripCost
             : CostConfig.RegripCost;
     }

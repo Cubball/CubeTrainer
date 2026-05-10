@@ -26,6 +26,8 @@ internal static class CostConfig
 
     public static double ThumbPullCost { get; } = 2.5;
 
+    public static double DoubleThumbPullCost { get; } = 5.0;
+
     public static double RingPullCost { get; } = 2.0;
 
     public static double RingPushCost { get; } = 2.0;
@@ -35,4 +37,6 @@ internal static class CostConfig
     public static double MiddlePullCost { get; } = 2.5;
 
     public static double MiddlePushCost { get; } = 3.0;
+
+    public static double DoubleMiddlePullCost { get; } = 5.0;
 }

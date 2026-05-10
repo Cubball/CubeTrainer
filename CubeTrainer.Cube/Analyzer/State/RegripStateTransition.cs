@@ -1,7 +1,6 @@
 internal sealed record RegripStateTransition(
     AnalyzerState CurrentState,
-    Hand Hand,
-    HandOffset NewHandOffset) : IStateTransition
+    Regrip Regrip) : IStateTransition
 {
     public void Accept(IStateTransitionVisitor stateTransitionVisitor)
     {

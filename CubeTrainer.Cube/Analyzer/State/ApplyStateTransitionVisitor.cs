@@ -7,6 +7,12 @@ internal class ApplyStateTransitionVisitor : IStateTransitionVisitor
         var state = motionStateTransition.CurrentState;
         var motion = motionStateTransition.Motion;
         var motionHandOffset = (int)state.RightHandOffset;
+        if (state.LastHandRegrip is not null && motion.Hand != state.LastHandRegrip)
+        {
+            LastState = null;
+            return;
+        }
+
         if (motion.Hand == Hand.Left)
         {
             motionHandOffset = (int)state.LeftHandOffset;
@@ -17,6 +23,7 @@ internal class ApplyStateTransitionVisitor : IStateTransitionVisitor
         if (newOffset is > 2 or < -2)
         {
             LastState = null;
+            return;
         }
 
         LastState = motion.Hand == Hand.Left
@@ -25,29 +32,34 @@ internal class ApplyStateTransitionVisitor : IStateTransitionVisitor
                 LastNonWristMotion = motion,
                 MovesCompleted = state.MovesCompleted + 1,
                 LeftHandOffset = (HandOffset)newOffset,
+                LastHandRegrip = null,
             })
             : (state with
             {
                 LastNonWristMotion = motion,
                 MovesCompleted = state.MovesCompleted + 1,
                 RightHandOffset = (HandOffset)newOffset,
+                LastHandRegrip = null,
             });
     }
 
     public void Visit(RegripStateTransition regripStateTransition)
     {
-        if (regripStateTransition.Hand == Hand.Left)
+        var regrip = regripStateTransition.Regrip;
+        if (regrip.Hand == Hand.Left)
         {
             LastState = regripStateTransition.CurrentState with
             {
-                LeftHandOffset = regripStateTransition.NewHandOffset,
+                LeftHandOffset = regrip.NewHandOffset,
+                LastHandRegrip = regrip.Hand,
             };
         }
         else
         {
             LastState = regripStateTransition.CurrentState with
             {
-                RightHandOffset = regripStateTransition.NewHandOffset,
+                RightHandOffset = regrip.NewHandOffset,
+                LastHandRegrip = regrip.Hand,
             };
         }
     }
@@ -61,6 +73,7 @@ internal class ApplyStateTransitionVisitor : IStateTransitionVisitor
             RightHandOffset = HandOffset.Home,
             LastNonWristMotion = null,
             MovesCompleted = state.MovesCompleted + 1,
+            LastHandRegrip = null,
         };
     }
 

@@ -11,9 +11,11 @@ internal enum MotionType
     DoubleIndexPull,
     ThumbPush,
     ThumbPull,
+    DoubleThumbPull,
     RingPull,
     RingPush,
     DoubleRingPull,
     MiddlePull,
     MiddlePush,
+    DoubleMiddlePull,
 };

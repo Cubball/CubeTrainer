@@ -20,9 +20,11 @@ public sealed record Move
 
     public bool IsRotation => Face is 'x' or 'y' or 'z';
 
-    public bool IsSlice => Face is 'S' or 'M' or 'E';
+    public bool IsSliceMove => Face is 'S' or 'M' or 'E';
 
-    public bool IsWide => !IsRotation && Face == char.ToLowerInvariant(Face);
+    public bool IsWideMove => !IsRotation && Face == char.ToLowerInvariant(Face);
+
+    public bool IsWristMove => char.ToUpperInvariant(Face) is 'R' or 'L';
 
     public static void ThrowIfFaceIsInvalid(char face)
     {
