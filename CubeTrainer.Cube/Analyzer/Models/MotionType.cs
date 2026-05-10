@@ -8,7 +8,7 @@ internal enum MotionType
     TripleWristDown,
     IndexPull,
     IndexPush,
-    IndexDoublePull,
+    DoubleIndexPull,
     ThumbPush,
     ThumbPull,
     RingPull,

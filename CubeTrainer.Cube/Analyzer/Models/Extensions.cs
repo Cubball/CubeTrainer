@@ -15,26 +15,19 @@ internal static class Extensions
             or MotionType.MiddlePush;
     }
 
-    public static bool IsInverseOf(this MotionType motionType, MotionType otherMotionType)
+    public static bool IsSameTypeAs(this MotionType motionType, MotionType otherMotionType)
     {
-        // We don't care about wrist motions
-        // since this would be used to track
-        // last non-wrist motion
-        if (!motionType.IsFingerMotion())
+        if (motionType == otherMotionType)
         {
-            return false;
+            return true;
         }
 
         return motionType switch
         {
-            MotionType.IndexPull => otherMotionType is MotionType.IndexPush,
-            MotionType.IndexPush => otherMotionType is MotionType.IndexPull,
-            MotionType.ThumbPush => otherMotionType is MotionType.ThumbPull,
-            MotionType.ThumbPull => otherMotionType is MotionType.ThumbPush,
-            MotionType.RingPull => otherMotionType is MotionType.RingPush,
-            MotionType.RingPush => otherMotionType is MotionType.RingPull,
-            MotionType.MiddlePull => otherMotionType is MotionType.MiddlePush,
-            MotionType.MiddlePush => otherMotionType is MotionType.MiddlePull,
+            MotionType.IndexPull => otherMotionType is MotionType.IndexDoublePull,
+            MotionType.IndexDoublePull => otherMotionType is MotionType.IndexPull,
+            MotionType.RingPull => otherMotionType is MotionType.DoubleRingPull,
+            MotionType.DoubleRingPull => otherMotionType is MotionType.RingPull,
             _ => false,
         };
     }

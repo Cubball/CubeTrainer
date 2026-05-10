@@ -1,1 +1,1 @@
-internal sealed record Regrip(Hand Hand, HandOffset TargetHandOffset);
+internal sealed record Regrip(Hand Hand, HandOffset NewHandOffset);
