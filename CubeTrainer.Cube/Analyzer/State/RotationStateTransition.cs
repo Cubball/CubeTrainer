@@ -1,18 +1,11 @@
-internal sealed record RotationStateTransition : IStateTransition
-{
-    public AnalyzerState? Apply(AnalyzerState state)
-    {
-        return state with
-        {
-            LeftHandOffset = HandOffset.Home,
-            RightHandOffset = HandOffset.Home,
-            LastNonWristMotion = null,
-            MovesCompleted = state.MovesCompleted + 1,
-        };
-    }
+using CubeTrainer.Cube;
 
-    public double GetCost(AnalyzerState state)
+internal sealed record RotationStateTransition(
+    AnalyzerState CurrentState,
+    Move Move) : IStateTransition
+{
+    public void Accept(IStateTransitionVisitor stateTransitionVisitor)
     {
-        return CostConfig.RotationCost;
+        stateTransitionVisitor.Visit(this);
     }
 }

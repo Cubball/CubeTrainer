@@ -1,6 +1,4 @@
 internal interface IStateTransition
 {
-    AnalyzerState? Apply(AnalyzerState state);
-
-    double GetCost(AnalyzerState state);
+    void Accept(IStateTransitionVisitor stateTransitionVisitor);
 }
