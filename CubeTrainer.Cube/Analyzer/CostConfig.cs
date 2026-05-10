@@ -1,3 +1,5 @@
+namespace CubeTrainer.Cube.Analyzer;
+
 internal static class CostConfig
 {
     public static double RotationCost { get; } = 4.0;

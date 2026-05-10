@@ -1,3 +1,7 @@
+using CubeTrainer.Cube.Analyzer.Models;
+
+namespace CubeTrainer.Cube.Analyzer.State;
+
 internal class ApplyStateTransitionVisitor : IStateTransitionVisitor
 {
     public AnalyzerState? LastState { get; private set; }

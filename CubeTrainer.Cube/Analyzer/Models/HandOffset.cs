@@ -1,3 +1,5 @@
+namespace CubeTrainer.Cube.Analyzer.Models;
+
 internal enum HandOffset
 {
     Home = 0,

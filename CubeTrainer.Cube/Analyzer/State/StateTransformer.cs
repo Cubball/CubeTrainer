@@ -1,4 +1,6 @@
-using CubeTrainer.Cube;
+using CubeTrainer.Cube.Analyzer.Models;
+
+namespace CubeTrainer.Cube.Analyzer.State;
 
 internal static class StateTransformer
 {

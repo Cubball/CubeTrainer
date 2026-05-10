@@ -1,3 +1,5 @@
+namespace CubeTrainer.Cube.Analyzer.Models;
+
 internal static class Extensions
 {
     public static bool IsFingerMotion(this MotionType motionType)
@@ -5,7 +7,7 @@ internal static class Extensions
         return motionType
             is MotionType.IndexPull
             or MotionType.IndexPush
-            or MotionType.IndexDoublePull
+            or MotionType.DoubleIndexPull
             or MotionType.ThumbPush
             or MotionType.ThumbPull
             or MotionType.RingPull
@@ -24,8 +26,8 @@ internal static class Extensions
 
         return motionType switch
         {
-            MotionType.IndexPull => otherMotionType is MotionType.IndexDoublePull,
-            MotionType.IndexDoublePull => otherMotionType is MotionType.IndexPull,
+            MotionType.IndexPull => otherMotionType is MotionType.DoubleIndexPull,
+            MotionType.DoubleIndexPull => otherMotionType is MotionType.IndexPull,
             MotionType.RingPull => otherMotionType is MotionType.DoubleRingPull,
             MotionType.DoubleRingPull => otherMotionType is MotionType.RingPull,
             _ => false,

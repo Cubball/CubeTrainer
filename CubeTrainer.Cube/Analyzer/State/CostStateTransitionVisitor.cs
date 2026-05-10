@@ -1,3 +1,7 @@
+using CubeTrainer.Cube.Analyzer.Models;
+
+namespace CubeTrainer.Cube.Analyzer.State;
+
 internal class CostStateTransitionVisitor : IStateTransitionVisitor
 {
     public double LastCost { get; private set; }

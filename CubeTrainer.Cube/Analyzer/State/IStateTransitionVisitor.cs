@@ -1,3 +1,5 @@
+namespace CubeTrainer.Cube.Analyzer.State;
+
 internal interface IStateTransitionVisitor
 {
     void Visit(MotionStateTransition motionStateTransition);

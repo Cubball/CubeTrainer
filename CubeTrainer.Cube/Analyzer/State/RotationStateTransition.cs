@@ -1,4 +1,4 @@
-using CubeTrainer.Cube;
+namespace CubeTrainer.Cube.Analyzer.State;
 
 internal sealed record RotationStateTransition(
     AnalyzerState CurrentState,
