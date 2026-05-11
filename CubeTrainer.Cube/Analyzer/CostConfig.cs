@@ -16,7 +16,7 @@ internal static class CostConfig
 
     public static double WristTurnCost { get; } = 1.0;
 
-    public static double TripleWristTurnCost { get; } = 2.0;
+    public static double TripleWristTurnCost { get; } = 2.0; // 1.0 to favor R3 in U perm
 
     public static double IndexPullCost { get; } = 1.0;
 

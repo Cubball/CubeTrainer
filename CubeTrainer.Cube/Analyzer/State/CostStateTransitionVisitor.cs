@@ -65,11 +65,13 @@ internal class CostStateTransitionVisitor : IStateTransitionVisitor
             MotionType.DoubleIndexPull => CostConfig.DoubleIndexPullCost,
             MotionType.ThumbPull => CostConfig.ThumbPullCost,
             MotionType.ThumbPush => CostConfig.ThumbPushCost,
+            MotionType.DoubleThumbPull => CostConfig.DoubleThumbPullCost,
             MotionType.RingPull => CostConfig.RingPullCost,
             MotionType.RingPush => CostConfig.RingPushCost,
             MotionType.DoubleRingPull => CostConfig.DoubleRingPullCost,
             MotionType.MiddlePull => CostConfig.MiddlePullCost,
             MotionType.MiddlePush => CostConfig.MiddlePushCost,
+            MotionType.DoubleMiddlePull => CostConfig.DoubleMiddlePullCost,
             _ => 0.0,
         };
     }

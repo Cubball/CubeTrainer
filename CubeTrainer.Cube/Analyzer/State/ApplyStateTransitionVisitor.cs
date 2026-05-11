@@ -49,6 +49,12 @@ internal class ApplyStateTransitionVisitor : IStateTransitionVisitor
 
     public void Visit(RegripStateTransition regripStateTransition)
     {
+        if (regripStateTransition.CurrentState.LastHandRegrip is not null)
+        {
+            LastState = null;
+            return;
+        }
+
         var regrip = regripStateTransition.Regrip;
         if (regrip.Hand == Hand.Left)
         {

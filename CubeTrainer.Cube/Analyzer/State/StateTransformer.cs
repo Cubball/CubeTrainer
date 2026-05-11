@@ -6,6 +6,11 @@ internal static class StateTransformer
 {
     private static readonly Dictionary<(HandOffset, char), char> ToHomeGripMappings = new()
     {
+        { (HandOffset.Home, 'B'), 'B' },
+        { (HandOffset.Home, 'U'), 'U' },
+        { (HandOffset.Home, 'F'), 'F' },
+        { (HandOffset.Home, 'D'), 'D' },
+
         { (HandOffset.ThumbOnU, 'B'), 'U' },
         { (HandOffset.ThumbOnU, 'U'), 'F' },
         { (HandOffset.ThumbOnU, 'F'), 'D' },
@@ -48,22 +53,22 @@ internal static class StateTransformer
         var face = char.ToUpperInvariant(nextMove.Face);
         if (nextMove.IsWristMove)
         {
-            var motions = face == 'L' ? GetPossibleMotionsForLeftHand(nextMove) : GetPossibleMotionsForRightHand(nextMove);
-            return [.. states, .. motions.Select(m => new MotionStateTransition(currentState, m))];
+            var motions = face == 'L' ? GetPossibleMotionsForLeftHand(new(face, nextMove.Count)) : GetPossibleMotionsForRightHand(new(face, nextMove.Count));
+            return [.. states, .. motions.Select(m => new MotionStateTransition(currentState, m, nextMove))];
         }
 
         var success = ToHomeGripMappings.TryGetValue((currentState.LeftHandOffset, face), out var leftHandFace);
         if (success)
         {
-            var motions = GetPossibleMotionsForLeftHand(new Move(leftHandFace, nextMove.Count));
-            states.AddRange(motions.Select(m => new MotionStateTransition(currentState, m)));
+            var motions = GetPossibleMotionsForLeftHand(new(leftHandFace, nextMove.Count));
+            states.AddRange(motions.Select(m => new MotionStateTransition(currentState, m, nextMove)));
         }
 
         success = ToHomeGripMappings.TryGetValue((currentState.RightHandOffset, face), out var rightHandFace);
         if (success)
         {
-            var motions = GetPossibleMotionsForRightHand(new Move(rightHandFace, nextMove.Count));
-            states.AddRange(motions.Select(m => new MotionStateTransition(currentState, m)));
+            var motions = GetPossibleMotionsForRightHand(new(rightHandFace, nextMove.Count));
+            states.AddRange(motions.Select(m => new MotionStateTransition(currentState, m, nextMove)));
         }
 
         return states;
