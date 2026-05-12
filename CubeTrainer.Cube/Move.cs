@@ -24,8 +24,6 @@ public sealed record Move
 
     public bool IsWideMove => !IsRotation && Face == char.ToLowerInvariant(Face);
 
-    public bool IsWristMove => char.ToUpperInvariant(Face) is 'R' or 'L';
-
     public static void ThrowIfFaceIsInvalid(char face)
     {
         if (face is 'S' or 'M' or 'E' or 'x' or 'y' or 'z')

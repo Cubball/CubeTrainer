@@ -10,26 +10,36 @@ internal static class StateTransformer
         { (HandOffset.Home, 'U'), 'U' },
         { (HandOffset.Home, 'F'), 'F' },
         { (HandOffset.Home, 'D'), 'D' },
+        { (HandOffset.Home, 'R'), 'R' },
+        { (HandOffset.Home, 'L'), 'L' },
 
         { (HandOffset.ThumbOnU, 'B'), 'U' },
         { (HandOffset.ThumbOnU, 'U'), 'F' },
         { (HandOffset.ThumbOnU, 'F'), 'D' },
         { (HandOffset.ThumbOnU, 'D'), 'B' },
+        { (HandOffset.ThumbOnU, 'R'), 'R' },
+        { (HandOffset.ThumbOnU, 'L'), 'L' },
 
         { (HandOffset.ThumbOnD, 'B'), 'D' },
         { (HandOffset.ThumbOnD, 'U'), 'B' },
         { (HandOffset.ThumbOnD, 'F'), 'U' },
         { (HandOffset.ThumbOnD, 'D'), 'F' },
+        { (HandOffset.ThumbOnD, 'R'), 'R' },
+        { (HandOffset.ThumbOnD, 'L'), 'L' },
 
         { (HandOffset.FlippedTop, 'B'), 'F' },
         { (HandOffset.FlippedTop, 'U'), 'D' },
         { (HandOffset.FlippedTop, 'F'), 'B' },
         { (HandOffset.FlippedTop, 'D'), 'U' },
+        { (HandOffset.FlippedTop, 'R'), 'R' },
+        { (HandOffset.FlippedTop, 'L'), 'L' },
 
         { (HandOffset.FlippedBottom, 'B'), 'F' },
         { (HandOffset.FlippedBottom, 'U'), 'D' },
         { (HandOffset.FlippedBottom, 'F'), 'B' },
         { (HandOffset.FlippedBottom, 'D'), 'U' },
+        { (HandOffset.FlippedBottom, 'R'), 'R' },
+        { (HandOffset.FlippedBottom, 'L'), 'L' },
     };
 
     public static List<IStateTransition> GetStateTransitions(AnalyzerState currentState, Move nextMove)
@@ -51,12 +61,6 @@ internal static class StateTransformer
         }
 
         var face = char.ToUpperInvariant(nextMove.Face);
-        if (nextMove.IsWristMove)
-        {
-            var motions = face == 'L' ? GetPossibleMotionsForLeftHand(new(face, nextMove.Count)) : GetPossibleMotionsForRightHand(new(face, nextMove.Count));
-            return [.. states, .. motions.Select(m => new MotionStateTransition(currentState, m, nextMove))];
-        }
-
         var success = ToHomeGripMappings.TryGetValue((currentState.LeftHandOffset, face), out var leftHandFace);
         if (success)
         {

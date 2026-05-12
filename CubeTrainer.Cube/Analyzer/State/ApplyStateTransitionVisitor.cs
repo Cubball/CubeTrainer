@@ -30,17 +30,18 @@ internal class ApplyStateTransitionVisitor : IStateTransitionVisitor
             return;
         }
 
+        var lastNonWristMotion = motion.Type.IsWristMotion() ? state.LastNonWristMotion : motion;
         LastState = motion.Hand == Hand.Left
             ? (state with
             {
-                LastNonWristMotion = motion,
+                LastNonWristMotion = lastNonWristMotion,
                 MovesCompleted = state.MovesCompleted + 1,
                 LeftHandOffset = (HandOffset)newOffset,
                 LastHandRegrip = null,
             })
             : (state with
             {
-                LastNonWristMotion = motion,
+                LastNonWristMotion = lastNonWristMotion,
                 MovesCompleted = state.MovesCompleted + 1,
                 RightHandOffset = (HandOffset)newOffset,
                 LastHandRegrip = null,

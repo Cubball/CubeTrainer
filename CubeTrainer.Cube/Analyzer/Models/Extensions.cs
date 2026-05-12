@@ -30,7 +30,22 @@ internal static class Extensions
             MotionType.DoubleIndexPull => otherMotionType is MotionType.IndexPull,
             MotionType.RingPull => otherMotionType is MotionType.DoubleRingPull,
             MotionType.DoubleRingPull => otherMotionType is MotionType.RingPull,
+            MotionType.MiddlePull => otherMotionType is MotionType.DoubleMiddlePull,
+            MotionType.DoubleMiddlePull => otherMotionType is MotionType.MiddlePull,
+            MotionType.ThumbPull => otherMotionType is MotionType.DoubleThumbPull,
+            MotionType.DoubleThumbPull => otherMotionType is MotionType.ThumbPull,
             _ => false,
         };
+    }
+
+    public static bool IsWristMotion(this MotionType motionType)
+    {
+        return motionType
+            is MotionType.WristUp
+            or MotionType.WristDown
+            or MotionType.DoubleWristUp
+            or MotionType.DoubleWristDown
+            or MotionType.TripleWristUp
+            or MotionType.TripleWristDown;
     }
 }

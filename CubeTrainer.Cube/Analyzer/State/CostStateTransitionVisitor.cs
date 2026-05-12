@@ -31,13 +31,15 @@ internal class CostStateTransitionVisitor : IStateTransitionVisitor
     private static double GetMotionCost(Motion motion, HandOffset currentHandOffset, Motion? lastNonWristMotion)
     {
         // TODO: account for slice moves?
+        // alternatively, S and E are middle finger motions, M is ring finger motion - inherently more expensive
         var penalty = 0.0;
         var multiplier = 1.0;
-        if (currentHandOffset == HandOffset.ThumbOnD || currentHandOffset == HandOffset.ThumbOnU)
+        var shouldApplyMultiplier = !motion.Type.IsWristMotion();
+        if (shouldApplyMultiplier && (currentHandOffset == HandOffset.ThumbOnD || currentHandOffset == HandOffset.ThumbOnU))
         {
             multiplier = CostConfig.OneFromHomeGripMultiplier;
         }
-        else if (currentHandOffset == HandOffset.FlippedTop || currentHandOffset == HandOffset.FlippedBottom)
+        else if (shouldApplyMultiplier && (currentHandOffset == HandOffset.FlippedTop || currentHandOffset == HandOffset.FlippedBottom))
         {
             multiplier = CostConfig.FlippedRegripCost;
         }
