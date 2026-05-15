@@ -9,17 +9,25 @@ public static class Analyzer
     private static readonly Dictionary<AnalyzerState, IStateTransition?> StateTransitions = [];
     private static readonly ApplyStateTransitionVisitor ApplyStateTransitionVisitor = new();
     private static readonly CostStateTransitionVisitor CostStateTransitionVisitor = new();
-    private static readonly PrintStateTransitionVisitor PrintStateTransitionVisitor = new(CostStateTransitionVisitor);
+    private static readonly ResultStateTransitionVisitor ResultStateTransitionVisitor = new(CostStateTransitionVisitor);
 
-    public static void Analzye(MoveSequence moveSequence)
+    public static AnalysisResult Analyze(MoveSequence moveSequence)
     {
-        var initState = new AnalyzerState(0, HandOffset.Home, HandOffset.Home, null, null);
-        _ = GetCostFromState(initState, moveSequence); // pre-compute the cost and transitions
+        States.Clear();
+        StateTransitions.Clear();
 
+        var initState = new AnalyzerState(0, HandOffset.Home, HandOffset.Home, null, null);
+        var totalCost = GetCostFromState(initState, moveSequence);
+
+        var steps = new List<AnalysisStep>();
         while (StateTransitions.TryGetValue(initState, out var stateTransition) && stateTransition is not null)
         {
-            stateTransition.Accept(PrintStateTransitionVisitor);
-            Console.WriteLine(PrintStateTransitionVisitor.LastString);
+            stateTransition.Accept(ResultStateTransitionVisitor);
+            if (ResultStateTransitionVisitor.LastStep is not null)
+            {
+                steps.Add(ResultStateTransitionVisitor.LastStep);
+            }
+
             stateTransition.Accept(ApplyStateTransitionVisitor);
             var nextState = ApplyStateTransitionVisitor.LastState;
             if (nextState is null)
@@ -29,6 +37,8 @@ public static class Analyzer
 
             initState = nextState;
         }
+
+        return new AnalysisResult(totalCost, steps);
     }
 
     private static double GetCostFromState(AnalyzerState analyzerState, MoveSequence moveSequence)

@@ -33,6 +33,8 @@ internal class CostStateTransitionVisitor : IStateTransitionVisitor
     {
         List<(double Value, string Description)> multipliers = [];
         List<(double Value, string Description)> penalties = [];
+        // NOTE: maybe apply non-home grip multiplier even if it's a different hand
+        // for flipped positions?
         var shouldNonHomeGripApplyMultiplier = !motion.Type.IsWristMotion();
         if (shouldNonHomeGripApplyMultiplier && (currentHandOffset == HandOffset.ThumbOnD || currentHandOffset == HandOffset.ThumbOnU))
         {
