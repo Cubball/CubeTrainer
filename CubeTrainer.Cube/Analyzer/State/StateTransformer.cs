@@ -12,6 +12,9 @@ internal static class StateTransformer
         { (HandOffset.Home, 'D'), 'D' },
         { (HandOffset.Home, 'R'), 'R' },
         { (HandOffset.Home, 'L'), 'L' },
+        { (HandOffset.Home, 'M'), 'M' },
+        { (HandOffset.Home, 'E'), 'E' },
+        { (HandOffset.Home, 'S'), 'S' },
 
         { (HandOffset.ThumbOnU, 'B'), 'U' },
         { (HandOffset.ThumbOnU, 'U'), 'F' },
@@ -19,6 +22,9 @@ internal static class StateTransformer
         { (HandOffset.ThumbOnU, 'D'), 'B' },
         { (HandOffset.ThumbOnU, 'R'), 'R' },
         { (HandOffset.ThumbOnU, 'L'), 'L' },
+        { (HandOffset.ThumbOnU, 'M'), 'M' },
+        { (HandOffset.ThumbOnU, 'E'), 'S' },
+        { (HandOffset.ThumbOnU, 'S'), 'E' },
 
         { (HandOffset.ThumbOnD, 'B'), 'D' },
         { (HandOffset.ThumbOnD, 'U'), 'B' },
@@ -26,6 +32,9 @@ internal static class StateTransformer
         { (HandOffset.ThumbOnD, 'D'), 'F' },
         { (HandOffset.ThumbOnD, 'R'), 'R' },
         { (HandOffset.ThumbOnD, 'L'), 'L' },
+        { (HandOffset.ThumbOnD, 'M'), 'M' },
+        { (HandOffset.ThumbOnD, 'E'), 'S' },
+        { (HandOffset.ThumbOnD, 'S'), 'E' },
 
         { (HandOffset.FlippedTop, 'B'), 'F' },
         { (HandOffset.FlippedTop, 'U'), 'D' },
@@ -33,6 +42,9 @@ internal static class StateTransformer
         { (HandOffset.FlippedTop, 'D'), 'U' },
         { (HandOffset.FlippedTop, 'R'), 'R' },
         { (HandOffset.FlippedTop, 'L'), 'L' },
+        { (HandOffset.FlippedTop, 'M'), 'M' },
+        { (HandOffset.FlippedTop, 'E'), 'E' },
+        { (HandOffset.FlippedTop, 'S'), 'S' },
 
         { (HandOffset.FlippedBottom, 'B'), 'F' },
         { (HandOffset.FlippedBottom, 'U'), 'D' },
@@ -40,6 +52,9 @@ internal static class StateTransformer
         { (HandOffset.FlippedBottom, 'D'), 'U' },
         { (HandOffset.FlippedBottom, 'R'), 'R' },
         { (HandOffset.FlippedBottom, 'L'), 'L' },
+        { (HandOffset.FlippedBottom, 'M'), 'M' },
+        { (HandOffset.FlippedBottom, 'E'), 'E' },
+        { (HandOffset.FlippedBottom, 'S'), 'S' },
     };
 
     public static List<IStateTransition> GetStateTransitions(AnalyzerState currentState, Move nextMove)
@@ -54,24 +69,20 @@ internal static class StateTransformer
             .. GetPossibleRegrips(currentState.LeftHandOffset, Hand.Left).Select(r => new RegripStateTransition(currentState, r)),
             .. GetPossibleRegrips(currentState.RightHandOffset, Hand.Right).Select(r => new RegripStateTransition(currentState, r))
         ];
-        if (nextMove.IsSliceMove)
-        {
-            // TODO:
-            return states;
-        }
-
         var face = char.ToUpperInvariant(nextMove.Face);
         var success = ToHomeGripMappings.TryGetValue((currentState.LeftHandOffset, face), out var leftHandFace);
         if (success)
         {
-            var motions = GetPossibleMotionsForLeftHand(new(leftHandFace, nextMove.Count));
+            var move = GetModifiedMove(new(leftHandFace, nextMove.Count), currentState.LeftHandOffset);
+            var motions = GetPossibleMotionsForLeftHand(move);
             states.AddRange(motions.Select(m => new MotionStateTransition(currentState, m, nextMove)));
         }
 
         success = ToHomeGripMappings.TryGetValue((currentState.RightHandOffset, face), out var rightHandFace);
         if (success)
         {
-            var motions = GetPossibleMotionsForRightHand(new(rightHandFace, nextMove.Count));
+            var move = GetModifiedMove(new(rightHandFace, nextMove.Count), currentState.RightHandOffset);
+            var motions = GetPossibleMotionsForRightHand(move);
             states.AddRange(motions.Select(m => new MotionStateTransition(currentState, m, nextMove)));
         }
 
@@ -110,6 +121,15 @@ internal static class StateTransformer
             { Face: 'D', Count: 1 } => [new Motion(MotionType.RingPull, Hand.Left)],
             { Face: 'D', Count: 2 } => [new Motion(MotionType.DoubleRingPull, Hand.Left)],
             { Face: 'D', Count: 3 } => [new Motion(MotionType.RingPush, Hand.Left)],
+            { Face: 'S', Count: 1 } => [new Motion(MotionType.IndexPush, Hand.Left)],
+            { Face: 'S', Count: 2 } => [new Motion(MotionType.DoubleIndexPull, Hand.Left)],
+            { Face: 'S', Count: 3 } => [new Motion(MotionType.IndexPull, Hand.Left)],
+            { Face: 'E', Count: 1 } => [new Motion(MotionType.MiddlePull, Hand.Left)],
+            { Face: 'E', Count: 2 } => [new Motion(MotionType.DoubleMiddlePull, Hand.Left)],
+            { Face: 'E', Count: 3 } => [new Motion(MotionType.MiddlePush, Hand.Left)],
+            { Face: 'M', Count: 1 } => [new Motion(MotionType.RingPush, Hand.Left)],
+            { Face: 'M', Count: 2 } => [new Motion(MotionType.DoubleRingPull, Hand.Left)],
+            { Face: 'M', Count: 3 } => [new Motion(MotionType.RingPull, Hand.Left)],
             _ => [],
         };
     }
@@ -130,7 +150,51 @@ internal static class StateTransformer
             { Face: 'D', Count: 1 } => [new Motion(MotionType.RingPush, Hand.Right)],
             { Face: 'D', Count: 2 } => [new Motion(MotionType.DoubleRingPull, Hand.Right)],
             { Face: 'D', Count: 3 } => [new Motion(MotionType.RingPull, Hand.Right)],
+            { Face: 'S', Count: 1 } => [new Motion(MotionType.IndexPull, Hand.Right)],
+            { Face: 'S', Count: 2 } => [new Motion(MotionType.DoubleIndexPull, Hand.Right)],
+            { Face: 'S', Count: 3 } => [new Motion(MotionType.IndexPush, Hand.Right)],
+            { Face: 'E', Count: 1 } => [new Motion(MotionType.MiddlePush, Hand.Right)],
+            { Face: 'E', Count: 2 } => [new Motion(MotionType.DoubleMiddlePull, Hand.Right)],
+            { Face: 'E', Count: 3 } => [new Motion(MotionType.MiddlePull, Hand.Right)],
+            { Face: 'M', Count: 1 } => [new Motion(MotionType.RingPush, Hand.Right)],
+            { Face: 'M', Count: 2 } => [new Motion(MotionType.DoubleRingPull, Hand.Right)],
+            { Face: 'M', Count: 3 } => [new Motion(MotionType.RingPull, Hand.Right)],
             _ => [],
         };
+    }
+
+    private static Move GetModifiedMove(Move move, HandOffset currentHandOffset)
+    {
+        return ShouldFlipDirection(move, currentHandOffset) ? move.Inverse() : move;
+    }
+
+    private static bool ShouldFlipDirection(Move move, HandOffset currentHandOffset)
+    {
+        if (!move.IsSliceMove)
+        {
+            return false;
+        }
+
+        if (move.Face == 'M' || currentHandOffset is HandOffset.Home)
+        {
+            return false;
+        }
+
+        if (currentHandOffset is HandOffset.FlippedTop or HandOffset.FlippedBottom)
+        {
+            return true;
+        }
+
+        if (move.Face == 'S')
+        {
+            return currentHandOffset == HandOffset.ThumbOnD;
+        }
+
+        if (move.Face == 'E')
+        {
+            return currentHandOffset == HandOffset.ThumbOnU;
+        }
+
+        return false;
     }
 }

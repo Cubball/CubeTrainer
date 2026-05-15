@@ -36,9 +36,11 @@ internal static class CostConfig
 
     public static double DoubleRingPullCost { get; } = 2.5;
 
-    public static double MiddlePullCost { get; } = 2.5;
+    public static double MiddlePullCost { get; } = 2.0;
 
-    public static double MiddlePushCost { get; } = 3.0;
+    public static double MiddlePushCost { get; } = 2.5;
 
-    public static double DoubleMiddlePullCost { get; } = 5.0;
+    public static double DoubleMiddlePullCost { get; } = 4.0;
+
+    public static double SliceMoveMultiplier { get; } = 1.5;
 }

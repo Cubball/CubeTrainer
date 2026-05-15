@@ -10,9 +10,10 @@ internal class CostStateTransitionVisitor : IStateTransitionVisitor
     {
         var motion = motionStateTransition.Motion;
         var state = motionStateTransition.CurrentState;
+        var move = motionStateTransition.Move;
         LastCost = motion.Hand == Hand.Left
-            ? GetMotionCost(motion, state.LeftHandOffset, state.LastNonWristMotion)
-            : GetMotionCost(motion, state.RightHandOffset, state.LastNonWristMotion);
+            ? GetMotionCost(motion, state.LeftHandOffset, state.LastNonWristMotion, move)
+            : GetMotionCost(motion, state.RightHandOffset, state.LastNonWristMotion, move);
     }
 
     public void Visit(RegripStateTransition regripStateTransition)
@@ -25,13 +26,12 @@ internal class CostStateTransitionVisitor : IStateTransitionVisitor
 
     public void Visit(RotationStateTransition rotationStateTransition)
     {
+        // TODO: return an object with components of the cost
         LastCost = CostConfig.RotationCost;
     }
 
-    private static double GetMotionCost(Motion motion, HandOffset currentHandOffset, Motion? lastNonWristMotion)
+    private static double GetMotionCost(Motion motion, HandOffset currentHandOffset, Motion? lastNonWristMotion, Move move)
     {
-        // TODO: account for slice moves?
-        // alternatively, S and E are middle finger motions, M is ring finger motion - inherently more expensive
         var penalty = 0.0;
         var multiplier = 1.0;
         var shouldApplyMultiplier = !motion.Type.IsWristMotion();
@@ -42,6 +42,11 @@ internal class CostStateTransitionVisitor : IStateTransitionVisitor
         else if (shouldApplyMultiplier && (currentHandOffset == HandOffset.FlippedTop || currentHandOffset == HandOffset.FlippedBottom))
         {
             multiplier = CostConfig.FlippedRegripCost;
+        }
+
+        if (move.IsSliceMove)
+        {
+            multiplier = CostConfig.SliceMoveMultiplier;
         }
 
         if (lastNonWristMotion is not null && lastNonWristMotion.Hand == motion.Hand && lastNonWristMotion.Type.IsSameTypeAs(motion.Type))

@@ -1,5 +1,6 @@
 using CubeTrainer.Cube.Analyzer.State;
 
+// TODO: improve this
 internal class PrintStateTransitionVisitor : IStateTransitionVisitor
 {
     public string LastString { get; private set; } = "";
