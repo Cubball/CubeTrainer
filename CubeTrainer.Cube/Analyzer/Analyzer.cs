@@ -9,18 +9,19 @@ public static class Analyzer
     private static readonly Dictionary<AnalyzerState, IStateTransition?> StateTransitions = [];
     private static readonly ApplyStateTransitionVisitor ApplyStateTransitionVisitor = new();
     private static readonly CostStateTransitionVisitor CostStateTransitionVisitor = new();
-    private static readonly PrintStateTransitionVisitor PrintStateTransitionVisitor = new();
+    private static readonly PrintStateTransitionVisitor PrintStateTransitionVisitor = new(CostStateTransitionVisitor);
 
     public static void Analzye(MoveSequence moveSequence)
     {
         var initState = new AnalyzerState(0, HandOffset.Home, HandOffset.Home, null, null);
-        Console.WriteLine(GetCostFromState(initState, moveSequence));
+        _ = GetCostFromState(initState, moveSequence); // pre-compute the cost and transitions
+
         while (StateTransitions.TryGetValue(initState, out var stateTransition) && stateTransition is not null)
         {
-            stateTransition.Accept(ApplyStateTransitionVisitor);
             stateTransition.Accept(PrintStateTransitionVisitor);
-            var nextState = ApplyStateTransitionVisitor.LastState;
             Console.WriteLine(PrintStateTransitionVisitor.LastString);
+            stateTransition.Accept(ApplyStateTransitionVisitor);
+            var nextState = ApplyStateTransitionVisitor.LastState;
             if (nextState is null)
             {
                 break;
@@ -44,6 +45,7 @@ public static class Analyzer
         }
 
         var nextStateTransitions = StateTransformer.GetStateTransitions(analyzerState, moveSequence.Moves[movesCompleted]);
+        // HACK: better use nullable double
         var minCost = double.MaxValue;
         foreach (var stateTransition in nextStateTransitions)
         {
@@ -57,7 +59,7 @@ public static class Analyzer
             }
 
             var nextStateCost = GetCostFromState(nextState, moveSequence);
-            var currentCost = nextStateCost + transitionCost;
+            var currentCost = nextStateCost + (transitionCost?.TotalCost ?? double.MaxValue);
             if (currentCost < minCost)
             {
                 minCost = currentCost;

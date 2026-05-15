@@ -1,22 +1,29 @@
 using CubeTrainer.Cube.Analyzer.State;
 
-// TODO: improve this
-internal class PrintStateTransitionVisitor : IStateTransitionVisitor
+internal class PrintStateTransitionVisitor(CostStateTransitionVisitor costStateTransitionVisitor) : IStateTransitionVisitor
 {
+    private readonly CostStateTransitionVisitor _costStateTransitionVisitor = costStateTransitionVisitor;
+
     public string LastString { get; private set; } = "";
 
     public void Visit(MotionStateTransition motionStateTransition)
     {
-        LastString = $"{motionStateTransition.Move} - [{motionStateTransition.Motion.Hand} {motionStateTransition.Motion.Type}]";
+        _costStateTransitionVisitor.Visit(motionStateTransition);
+        var cost = _costStateTransitionVisitor.LastCost;
+        LastString = $"{motionStateTransition.Move} - {motionStateTransition.Motion.Hand} {motionStateTransition.Motion.Type} ({cost})";
     }
 
     public void Visit(RegripStateTransition regripStateTransition)
     {
-        LastString = $"[{regripStateTransition.Regrip.Hand} to {regripStateTransition.Regrip.NewHandOffset}]";
+        _costStateTransitionVisitor.Visit(regripStateTransition);
+        var cost = _costStateTransitionVisitor.LastCost;
+        LastString = $"{regripStateTransition.Regrip.Hand} to {regripStateTransition.Regrip.NewHandOffset} ({cost})";
     }
 
     public void Visit(RotationStateTransition rotationStateTransition)
     {
-        LastString = $"{rotationStateTransition.Move} - [rotate]";
+        _costStateTransitionVisitor.Visit(rotationStateTransition);
+        var cost = _costStateTransitionVisitor.LastCost;
+        LastString = $"{rotationStateTransition.Move} - ({cost})";
     }
 }

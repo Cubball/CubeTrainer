@@ -4,7 +4,7 @@ namespace CubeTrainer.Cube.Analyzer.State;
 
 internal class CostStateTransitionVisitor : IStateTransitionVisitor
 {
-    public double LastCost { get; private set; }
+    public CostComponent? LastCost { get; private set; }
 
     public void Visit(MotionStateTransition motionStateTransition)
     {
@@ -20,41 +20,40 @@ internal class CostStateTransitionVisitor : IStateTransitionVisitor
     {
         var regrip = regripStateTransition.Regrip;
         LastCost = regrip.NewHandOffset == HandOffset.FlippedBottom || regrip.NewHandOffset == HandOffset.FlippedTop
-            ? CostConfig.FlippedRegripCost
-            : CostConfig.RegripCost;
+            ? new CostComponent(CostConfig.FlippedRegripCost, [], [])
+            : new CostComponent(CostConfig.RegripCost, [], []);
     }
 
     public void Visit(RotationStateTransition rotationStateTransition)
     {
-        // TODO: return an object with components of the cost
-        LastCost = CostConfig.RotationCost;
+        LastCost = new CostComponent(CostConfig.RotationCost, [], []);
     }
 
-    private static double GetMotionCost(Motion motion, HandOffset currentHandOffset, Motion? lastNonWristMotion, Move move)
+    private static CostComponent GetMotionCost(Motion motion, HandOffset currentHandOffset, Motion? lastNonWristMotion, Move move)
     {
-        var penalty = 0.0;
-        var multiplier = 1.0;
-        var shouldApplyMultiplier = !motion.Type.IsWristMotion();
-        if (shouldApplyMultiplier && (currentHandOffset == HandOffset.ThumbOnD || currentHandOffset == HandOffset.ThumbOnU))
+        List<(double Value, string Description)> multipliers = [];
+        List<(double Value, string Description)> penalties = [];
+        var shouldNonHomeGripApplyMultiplier = !motion.Type.IsWristMotion();
+        if (shouldNonHomeGripApplyMultiplier && (currentHandOffset == HandOffset.ThumbOnD || currentHandOffset == HandOffset.ThumbOnU))
         {
-            multiplier = CostConfig.OneFromHomeGripMultiplier;
+            multipliers.Add((CostConfig.OneFromHomeGripMultiplier, "one off from home grip"));
         }
-        else if (shouldApplyMultiplier && (currentHandOffset == HandOffset.FlippedTop || currentHandOffset == HandOffset.FlippedBottom))
+        else if (shouldNonHomeGripApplyMultiplier && (currentHandOffset == HandOffset.FlippedTop || currentHandOffset == HandOffset.FlippedBottom))
         {
-            multiplier = CostConfig.FlippedRegripCost;
+            multipliers.Add((CostConfig.FlippedRegripCost, "flipped regrip"));
         }
 
         if (move.IsSliceMove)
         {
-            multiplier = CostConfig.SliceMoveMultiplier;
+            multipliers.Add((CostConfig.SliceMoveMultiplier, "slice move"));
         }
 
         if (lastNonWristMotion is not null && lastNonWristMotion.Hand == motion.Hand && lastNonWristMotion.Type.IsSameTypeAs(motion.Type))
         {
-            penalty = CostConfig.OverworkingPenalty;
+            penalties.Add((CostConfig.OverworkingPenalty, "overworking"));
         }
 
-        return GetRawMotionCost(motion.Type) * multiplier + penalty;
+        return new CostComponent(GetRawMotionCost(motion.Type), multipliers, penalties);
     }
 
     private static double GetRawMotionCost(MotionType motionType)
@@ -64,7 +63,7 @@ internal class CostStateTransitionVisitor : IStateTransitionVisitor
             MotionType.WristUp or
             MotionType.WristDown or
             MotionType.DoubleWristUp or
-            MotionType.DoubleWristUp => CostConfig.WristTurnCost,
+            MotionType.DoubleWristDown => CostConfig.WristTurnCost,
             MotionType.TripleWristUp or
             MotionType.TripleWristDown => CostConfig.TripleWristTurnCost,
             MotionType.IndexPull => CostConfig.IndexPullCost,
