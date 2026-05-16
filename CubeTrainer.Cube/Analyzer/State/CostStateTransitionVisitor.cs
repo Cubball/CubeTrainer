@@ -42,7 +42,7 @@ internal class CostStateTransitionVisitor : IStateTransitionVisitor
         }
         else if (shouldNonHomeGripApplyMultiplier && (currentHandOffset == HandOffset.FlippedTop || currentHandOffset == HandOffset.FlippedBottom))
         {
-            multipliers.Add((CostConfig.FlippedRegripCost, "flipped regrip"));
+            multipliers.Add((CostConfig.TwoFromHomeGripMultiplier, "flipped regrip"));
         }
 
         if (move.IsSliceMove)
