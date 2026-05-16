@@ -70,25 +70,7 @@ internal static class CreateAlgorithm
         var @case = await context.Cases.FirstOrDefaultAsync(c => c.Id == request.CaseId, cancellationToken)
             ?? throw new ValidationException([new ValidationFailure(nameof(request.CaseId), "Case not found")]);
 
-        var moveParts = normalizedMoves.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        var setupMoveCount = 0;
-        foreach (var part in moveParts)
-        {
-            if (part is "y" or "y2" or "y'")
-            {
-                setupMoveCount++;
-            }
-            else
-            {
-                break;
-            }
-        }
-
-        string? setupMoves = setupMoveCount > 0
-            ? string.Join(' ', moveParts.Take(setupMoveCount))
-            : null;
-        var algorithmMoves = string.Join(' ', moveParts.Skip(setupMoveCount));
-
+        var (setupMoves, algorithmMoves) = SplitSetupMoves(normalizedMoves);
         string? analysisJson = null;
         try
         {
@@ -115,6 +97,30 @@ internal static class CreateAlgorithm
         context.Algorithms.Add(algorithm);
         await context.SaveChangesAsync(cancellationToken);
         return Results.Ok(new Response(algorithm.Id));
+    }
+
+    private static (string? SetupMoves, string AlgorithmMoves) SplitSetupMoves(string moves)
+    {
+        var parts = moves.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        var setupCount = 0;
+        foreach (var part in parts)
+        {
+            if (part is "y" or "y2" or "y'")
+            {
+                setupCount++;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        if (setupCount == 0)
+            return (null, moves);
+
+        return (
+            string.Join(' ', parts.Take(setupCount)),
+            string.Join(' ', parts.Skip(setupCount)));
     }
 
     private static (string, bool) TryNormalizeMoves(string moves)
