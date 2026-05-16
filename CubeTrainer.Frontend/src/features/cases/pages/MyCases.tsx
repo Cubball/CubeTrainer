@@ -14,6 +14,7 @@ interface CasesResponse {
     defaultScramble: string
     selectedAlgorithm?: {
       moves: string
+      setupMoves?: string
     }
   }[]
 }
@@ -25,6 +26,7 @@ const mapResponseToCases = (response?: CasesResponse) =>
     status: item.status,
     scramble: item.defaultScramble,
     selectedAlgorithmMoves: item.selectedAlgorithm?.moves ?? '',
+    selectedAlgorithmSetupMoves: item.selectedAlgorithm?.setupMoves,
   })) ?? []
 
 const MyCases = () => {

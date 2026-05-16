@@ -29,6 +29,7 @@ internal static class GetMyCase
     public sealed record AlgorithmDto(
         Guid Id,
         string Moves,
+        string? SetupMoves,
         bool IsPublic,
         bool IsMine,
         bool IsDeleted,
@@ -102,6 +103,7 @@ internal static class GetMyCase
             new(
                 userCase.SelectedAlgorithm.Id,
                 userCase.SelectedAlgorithm.Moves,
+                userCase.SelectedAlgorithm.SetupMoves,
                 userCase.SelectedAlgorithm.IsPublic,
                 userCase.SelectedAlgorithm.CreatorId == userId,
                 userCase.SelectedAlgorithm.IsDeleted,

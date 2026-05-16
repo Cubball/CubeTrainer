@@ -39,6 +39,9 @@ internal sealed class AppDbContext(DbContextOptions<AppDbContext> options) : Ide
             .Property(static a => a.CreatedAt)
             .HasColumnType("TIMESTAMP");
         builder.Entity<Algorithm>()
+            .Property(static a => a.SetupMoves)
+            .HasMaxLength(50);
+        builder.Entity<Algorithm>()
             .Property(static a => a.Analysis)
             .HasColumnType("jsonb");
 

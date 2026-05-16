@@ -19,7 +19,8 @@ internal static class GetRandomScramble
 
     public sealed record AlgorithmDto(
         Guid Id,
-        string Moves);
+        string Moves,
+        string? SetupMoves);
 
     public sealed record ScrambleDto(string Moves, CaseDto Case);
 
@@ -62,7 +63,7 @@ internal static class GetRandomScramble
             randomCase.Case.Name,
             randomCase.SelectedAlgorithm is null
                 ? null
-                : new(randomCase.SelectedAlgorithm.Id, randomCase.SelectedAlgorithm.Moves)
+                : new(randomCase.SelectedAlgorithm.Id, randomCase.SelectedAlgorithm.Moves, randomCase.SelectedAlgorithm.SetupMoves)
         ));
         return Results.Ok(new Response(result));
     }

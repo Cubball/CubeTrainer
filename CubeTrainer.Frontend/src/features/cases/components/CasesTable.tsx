@@ -9,6 +9,7 @@ export interface Case {
   status: string
   scramble: string
   selectedAlgorithmMoves: string
+  selectedAlgorithmSetupMoves?: string
 }
 
 export interface CasesTableProps {
@@ -83,7 +84,11 @@ const CasesTable = ({ cases }: CasesTableProps) => {
             </td>
             <td className="max-w-24 md:max-w-36 lg:max-w-48">
               <Link to={c.id}>
-                <ScrambleView scramble={c.scramble} forceAspectSquare />
+                <ScrambleView
+                  scramble={c.scramble}
+                  setupMoves={c.selectedAlgorithmSetupMoves}
+                  forceAspectSquare
+                />
               </Link>
             </td>
             <td>

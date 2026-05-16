@@ -14,6 +14,7 @@ import { toast } from 'react-toastify'
 interface Algorithm {
   id: string
   moves: string
+  setupMoves?: string
   isPublic: boolean
   isMine: boolean
   isDeleted: boolean
@@ -135,6 +136,7 @@ const CaseDetails = () => {
           <div className="aspect-square max-w-60">
             <ScrambleView
               scramble={caseData?.defaultScramble ?? ''}
+              setupMoves={algorithm?.setupMoves}
               forceAspectSquare
             />
           </div>

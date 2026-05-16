@@ -22,7 +22,8 @@ internal static class GetMyCases
 
     public sealed record AlgorithmDto(
         Guid Id,
-        string Moves);
+        string Moves,
+        string? SetupMoves);
 
     public sealed record Response(List<CaseDto> Items);
 
@@ -80,7 +81,8 @@ internal static class GetMyCases
                     MoveSequence.FromString(@case.DefaultSolution).Inverse().ToString(),
                     new(
                         userCase.SelectedAlgorithm.Id,
-                        userCase.SelectedAlgorithm.Moves
+                        userCase.SelectedAlgorithm.Moves,
+                        userCase.SelectedAlgorithm.SetupMoves
                     )
                 )
             );

@@ -18,6 +18,7 @@ interface TrainingPlanRandomScrambleResponse {
       id: string
       selectedAlgorithm?: {
         moves: string
+        setupMoves?: string
       }
     }
   }
@@ -105,6 +106,7 @@ const PlanTrainer = () => {
             hintVisible={hintVisible}
             setHintVisible={setHintVisible}
             scramble={data?.data.scramble.moves ?? ''}
+            setupMoves={data?.data.scramble.case.selectedAlgorithm?.setupMoves}
             hint={data?.data.scramble.case.selectedAlgorithm?.moves}
             onRegenerateClick={refetch}
           />

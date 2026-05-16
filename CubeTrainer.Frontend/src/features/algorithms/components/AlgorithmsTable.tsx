@@ -8,6 +8,7 @@ export interface AlgorithmsTableProps {
     caseName: string
     scramble: string
     moves: string
+    setupMoves?: string
     isPublic: boolean
     usersCount: number
     totalRating: number
@@ -58,7 +59,11 @@ const AlgorithmsTable = ({ algorithms }: AlgorithmsTableProps) => {
             </td>
             <td className="max-w-24 md:max-w-36 lg:max-w-48">
               <Link to={`/algorithms/${a.id}`}>
-                <ScrambleView scramble={a.scramble} forceAspectSquare />
+                <ScrambleView
+                  scramble={a.scramble}
+                  setupMoves={a.setupMoves}
+                  forceAspectSquare
+                />
               </Link>
             </td>
             <td className="text-center font-mono">

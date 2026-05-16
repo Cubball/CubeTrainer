@@ -2,6 +2,7 @@ import ScrambleView from './ScrambleView'
 
 export interface ScrambleSidebarProps {
   scramble: string
+  setupMoves?: string | null
   hint?: string
   hintVisible: boolean
   setHintVisible: (visible: boolean) => void
@@ -10,6 +11,7 @@ export interface ScrambleSidebarProps {
 
 const ScrambleSidebar = ({
   scramble,
+  setupMoves,
   hint,
   hintVisible,
   setHintVisible,
@@ -23,7 +25,7 @@ const ScrambleSidebar = ({
         {scramble}
       </p>
       <div className="h-fit">
-        <ScrambleView scramble={scramble} />
+        <ScrambleView scramble={scramble} setupMoves={setupMoves} />
       </div>
       <button
         className="w-1/2 max-w-60 cursor-pointer rounded-sm bg-gray-800 px-4 py-2 text-white"

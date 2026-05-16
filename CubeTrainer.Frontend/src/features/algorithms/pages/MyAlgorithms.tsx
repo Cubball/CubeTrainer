@@ -15,6 +15,7 @@ interface AlgorithmsResponse {
       defaultScramble: string
     }
     moves: string
+    setupMoves?: string,
     isPublic: boolean
     usersCount: number
     totalRating: number
@@ -29,6 +30,7 @@ const mapResponseToAlgorithms = (response?: AlgorithmsResponse) =>
       caseName: item.case.name,
       scramble: item.case.defaultScramble,
       moves: item.moves,
+      setupMoves: item.setupMoves,
       isPublic: item.isPublic,
       usersCount: item.usersCount,
       totalRating: item.totalRating,

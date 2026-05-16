@@ -14,6 +14,8 @@ internal sealed class Algorithm
 
     public string Moves { get; set; } = default!;
 
+    public string? SetupMoves { get; set; }
+
     public bool IsDeleted { get; set; }
 
     public bool IsPublic { get; set; }

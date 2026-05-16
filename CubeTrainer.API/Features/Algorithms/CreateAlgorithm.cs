@@ -69,13 +69,36 @@ internal static class CreateAlgorithm
             ?? throw new UnauthorizedException("User not found");
         var @case = await context.Cases.FirstOrDefaultAsync(c => c.Id == request.CaseId, cancellationToken)
             ?? throw new ValidationException([new ValidationFailure(nameof(request.CaseId), "Case not found")]);
+
+        var moveParts = normalizedMoves.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        var setupMoveCount = 0;
+        foreach (var part in moveParts)
+        {
+            if (part is "y" or "y2" or "y'")
+            {
+                setupMoveCount++;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        string? setupMoves = setupMoveCount > 0
+            ? string.Join(' ', moveParts.Take(setupMoveCount))
+            : null;
+        var algorithmMoves = string.Join(' ', moveParts.Skip(setupMoveCount));
+
         string? analysisJson = null;
         try
         {
-            var moveSequence = MoveSequence.FromString(normalizedMoves);
-            var analysisResult = Analyzer.Analyze(moveSequence);
-            var analysisDto = AnalysisMapper.ToDto(analysisResult);
-            analysisJson = JsonSerializer.Serialize(analysisDto, JsonSerializerOptions);
+            if (algorithmMoves.Length > 0)
+            {
+                var moveSequence = MoveSequence.FromString(algorithmMoves);
+                var analysisResult = Analyzer.Analyze(moveSequence);
+                var analysisDto = AnalysisMapper.ToDto(analysisResult);
+                analysisJson = JsonSerializer.Serialize(analysisDto, JsonSerializerOptions);
+            }
         }
         catch { }
 
@@ -83,7 +106,8 @@ internal static class CreateAlgorithm
         {
             Id = Guid.NewGuid(),
             CaseId = request.CaseId,
-            Moves = normalizedMoves,
+            Moves = algorithmMoves,
+            SetupMoves = setupMoves,
             CreatorId = userId,
             CreatedAt = DateTimeHelpers.UtcNow,
             Analysis = analysisJson,

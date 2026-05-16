@@ -31,6 +31,9 @@ interface Case {
   id: string
   name: string
   defaultScramble: string
+  selectedAlgorithm?: {
+    setupMoves?: string
+  }
 }
 
 interface CasesResponse {
@@ -61,6 +64,7 @@ const getSelectedCases = (
       id: c.id,
       name: c.name,
       defaultScramble: c.defaultScramble,
+      setupMoves: c.selectedAlgorithm?.setupMoves,
       isInPlan: true,
       solvesToLearnCount: c.trainingPlanCase!.solvesToLearnCount,
       lastDifficultyRating: c.trainingPlanCase!.lastDifficultyRating,
@@ -77,6 +81,7 @@ const getNotSelectedCases = (
       id: c.id,
       name: c.name,
       defaultScramble: c.defaultScramble,
+      setupMoves: c.selectedAlgorithm?.setupMoves,
       isInPlan: false,
     }))
 

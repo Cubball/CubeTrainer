@@ -5,6 +5,7 @@ export interface Case {
   id: string
   name: string
   defaultScramble: string
+  setupMoves?: string
   isInPlan: boolean
   solvesToLearnCount?: number
   lastDifficultyRating?: string
@@ -43,7 +44,11 @@ const TrainingPlanCasesTable = ({
             </td>
             <td className="max-w-24 md:max-w-36 lg:max-w-48">
               <Link to={`/cases/${c.id}`}>
-                <ScrambleView scramble={c.defaultScramble} forceAspectSquare />
+                <ScrambleView
+                  scramble={c.defaultScramble}
+                  setupMoves={c.setupMoves}
+                  forceAspectSquare
+                />
               </Link>
             </td>
             <td>

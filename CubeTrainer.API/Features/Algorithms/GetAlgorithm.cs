@@ -28,6 +28,7 @@ internal static class GetAlgorithm
     public sealed record AlgorithmDto(
         Guid Id,
         string Moves,
+        string? SetupMoves,
         bool IsPublic,
         bool IsMine,
         bool IsSelected,
@@ -89,6 +90,7 @@ internal static class GetAlgorithm
         var result = new AlgorithmDto(
             algorithm.Id,
             algorithm.Moves,
+            algorithm.SetupMoves,
             algorithm.IsPublic,
             algorithm.CreatorId == userId,
             userCase?.SelectedAlgorithmId == algorithm.Id,

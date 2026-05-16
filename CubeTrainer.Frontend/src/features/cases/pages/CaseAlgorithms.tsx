@@ -12,6 +12,7 @@ import TitleWithBackButton from '../../../components/TitleWithBackButton'
 interface Algorithm {
   id: string
   moves: string
+  setupMoves?: string
   createdAt: string
   usersCount: number
   totalRating: number
@@ -189,7 +190,9 @@ const CaseAlgorithms = () => {
                     className="border-t-2 border-t-gray-800 text-center *:px-4 *:py-2 md:*:px-6 lg:*:px-8"
                   >
                     <td className="text-center font-mono">
-                      <Link to={`/algorithms/${a.id}`}>{a.moves}</Link>
+                      <Link to={`/algorithms/${a.id}`}>
+                        {a.setupMoves ? `${a.setupMoves} ${a.moves}` : a.moves}
+                      </Link>
                     </td>
                     <td className="text-center">
                       <Link to={`/algorithms/${a.id}`}>{a.usersCount}</Link>
