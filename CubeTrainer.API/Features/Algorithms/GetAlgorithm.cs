@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using System.Text.Json;
 using CubeTrainer.API.Common;
 using CubeTrainer.API.Common.Endpoints;
 using CubeTrainer.API.Common.Exceptions;
@@ -36,7 +37,8 @@ internal static class GetAlgorithm
         int UsersRatingsCount,
         CaseDto Case,
         AlgorithmRatingDto? MyRating,
-        AlgorithmStatisticDto MyStatistic);
+        AlgorithmStatisticDto MyStatistic,
+        JsonDocument? Analysis);
 
     public sealed record Response(AlgorithmDto Algorithm);
 
@@ -74,6 +76,16 @@ internal static class GetAlgorithm
             .FirstOrDefaultAsync(@as => @as.UserId == userId && @as.AlgorithmId == id, cancellationToken);
         var algorithmRating = await context.AlgorithmRatings
             .FirstOrDefaultAsync(ar => ar.UserId == userId && ar.AlgorithmId == id, cancellationToken);
+        JsonDocument? analysis = null;
+        if (algorithm.Analysis is not null)
+        {
+            try
+            {
+                analysis = JsonDocument.Parse(algorithm.Analysis);
+            }
+            catch { }
+        }
+
         var result = new AlgorithmDto(
             algorithm.Id,
             algorithm.Moves,
@@ -94,7 +106,8 @@ internal static class GetAlgorithm
                 algorithmStatistic?.TotalTimeSolvingInSeconds ?? 0,
                 algorithmStatistic?.TimedSolvesCount ?? 0,
                 algorithmStatistic?.UntimedSolvesCount ?? 0,
-                algorithmStatistic?.BestTimeInSeconds));
+                algorithmStatistic?.BestTimeInSeconds),
+            analysis);
         return Results.Ok(new Response(result));
     }
 }

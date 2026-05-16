@@ -38,6 +38,9 @@ internal sealed class AppDbContext(DbContextOptions<AppDbContext> options) : Ide
         builder.Entity<Algorithm>()
             .Property(static a => a.CreatedAt)
             .HasColumnType("TIMESTAMP");
+        builder.Entity<Algorithm>()
+            .Property(static a => a.Analysis)
+            .HasColumnType("jsonb");
 
         builder.Entity<AlgorithmRating>()
             .HasKey(static r => new { r.UserId, r.AlgorithmId });

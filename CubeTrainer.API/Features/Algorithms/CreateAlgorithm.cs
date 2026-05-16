@@ -1,11 +1,15 @@
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using CubeTrainer.API.Common;
 using CubeTrainer.API.Common.Endpoints;
 using CubeTrainer.API.Common.Exceptions;
 using CubeTrainer.API.Common.Helpers;
+using CubeTrainer.API.Common.Models;
 using CubeTrainer.API.Database;
 using CubeTrainer.API.Entities;
+using CubeTrainer.Cube;
+using CubeTrainer.Cube.Analyzer;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +18,11 @@ namespace CubeTrainer.API.Features.Algorithms;
 
 internal static class CreateAlgorithm
 {
+    private static readonly JsonSerializerOptions JsonSerializerOptions = new()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+    };
+
     public sealed record Request(Guid CaseId, string Moves);
 
     public sealed class RequestValidator : AbstractValidator<Request>
@@ -60,6 +69,16 @@ internal static class CreateAlgorithm
             ?? throw new UnauthorizedException("User not found");
         var @case = await context.Cases.FirstOrDefaultAsync(c => c.Id == request.CaseId, cancellationToken)
             ?? throw new ValidationException([new ValidationFailure(nameof(request.CaseId), "Case not found")]);
+        string? analysisJson = null;
+        try
+        {
+            var moveSequence = MoveSequence.FromString(normalizedMoves);
+            var analysisResult = Analyzer.Analyze(moveSequence);
+            var analysisDto = AnalysisMapper.ToDto(analysisResult);
+            analysisJson = JsonSerializer.Serialize(analysisDto, JsonSerializerOptions);
+        }
+        catch { }
+
         var algorithm = new Algorithm
         {
             Id = Guid.NewGuid(),
@@ -67,6 +86,7 @@ internal static class CreateAlgorithm
             Moves = normalizedMoves,
             CreatorId = userId,
             CreatedAt = DateTimeHelpers.UtcNow,
+            Analysis = analysisJson,
         };
         context.Algorithms.Add(algorithm);
         await context.SaveChangesAsync(cancellationToken);

@@ -25,4 +25,6 @@ internal sealed class Algorithm
     public int TotalRating { get; set; }
 
     public int UsersRatingsCount { get; set; }
+
+    public string? Analysis { get; set; }
 }
