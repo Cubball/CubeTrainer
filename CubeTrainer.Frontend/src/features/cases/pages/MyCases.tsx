@@ -68,11 +68,11 @@ const MyCases = () => {
         tabs={[
           {
             name: 'OLL',
-            element: <CasesTable cases={mapResponseToCases(ollData?.data)} />,
+            element: <CasesTable cases={mapResponseToCases(ollData?.data)} caseType="OLL" />,
           },
           {
             name: 'PLL',
-            element: <CasesTable cases={mapResponseToCases(pllData?.data)} />,
+            element: <CasesTable cases={mapResponseToCases(pllData?.data)} caseType="PLL" />,
           },
         ]}
       />

@@ -25,6 +25,7 @@ interface Algorithm {
   case: {
     id: string
     name: string
+    type: string
     defaultScramble: string
   }
   myRating: null | { rating: number }
@@ -229,6 +230,7 @@ const AlgorithmDetails = () => {
               scramble={algorithmCase?.defaultScramble ?? ''}
               setupMoves={algorithm?.setupMoves}
               forceAspectSquare
+              caseType={algorithmCase?.type}
             />
           </div>
           <Link

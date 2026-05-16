@@ -14,6 +14,7 @@ internal static class GetMyCase
     public sealed record CaseDto(
         Guid Id,
         string Name,
+        string Type,
         string Status,
         string DefaultScramble,
         AlgorithmDto? SelectedAlgorithm);
@@ -73,6 +74,7 @@ internal static class GetMyCase
                 new(
                     @case.Id,
                     @case.Name,
+                    @case.Type.ToString(),
                     UserCaseStatus.NotLearned.ToString(),
                     MoveSequence.FromString(@case.DefaultSolution).Inverse().ToString(),
                     null
@@ -85,6 +87,7 @@ internal static class GetMyCase
                 new(
                     userCase.Case.Id,
                     userCase.Case.Name,
+                    userCase.Case.Type.ToString(),
                     userCase.Status.ToString(),
                     MoveSequence.FromString(userCase.Case.DefaultSolution).Inverse().ToString(),
                     null))
@@ -98,6 +101,7 @@ internal static class GetMyCase
         var result = new CaseDto(
             userCase.Case.Id,
             userCase.Case.Name,
+            userCase.Case.Type.ToString(),
             userCase.Status.ToString(),
             MoveSequence.FromString(userCase.Case.DefaultSolution).Inverse().ToString(),
             new(

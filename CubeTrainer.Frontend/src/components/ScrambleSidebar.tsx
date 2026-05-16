@@ -7,6 +7,7 @@ export interface ScrambleSidebarProps {
   hintVisible: boolean
   setHintVisible: (visible: boolean) => void
   onRegenerateClick: () => void
+  caseType?: string
 }
 
 const ScrambleSidebar = ({
@@ -16,6 +17,7 @@ const ScrambleSidebar = ({
   hintVisible,
   setHintVisible,
   onRegenerateClick,
+  caseType,
 }: ScrambleSidebarProps) => {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-4">
@@ -25,7 +27,7 @@ const ScrambleSidebar = ({
         {scramble}
       </p>
       <div className="h-fit">
-        <ScrambleView scramble={scramble} setupMoves={setupMoves} />
+        <ScrambleView scramble={scramble} setupMoves={setupMoves} caseType={caseType} />
       </div>
       <button
         className="w-1/2 max-w-60 cursor-pointer rounded-sm bg-gray-800 px-4 py-2 text-white"

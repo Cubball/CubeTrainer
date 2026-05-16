@@ -33,6 +33,7 @@ interface CaseDetailsResponse {
   case: {
     id: string
     name: string
+    type: string
     status: string
     defaultScramble: string
     selectedAlgorithm: Algorithm | null
@@ -138,6 +139,7 @@ const CaseDetails = () => {
               scramble={caseData?.defaultScramble ?? ''}
               setupMoves={algorithm?.setupMoves}
               forceAspectSquare
+              caseType={caseData?.type}
             />
           </div>
           <Link

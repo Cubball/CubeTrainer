@@ -14,6 +14,7 @@ export interface AlgorithmsTableProps {
     totalRating: number
     usersRatingsCount: number
   }[]
+  caseType: string
 }
 
 const calculateAverageRating = (algorithm: {
@@ -27,7 +28,7 @@ const calculateAverageRating = (algorithm: {
   return algorithm.totalRating / algorithm.usersRatingsCount
 }
 
-const AlgorithmsTable = ({ algorithms }: AlgorithmsTableProps) => {
+const AlgorithmsTable = ({ algorithms, caseType }: AlgorithmsTableProps) => {
   if (algorithms.length === 0) {
     return (
       <h2 className="text-center text-xl text-gray-500 italic">
@@ -63,6 +64,7 @@ const AlgorithmsTable = ({ algorithms }: AlgorithmsTableProps) => {
                   scramble={a.scramble}
                   setupMoves={a.setupMoves}
                   forceAspectSquare
+                  caseType={caseType}
                 />
               </Link>
             </td>

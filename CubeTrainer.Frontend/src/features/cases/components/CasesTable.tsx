@@ -14,11 +14,12 @@ export interface Case {
 
 export interface CasesTableProps {
   cases: Case[]
+  caseType: string
 }
 
 type SortBy = 'name' | 'status'
 
-const CasesTable = ({ cases }: CasesTableProps) => {
+const CasesTable = ({ cases, caseType }: CasesTableProps) => {
   const [sortBy, setSortBy] = useState<SortBy>('status')
   const [ascending, setAscending] = useState<boolean>(true)
 
@@ -88,6 +89,7 @@ const CasesTable = ({ cases }: CasesTableProps) => {
                   scramble={c.scramble}
                   setupMoves={c.selectedAlgorithmSetupMoves}
                   forceAspectSquare
+                  caseType={caseType}
                 />
               </Link>
             </td>

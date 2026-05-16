@@ -34,6 +34,7 @@ interface Case {
   selectedAlgorithm?: {
     setupMoves?: string
   }
+  caseType?: string
 }
 
 interface CasesResponse {
@@ -41,12 +42,16 @@ interface CasesResponse {
 }
 
 const sortCases = (oll: Case[], pll: Case[]) => {
-  const ollSorted = oll.sort((a, b) =>
-    a.name.localeCompare(b.name, undefined, { numeric: true }),
-  )
-  const pllSorted = pll.sort((a, b) =>
-    a.name.localeCompare(b.name, undefined, { numeric: true }),
-  )
+  const ollSorted = oll
+    .map((c) => ({ ...c, caseType: 'OLL' }))
+    .sort((a, b) =>
+      a.name.localeCompare(b.name, undefined, { numeric: true }),
+    )
+  const pllSorted = pll
+    .map((c) => ({ ...c, caseType: 'PLL' }))
+    .sort((a, b) =>
+      a.name.localeCompare(b.name, undefined, { numeric: true }),
+    )
   return [...ollSorted, ...pllSorted]
 }
 
@@ -69,6 +74,7 @@ const getSelectedCases = (
       solvesToLearnCount: c.trainingPlanCase!.solvesToLearnCount,
       lastDifficultyRating: c.trainingPlanCase!.lastDifficultyRating,
       lastSolved: c.trainingPlanCase!.lastSolved,
+      caseType: c.caseType,
     }))
 
 const getNotSelectedCases = (
@@ -83,6 +89,7 @@ const getNotSelectedCases = (
       defaultScramble: c.defaultScramble,
       setupMoves: c.selectedAlgorithm?.setupMoves,
       isInPlan: false,
+      caseType: c.caseType,
     }))
 
 const TrainingPlanDetails = () => {

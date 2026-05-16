@@ -10,6 +10,7 @@ export interface Case {
   solvesToLearnCount?: number
   lastDifficultyRating?: string
   lastSolved?: string
+  caseType?: string
 }
 
 export interface TrainingPlanCasesTableProps {
@@ -48,6 +49,7 @@ const TrainingPlanCasesTable = ({
                   scramble={c.defaultScramble}
                   setupMoves={c.setupMoves}
                   forceAspectSquare
+                  caseType={c.caseType}
                 />
               </Link>
             </td>

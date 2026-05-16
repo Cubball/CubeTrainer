@@ -82,6 +82,7 @@ const MyAlgorithms = () => {
             element: (
               <AlgorithmsTable
                 algorithms={mapResponseToAlgorithms(ollData?.data)}
+                caseType="OLL"
               />
             ),
           },
@@ -90,6 +91,7 @@ const MyAlgorithms = () => {
             element: (
               <AlgorithmsTable
                 algorithms={mapResponseToAlgorithms(pllData?.data)}
+                caseType="PLL"
               />
             ),
           },

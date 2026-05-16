@@ -17,6 +17,7 @@ interface RandomScrambleResponse {
     moves: string
     case: {
       id: string
+      type: string
       selectedAlgorithm?: {
         moves: string
         setupMoves?: string
@@ -121,6 +122,7 @@ const Trainer = () => {
           setupMoves={data?.data.scramble.case.selectedAlgorithm?.setupMoves}
           hint={data?.data.scramble.case.selectedAlgorithm?.moves}
           onRegenerateClick={refetch}
+          caseType={data?.data.scramble.case.type}
         />
       </div>
       <div className="relative flex flex-1 flex-col rounded-lg border-2 border-gray-800 p-4">

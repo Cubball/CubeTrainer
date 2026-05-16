@@ -30,6 +30,7 @@ interface CaseDetailsResponse {
   case: {
     id: string
     name: string
+    type: string
     defaultScramble: string
   }
 }
@@ -141,6 +142,7 @@ const CaseAlgorithms = () => {
             <ScrambleView
               scramble={caseData?.data.case.defaultScramble || ''}
               forceAspectSquare
+              caseType={caseData?.data.case.type}
             />
           </div>
         </div>
