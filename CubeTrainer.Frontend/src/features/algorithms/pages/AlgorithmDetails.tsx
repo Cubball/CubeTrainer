@@ -288,24 +288,25 @@ const AlgorithmDetails = () => {
           <div>
             <h2 className="mb-2 text-xl font-semibold">Moves</h2>
             <div className="font-mono text-lg">{algorithm?.moves}</div>
-            <div className="mt-2 flex flex-wrap items-center gap-2">
-              <div className="text-sm">
-                Cost:{' '}
-                <span className="font-semibold">
-                  {algorithm?.analysis
-                    ? formatCost(algorithm.analysis.totalCost)
-                    : 'N/A'}
-                </span>
+          </div>
+          <div>
+            <h2 className="mb-2 text-xl font-semibold">Cost Analysis</h2>
+            <div className="grid grid-cols-2 gap-2">
+              <div>Cost:</div>
+              <div className="font-semibold text-lg">
+                {algorithm?.analysis
+                  ? formatCost(algorithm.analysis.totalCost)
+                  : 'N/A'}
               </div>
-              {algorithm && (
-                <button
-                  className="cursor-pointer rounded-sm bg-gray-800 px-3 py-1 text-sm text-white"
-                  onClick={() => setIsAnalysisModalOpen(true)}
-                >
-                  View Full Analysis
-                </button>
-              )}
             </div>
+            {algorithm && (
+              <button
+                className="mt-3 w-full max-w-60 cursor-pointer rounded-sm bg-gray-800 px-4 py-2 text-center text-white"
+                onClick={() => setIsAnalysisModalOpen(true)}
+              >
+                View Full Analysis
+              </button>
+            )}
           </div>
           {algorithm && (
             <div>

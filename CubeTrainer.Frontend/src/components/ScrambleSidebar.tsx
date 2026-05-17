@@ -55,7 +55,7 @@ const ScrambleSidebar = ({
       </button>
       <p
         className={
-          'mb-4 w-full px-4 text-center text-xl font-bold' +
+          'mb-1 w-full px-4 text-center text-xl font-bold' +
           (hintVisible ? '' : ' opacity-0')
         }
       >
