@@ -18,6 +18,7 @@ interface CaseDetailsResponse {
   case: {
     id: string
     name: string
+    type: string
     defaultScramble: string
   }
 }
@@ -93,6 +94,7 @@ const CreateAlgorithm = () => {
         <div className="aspect-square max-w-60">
           <ScrambleView
             scramble={caseData?.defaultScramble ?? ''}
+            caseType={caseData?.type}
             forceAspectSquare
           />
         </div>

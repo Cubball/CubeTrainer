@@ -1,8 +1,11 @@
+import { useState } from 'react'
+import AlgorithmAnalysisModal from '../features/algorithms/components/AlgorithmAnalysisModal'
 import ScrambleView from './ScrambleView'
 
 export interface ScrambleSidebarProps {
   scramble: string
   setupMoves?: string | null
+  hintAlgorithmId?: string
   hint?: string
   hintVisible: boolean
   setHintVisible: (visible: boolean) => void
@@ -13,12 +16,15 @@ export interface ScrambleSidebarProps {
 const ScrambleSidebar = ({
   scramble,
   setupMoves,
+  hintAlgorithmId,
   hint,
   hintVisible,
   setHintVisible,
   onRegenerateClick,
   caseType,
 }: ScrambleSidebarProps) => {
+  const [isAnalysisModalOpen, setIsAnalysisModalOpen] = useState(false)
+
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-4">
       <p className="w-full px-4 text-center text-xl font-bold">
@@ -57,6 +63,21 @@ const ScrambleSidebar = ({
         <br />
         {hint ?? "You haven't seleceted an algorithm for this case"}
       </p>
+      {hintVisible && hintAlgorithmId && (
+        <button
+          className="w-1/2 max-w-60 cursor-pointer rounded-sm bg-gray-800 px-4 py-2 text-white"
+          onClick={() => setIsAnalysisModalOpen(true)}
+        >
+          How to Execute
+        </button>
+      )}
+      {hintAlgorithmId && (
+        <AlgorithmAnalysisModal
+          isOpen={isAnalysisModalOpen}
+          onClose={() => setIsAnalysisModalOpen(false)}
+          algorithmId={hintAlgorithmId}
+        />
+      )}
     </div>
   )
 }

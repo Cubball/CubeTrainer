@@ -11,11 +11,14 @@ import Modal from '../../../components/Modal'
 import { useState } from 'react'
 import TitleWithBackButton from '../../../components/TitleWithBackButton'
 import { toast } from 'react-toastify'
+import AlgorithmAnalysisModal from '../components/AlgorithmAnalysisModal'
+import { AnalysisResult, formatCost } from '../lib/analysis'
 
 interface Algorithm {
   id: string
   moves: string
   setupMoves?: string
+  analysis?: AnalysisResult | null
   isPublic: boolean
   isMine: boolean
   isSelected: boolean
@@ -71,6 +74,7 @@ const AlgorithmDetails = () => {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [isAnalysisModalOpen, setIsAnalysisModalOpen] = useState(false)
   const { data, isLoading, isError } = useQuery({
     queryKey: [ALGORITHM_DETAILS_QUERY_KEY, id],
     queryFn: () => axios.get<AlgorithmDetailsResponse>(`/algorithms/${id}`),
@@ -284,6 +288,24 @@ const AlgorithmDetails = () => {
           <div>
             <h2 className="mb-2 text-xl font-semibold">Moves</h2>
             <div className="font-mono text-lg">{algorithm?.moves}</div>
+            <div className="mt-2 flex flex-wrap items-center gap-2">
+              <div className="text-sm">
+                Cost:{' '}
+                <span className="font-semibold">
+                  {algorithm?.analysis
+                    ? formatCost(algorithm.analysis.totalCost)
+                    : 'N/A'}
+                </span>
+              </div>
+              {algorithm && (
+                <button
+                  className="cursor-pointer rounded-sm bg-gray-800 px-3 py-1 text-sm text-white"
+                  onClick={() => setIsAnalysisModalOpen(true)}
+                >
+                  View Full Analysis
+                </button>
+              )}
+            </div>
           </div>
           {algorithm && (
             <div>
@@ -391,6 +413,19 @@ const AlgorithmDetails = () => {
           {algorithmCase?.name}? This action cannot be undone.
         </p>
       </Modal>
+      {algorithm && (
+        <AlgorithmAnalysisModal
+          isOpen={isAnalysisModalOpen}
+          onClose={() => setIsAnalysisModalOpen(false)}
+          algorithm={{
+            id: algorithm.id,
+            moves: algorithm.moves,
+            setupMoves: algorithm.setupMoves,
+            case: algorithm.case,
+            analysis: algorithm.analysis,
+          }}
+        />
+      )}
     </div>
   )
 }

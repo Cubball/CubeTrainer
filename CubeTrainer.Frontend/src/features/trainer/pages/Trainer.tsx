@@ -19,6 +19,7 @@ interface RandomScrambleResponse {
       id: string
       type: string
       selectedAlgorithm?: {
+        id: string
         moves: string
         setupMoves?: string
       }
@@ -120,6 +121,7 @@ const Trainer = () => {
           setHintVisible={setHintVisible}
           scramble={data?.data.scramble.moves ?? ''}
           setupMoves={data?.data.scramble.case.selectedAlgorithm?.setupMoves}
+          hintAlgorithmId={data?.data.scramble.case.selectedAlgorithm?.id}
           hint={data?.data.scramble.case.selectedAlgorithm?.moves}
           onRegenerateClick={refetch}
           caseType={data?.data.scramble.case.type}
