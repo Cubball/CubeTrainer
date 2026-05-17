@@ -1,4 +1,8 @@
+using System.Text.Json;
+using CubeTrainer.API.Common.Models;
 using CubeTrainer.API.Entities;
+using CubeTrainer.Cube;
+using CubeTrainer.Cube.Analyzer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,6 +10,11 @@ namespace CubeTrainer.API.Database;
 
 internal static class Seeder
 {
+    private static readonly JsonSerializerOptions JsonSerializerOptions = new()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+    };
+
     public static async Task SeedAsync(AppDbContext context, UserManager<User> userManager)
     {
         await context.Database.MigrateAsync();
@@ -193,6 +202,19 @@ internal static class Seeder
             new Algorithm { Case = cases[76], IsPublic = true, Moves = "F R U' R' U' R U R' F' R U R' U' R' F R F'", CreatedAt = createdAt },
             new Algorithm { Case = cases[77], IsPublic = true, Moves = "M2 U M2 U M' U2 M2 U2 M'", SetupMoves = "y", CreatedAt = createdAt },
         };
+
+        foreach (var algorithm in algorithms)
+        {
+            try
+            {
+                var moveSequence = MoveSequence.FromString(algorithm.Moves);
+                var analysisResult = Analyzer.Analyze(moveSequence);
+                var analysisDto = AnalysisMapper.ToDto(analysisResult);
+                algorithm.Analysis = JsonSerializer.Serialize(analysisDto, JsonSerializerOptions);
+            }
+            catch { }
+        }
+
         context.Algorithms.AddRange(algorithms);
         await context.SaveChangesAsync();
     }
