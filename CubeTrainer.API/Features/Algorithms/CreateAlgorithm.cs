@@ -10,6 +10,7 @@ using CubeTrainer.API.Database;
 using CubeTrainer.API.Entities;
 using CubeTrainer.Cube;
 using CubeTrainer.Cube.Analyzer;
+using CubeTrainer.Cube.Analyzer.Models;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
@@ -72,12 +73,13 @@ internal static class CreateAlgorithm
 
         var (setupMoves, algorithmMoves) = SplitSetupMoves(normalizedMoves);
         string? analysisJson = null;
+        AnalysisResult? analysisResult = null;
         try
         {
             if (algorithmMoves.Length > 0)
             {
                 var moveSequence = MoveSequence.FromString(algorithmMoves);
-                var analysisResult = Analyzer.Analyze(moveSequence);
+                analysisResult = Analyzer.Analyze(moveSequence);
                 var analysisDto = AnalysisMapper.ToDto(analysisResult);
                 analysisJson = JsonSerializer.Serialize(analysisDto, JsonSerializerOptions);
             }
@@ -93,6 +95,7 @@ internal static class CreateAlgorithm
             CreatorId = userId,
             CreatedAt = DateTimeHelpers.UtcNow,
             Analysis = analysisJson,
+            TotalCost = analysisResult?.TotalCost,
         };
         context.Algorithms.Add(algorithm);
         await context.SaveChangesAsync(cancellationToken);

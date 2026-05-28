@@ -8,6 +8,7 @@ import ScrambleView from '../../../components/ScrambleView'
 import StarRating from '../../../components/StarRating'
 import Pagination from '../../../components/Pagination'
 import TitleWithBackButton from '../../../components/TitleWithBackButton'
+import { formatCost } from '../../algorithms/lib/analysis'
 
 interface Algorithm {
   id: string
@@ -17,6 +18,7 @@ interface Algorithm {
   usersCount: number
   totalRating: number
   usersRatingsCount: number
+  totalCost: number | null
 }
 
 interface AlgorithmsResponse {
@@ -35,7 +37,7 @@ interface CaseDetailsResponse {
   }
 }
 
-type SortBy = 'rating' | 'created' | 'users'
+type SortBy = 'rating' | 'created' | 'users' | 'cost'
 
 const DEFAULT_PAGE_SIZE = 20
 
@@ -166,6 +168,12 @@ const CaseAlgorithms = () => {
                 <tr className="bg-gray-800 text-white *:p-2">
                   <th>Algorithm</th>
                   <th
+                    onClick={() => toggleSort('cost')}
+                    className="cursor-pointer hover:underline"
+                  >
+                    Cost{getSortIcon('cost')}
+                  </th>
+                  <th
                     onClick={() => toggleSort('users')}
                     className="cursor-pointer hover:underline"
                   >
@@ -194,6 +202,11 @@ const CaseAlgorithms = () => {
                     <td className="text-center font-mono">
                       <Link to={`/algorithms/${a.id}`}>
                         {a.setupMoves ? `${a.setupMoves} ${a.moves}` : a.moves}
+                      </Link>
+                    </td>
+                    <td className="text-center">
+                      <Link to={`/algorithms/${a.id}`}>
+                        {a.totalCost != null ? formatCost(a.totalCost) : 'N/A'}
                       </Link>
                     </td>
                     <td className="text-center">

@@ -144,7 +144,7 @@ internal static class Seeder
             new Algorithm { Case = cases[18], IsPublic = true, Moves = "M U R U R' U' M' R' F R F'", CreatedAt = createdAt },
             new Algorithm { Case = cases[19], IsPublic = true, Moves = "r U R' U' M2 U R U' R' U' M'", CreatedAt = createdAt },
             new Algorithm { Case = cases[20], IsPublic = true, Moves = "R U R' U R U' R' U R U2 R'", CreatedAt = createdAt },
-            new Algorithm { Case = cases[21], IsPublic = true, Moves = "R U2 R2' U' R2 U' R2' U2 R", CreatedAt = createdAt },
+            new Algorithm { Case = cases[21], IsPublic = true, Moves = "R U2 R2 U' R2 U' R2 U2 R", CreatedAt = createdAt },
             new Algorithm { Case = cases[22], IsPublic = true, Moves = "R2 D R' U2 R D' R' U2 R'", CreatedAt = createdAt },
             new Algorithm { Case = cases[23], IsPublic = true, Moves = "r U R' U' r' F R F'", SetupMoves = "y'", CreatedAt = createdAt },
             new Algorithm { Case = cases[24], IsPublic = true, Moves = "F' r U R' U' r' F R", SetupMoves = "y", CreatedAt = createdAt },
@@ -211,6 +211,7 @@ internal static class Seeder
                 var analysisResult = Analyzer.Analyze(moveSequence);
                 var analysisDto = AnalysisMapper.ToDto(analysisResult);
                 algorithm.Analysis = JsonSerializer.Serialize(analysisDto, JsonSerializerOptions);
+                algorithm.TotalCost = analysisResult.TotalCost;
             }
             catch { }
         }

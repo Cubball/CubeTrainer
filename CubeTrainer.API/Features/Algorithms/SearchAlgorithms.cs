@@ -29,7 +29,8 @@ internal static class SearchAlgorithms
         DateTime CreatedAt,
         int UsersCount,
         int TotalRating,
-        int UsersRatingsCount);
+        int UsersRatingsCount,
+        double? TotalCost);
 
     public sealed record Response(PagedList<AlgorithmDto> Algorithms);
 
@@ -71,6 +72,9 @@ internal static class SearchAlgorithms
             "created" => ascending
                 ? query.OrderBy(a => a.CreatedAt)
                 : query.OrderByDescending(a => a.CreatedAt),
+            "cost" => ascending
+                ? query.OrderBy(a => a.TotalCost)
+                : query.OrderByDescending(a => a.TotalCost),
             _ => ascending
                 ? query.OrderBy(a => a.UsersCount)
                 : query.OrderByDescending(a => a.UsersCount),
@@ -91,7 +95,8 @@ internal static class SearchAlgorithms
                 a.CreatedAt,
                 a.UsersCount,
                 a.TotalRating,
-                a.UsersRatingsCount))
+                a.UsersRatingsCount,
+                a.TotalCost))
             .ToListAsync(cancellationToken);
         var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
         var pagedList = new PagedList<AlgorithmDto>(page, pageSize, totalPages, totalCount, algorithms);
