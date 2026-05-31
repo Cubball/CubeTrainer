@@ -1,46 +1,76 @@
 namespace CubeTrainer.Cube.Analyzer;
 
-internal static class CostConfig
+public sealed class CostConfig
 {
-    public static double RotationCost { get; } = 4.0;
+    public static CostConfig Default { get; } = new();
 
-    public static double RegripCost { get; } = 1.0;
+    public double RotationCost { get; set; } = 4.0;
 
-    public static double FlippedRegripCost { get; } = 2.0;
+    public double RegripCost { get; set; } = 1.0;
 
-    public static double OverworkingPenalty { get; } = 0.5;
+    public double FlippedRegripCost { get; set; } = 2.0;
 
-    public static double OneFromHomeGripMultiplier { get; } = 1.5;
+    public double OverworkingPenalty { get; set; } = 0.5;
 
-    public static double TwoFromHomeGripMultiplier { get; } = 3.0;
+    public double OneFromHomeGripMultiplier { get; set; } = 1.5;
 
-    public static double WristTurnCost { get; } = 1.0;
+    public double TwoFromHomeGripMultiplier { get; set; } = 3.0;
 
-    public static double TripleWristTurnCost { get; } = 2.0; // 1.0 to favor R3 in U perm
+    public double WristTurnCost { get; set; } = 1.0;
 
-    public static double IndexPullCost { get; } = 1.0;
+    public double TripleWristTurnCost { get; set; } = 2.0;
 
-    public static double DoubleIndexPullCost { get; } = 1.5;
+    public double IndexPullCost { get; set; } = 1.0;
 
-    public static double IndexPushCost { get; } = 1.5;
+    public double DoubleIndexPullCost { get; set; } = 1.5;
 
-    public static double ThumbPushCost { get; } = 2.5;
+    public double IndexPushCost { get; set; } = 1.5;
 
-    public static double ThumbPullCost { get; } = 2.5;
+    public double ThumbPushCost { get; set; } = 2.5;
 
-    public static double DoubleThumbPullCost { get; } = 5.0;
+    public double ThumbPullCost { get; set; } = 2.5;
 
-    public static double RingPullCost { get; } = 2.0;
+    public double DoubleThumbPullCost { get; set; } = 5.0;
 
-    public static double RingPushCost { get; } = 2.5;
+    public double RingPullCost { get; set; } = 2.0;
 
-    public static double DoubleRingPullCost { get; } = 2.5;
+    public double RingPushCost { get; set; } = 2.5;
 
-    public static double MiddlePullCost { get; } = 2.5;
+    public double DoubleRingPullCost { get; set; } = 2.5;
 
-    public static double MiddlePushCost { get; } = 3.0;
+    public double MiddlePullCost { get; set; } = 2.5;
 
-    public static double DoubleMiddlePullCost { get; } = 5.0;
+    public double MiddlePushCost { get; set; } = 3.0;
 
-    public static double SliceMoveMultiplier { get; } = 1.5;
+    public double DoubleMiddlePullCost { get; set; } = 5.0;
+
+    public double SliceMoveMultiplier { get; set; } = 1.5;
+
+    public CostConfig Clone()
+    {
+        return new CostConfig
+        {
+            RotationCost = RotationCost,
+            RegripCost = RegripCost,
+            FlippedRegripCost = FlippedRegripCost,
+            OverworkingPenalty = OverworkingPenalty,
+            OneFromHomeGripMultiplier = OneFromHomeGripMultiplier,
+            TwoFromHomeGripMultiplier = TwoFromHomeGripMultiplier,
+            WristTurnCost = WristTurnCost,
+            TripleWristTurnCost = TripleWristTurnCost,
+            IndexPullCost = IndexPullCost,
+            DoubleIndexPullCost = DoubleIndexPullCost,
+            IndexPushCost = IndexPushCost,
+            ThumbPushCost = ThumbPushCost,
+            ThumbPullCost = ThumbPullCost,
+            DoubleThumbPullCost = DoubleThumbPullCost,
+            RingPullCost = RingPullCost,
+            RingPushCost = RingPushCost,
+            DoubleRingPullCost = DoubleRingPullCost,
+            MiddlePullCost = MiddlePullCost,
+            MiddlePushCost = MiddlePushCost,
+            DoubleMiddlePullCost = DoubleMiddlePullCost,
+            SliceMoveMultiplier = SliceMoveMultiplier,
+        };
+    }
 }

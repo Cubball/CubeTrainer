@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CubeTrainer.Benchmarks", "C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CubeTrainer.Cube.Tests", "CubeTrainer.Cube.Tests\CubeTrainer.Cube.Tests.csproj", "{2D0E526F-F891-4ED4-90AB-73D9D04FCE3F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CubeTrainer.Cube.CostTuner", "CubeTrainer.Cube.CostTuner\CubeTrainer.Cube.CostTuner.csproj", "{03A0BDF5-1389-4729-9A0E-DAA328EF8001}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,18 @@ Global
 		{2D0E526F-F891-4ED4-90AB-73D9D04FCE3F}.Release|x64.Build.0 = Release|Any CPU
 		{2D0E526F-F891-4ED4-90AB-73D9D04FCE3F}.Release|x86.ActiveCfg = Release|Any CPU
 		{2D0E526F-F891-4ED4-90AB-73D9D04FCE3F}.Release|x86.Build.0 = Release|Any CPU
+		{03A0BDF5-1389-4729-9A0E-DAA328EF8001}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03A0BDF5-1389-4729-9A0E-DAA328EF8001}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03A0BDF5-1389-4729-9A0E-DAA328EF8001}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{03A0BDF5-1389-4729-9A0E-DAA328EF8001}.Debug|x64.Build.0 = Debug|Any CPU
+		{03A0BDF5-1389-4729-9A0E-DAA328EF8001}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{03A0BDF5-1389-4729-9A0E-DAA328EF8001}.Debug|x86.Build.0 = Debug|Any CPU
+		{03A0BDF5-1389-4729-9A0E-DAA328EF8001}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03A0BDF5-1389-4729-9A0E-DAA328EF8001}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03A0BDF5-1389-4729-9A0E-DAA328EF8001}.Release|x64.ActiveCfg = Release|Any CPU
+		{03A0BDF5-1389-4729-9A0E-DAA328EF8001}.Release|x64.Build.0 = Release|Any CPU
+		{03A0BDF5-1389-4729-9A0E-DAA328EF8001}.Release|x86.ActiveCfg = Release|Any CPU
+		{03A0BDF5-1389-4729-9A0E-DAA328EF8001}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

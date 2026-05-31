@@ -5,31 +5,35 @@ namespace CubeTrainer.Cube.Analyzer;
 
 public static class Analyzer
 {
-    private static readonly Dictionary<AnalyzerState, double> States = [];
-    private static readonly Dictionary<AnalyzerState, IStateTransition?> StateTransitions = [];
-    private static readonly ApplyStateTransitionVisitor ApplyStateTransitionVisitor = new();
-    private static readonly CostStateTransitionVisitor CostStateTransitionVisitor = new();
-    private static readonly ResultStateTransitionVisitor ResultStateTransitionVisitor = new(CostStateTransitionVisitor);
-
-    public static AnalysisResult Analyze(MoveSequence moveSequence)
+    public static AnalysisResult Analyze(MoveSequence moveSequence, CostConfig? costConfig = null)
     {
-        States.Clear();
-        StateTransitions.Clear();
+        var resolvedCostConfig = costConfig ?? CostConfig.Default;
+        var states = new Dictionary<AnalyzerState, double>();
+        var stateTransitions = new Dictionary<AnalyzerState, IStateTransition?>();
+        var applyStateTransitionVisitor = new ApplyStateTransitionVisitor();
+        var costStateTransitionVisitor = new CostStateTransitionVisitor(resolvedCostConfig);
+        var resultStateTransitionVisitor = new ResultStateTransitionVisitor(costStateTransitionVisitor);
 
         var initState = new AnalyzerState(0, HandOffset.Home, HandOffset.Home, null, null);
-        var totalCost = GetCostFromState(initState, moveSequence);
+        var totalCost = GetCostFromState(
+            initState,
+            moveSequence,
+            states,
+            stateTransitions,
+            applyStateTransitionVisitor,
+            costStateTransitionVisitor);
 
         var steps = new List<AnalysisStep>();
-        while (StateTransitions.TryGetValue(initState, out var stateTransition) && stateTransition is not null)
+        while (stateTransitions.TryGetValue(initState, out var stateTransition) && stateTransition is not null)
         {
-            stateTransition.Accept(ResultStateTransitionVisitor);
-            if (ResultStateTransitionVisitor.LastStep is not null)
+            stateTransition.Accept(resultStateTransitionVisitor);
+            if (resultStateTransitionVisitor.LastStep is not null)
             {
-                steps.Add(ResultStateTransitionVisitor.LastStep);
+                steps.Add(resultStateTransitionVisitor.LastStep);
             }
 
-            stateTransition.Accept(ApplyStateTransitionVisitor);
-            var nextState = ApplyStateTransitionVisitor.LastState;
+            stateTransition.Accept(applyStateTransitionVisitor);
+            var nextState = applyStateTransitionVisitor.LastState;
             if (nextState is null)
             {
                 break;
@@ -41,7 +45,13 @@ public static class Analyzer
         return new AnalysisResult(totalCost, steps);
     }
 
-    private static double GetCostFromState(AnalyzerState analyzerState, MoveSequence moveSequence)
+    private static double GetCostFromState(
+        AnalyzerState analyzerState,
+        MoveSequence moveSequence,
+        Dictionary<AnalyzerState, double> states,
+        Dictionary<AnalyzerState, IStateTransition?> stateTransitions,
+        ApplyStateTransitionVisitor applyStateTransitionVisitor,
+        CostStateTransitionVisitor costStateTransitionVisitor)
     {
         var movesCompleted = analyzerState.MovesCompleted;
         if (movesCompleted == moveSequence.Moves.Count)
@@ -49,7 +59,7 @@ public static class Analyzer
             return 0;
         }
 
-        if (States.TryGetValue(analyzerState, out var cost))
+        if (states.TryGetValue(analyzerState, out var cost))
         {
             return cost;
         }
@@ -59,24 +69,30 @@ public static class Analyzer
         var minCost = double.MaxValue;
         foreach (var stateTransition in nextStateTransitions)
         {
-            stateTransition.Accept(CostStateTransitionVisitor);
-            var transitionCost = CostStateTransitionVisitor.LastCost;
-            stateTransition.Accept(ApplyStateTransitionVisitor);
-            var nextState = ApplyStateTransitionVisitor.LastState;
+            stateTransition.Accept(costStateTransitionVisitor);
+            var transitionCost = costStateTransitionVisitor.LastCost;
+            stateTransition.Accept(applyStateTransitionVisitor);
+            var nextState = applyStateTransitionVisitor.LastState;
             if (nextState is null)
             {
                 continue;
             }
 
-            var nextStateCost = GetCostFromState(nextState, moveSequence);
+            var nextStateCost = GetCostFromState(
+                nextState,
+                moveSequence,
+                states,
+                stateTransitions,
+                applyStateTransitionVisitor,
+                costStateTransitionVisitor);
             var currentCost = nextStateCost + (transitionCost?.TotalCost ?? double.MaxValue);
             if (currentCost < minCost)
             {
                 minCost = currentCost;
-                StateTransitions[analyzerState] = stateTransition;
+                stateTransitions[analyzerState] = stateTransition;
             }
         }
 
-        return States[analyzerState] = minCost;
+        return states[analyzerState] = minCost;
     }
 }

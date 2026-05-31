@@ -1,0 +1,25 @@
+{
+    "config": {
+        "RotationCost": 12,
+        "RegripCost": 5.1,
+        "FlippedRegripCost": 7.9,
+        "OverworkingPenalty": 6.21,
+        "OneFromHomeGripMultiplier": 1.2,
+        "TwoFromHomeGripMultiplier": 12,
+        "WristTurnCost": 4.0,
+        "TripleWristTurnCost": 6.0,
+        "IndexPullCost": 1.4,
+        "DoubleIndexPullCost": 2.21,
+        "IndexPushCost": 5.46,
+        "ThumbPushCost": 6.1,
+        "ThumbPullCost": 6.3,
+        "DoubleThumbPullCost": 8.7,
+        "RingPullCost": 2.61,
+        "RingPushCost": 3.18,
+        "DoubleRingPullCost": 10.2,
+        "MiddlePullCost": 3.14,
+        "MiddlePushCost": 10.352,
+        "DoubleMiddlePullCost": 9.4,
+        "SliceMoveMultiplier": 1.5
+    }
+}

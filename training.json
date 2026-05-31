@@ -1,0 +1,138 @@
+{
+    "cases": [
+        {
+            "name": "Ub R3",
+            "algorithm": "R' U R' U' R' U' R' U R U R2",
+            "expectedSteps": [
+                "regrip:Right:ThumbOnU",
+                "motion:R':Right:WristDown",
+                "motion:U:Right:IndexPull",
+                "motion:R':Right:WristDown",
+                "motion:U':Left:IndexPull",
+                "motion:R':Right:TripleWristUp",
+                "motion:U':Left:IndexPull",
+                "regrip:Right:ThumbOnU",
+                "motion:R':Right:WristDown",
+                "motion:U:Right:IndexPull",
+                "motion:R:Right:WristUp",
+                "motion:U:Left:IndexPush",
+                "motion:R2:Right:DoubleWristDown"
+            ]
+        },
+        {
+            "name": "V",
+            "algorithm": "R U' R U R' D R D' R U' D R2 U R2 D' R2",
+            "expectedSteps": [
+                "motion:R:Right:WristUp",
+                "motion:U':Left:IndexPull",
+                "regrip:Right:ThumbOnD",
+                "motion:R:Right:WristUp",
+                "motion:U:Right:IndexPull",
+                "motion:R':Right:WristDown",
+                "motion:D:Left:RingPull",
+                "motion:R:Right:WristUp",
+                "motion:D':Right:RingPull",
+                "motion:R:Right:WristUp",
+                "motion:U':Left:IndexPull",
+                "motion:D:Left:RingPull",
+                "motion:R2:Right:DoubleWristDown",
+                "motion:U:Left:IndexPush",
+                "motion:R2:Right:DoubleWristUp",
+                "motion:D':Left:RingPush",
+                "motion:R2:Right:DoubleWristDown"
+            ]
+        },
+        {
+            "name": "R2 F2",
+            "algorithm": "R2 F2",
+            "expectedSteps": [
+                "regrip:Right:ThumbOnU",
+                "motion:R2:Right:DoubleWristDown",
+                "motion:F2:Right:DoubleIndexPull"
+            ]
+        },
+        {
+            "name": "Gd",
+            "algorithm": "R U R' U' D R2 U' R U' R' U R' U R2 D'",
+            "expectedSteps": [
+                "regrip:Right:ThumbOnD",
+                "motion:R:Right:WristUp",
+                "motion:U:Right:IndexPull",
+                "motion:R':Right:WristDown",
+                "motion:U':Left:IndexPull",
+                "motion:D:Left:RingPull",
+                "motion:R2:Right:DoubleWristUp",
+                "motion:U':Left:IndexPull",
+                "motion:R:Right:WristUp",
+                "regrip:Right:ThumbOnU",
+                "motion:U':Left:IndexPull",
+                "motion:R':Right:WristDown",
+                "motion:U:Right:IndexPull",
+                "motion:R':Right:WristDown",
+                "motion:U:Left:IndexPush",
+                "motion:R2:Right:DoubleWristUp",
+                "motion:D':Left:RingPush"
+            ]
+        },
+        {
+            "name": "E",
+            "algorithm": "x' R U' R' D R U R' D' R U R' D R U' R' D'",
+            "expectedSteps": [
+                "rotation:x'",
+                "regrip:Right:ThumbOnD",
+                "motion:R:Right:WristUp",
+                "motion:U':Left:IndexPull",
+                "motion:R':Right:WristDown",
+                "motion:D:Left:RingPull",
+                "motion:R:Right:WristUp",
+                "motion:U:Right:IndexPull",
+                "motion:R':Right:WristDown",
+                "motion:D':Left:RingPush",
+                "motion:R:Right:WristUp",
+                "motion:U:Right:IndexPull",
+                "motion:R':Right:WristDown",
+                "motion:D:Left:RingPull",
+                "motion:R:Right:WristUp",
+                "motion:U':Left:IndexPull",
+                "motion:R':Right:WristDown",
+                "motion:D':Left:RingPush"
+            ]
+        },
+        {
+            "name": "T",
+            "algorithm": "R U R' U' R' F R2 U' R' U' R U R' F'",
+            "expectedSteps": [
+                "motion:R:Right:WristUp",
+                "motion:U:Left:IndexPush",
+                "motion:R':Right:WristDown",
+                "motion:U':Left:IndexPull",
+                "motion:R':Right:WristDown",
+                "motion:F:Right:IndexPull",
+                "motion:R2:Right:DoubleWristUp",
+                "motion:U':Left:IndexPull",
+                "motion:R':Right:WristDown",
+                "motion:U':Right:IndexPush",
+                "motion:R:Right:WristUp",
+                "motion:U:Left:IndexPush",
+                "motion:R':Right:WristDown",
+                "motion:F':Right:ThumbPush"
+            ]
+        },
+        {
+            "name": "OLL 23",
+            "algorithm": "R2 D R' U2 R D' R' U2 R'",
+            "expectedSteps": [
+                "regrip:Right:ThumbOnU",
+                "motion:R2:Right:DoubleWristUp",
+                "motion:D:Left:RingPull",
+                "motion:R':Right:WristDown",
+                "motion:U2:Right:DoubleIndexPull",
+                "motion:R:Right:WristUp",
+                "motion:D':Left:RingPush",
+                "motion:R':Right:WristDown",
+                "motion:U2:Right:DoubleIndexPull",
+                "motion:R':Right:WristDown"
+            ]
+        }
+    ]
+}

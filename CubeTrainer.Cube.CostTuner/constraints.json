@@ -1,0 +1,106 @@
+{
+  "rules": [
+    {
+      "name": "Rotation is more expensive than regrip",
+      "leftParameter": "RotationCost",
+      "operator": ">",
+      "rightParameter": "RegripCost"
+    },
+    {
+      "name": "Flipped regrip is more expensive than regular regrip",
+      "leftParameter": "FlippedRegripCost",
+      "operator": ">",
+      "rightParameter": "RegripCost"
+    },
+    {
+      "name": "Two from home is more expensive than one from home",
+      "leftParameter": "TwoFromHomeGripMultiplier",
+      "operator": ">",
+      "rightParameter": "OneFromHomeGripMultiplier"
+    },
+    {
+      "name": "Triple wrist turn is more expensive than regular wrist turn",
+      "leftParameter": "TripleWristTurnCost",
+      "operator": ">",
+      "rightParameter": "WristTurnCost"
+    },
+    {
+      "name": "Double index pull is not cheaper than index pull",
+      "leftParameter": "DoubleIndexPullCost",
+      "operator": ">=",
+      "rightParameter": "IndexPullCost"
+    },
+    {
+      "name": "Double ring pull is not cheaper than ring pull",
+      "leftParameter": "DoubleRingPullCost",
+      "operator": ">=",
+      "rightParameter": "RingPullCost"
+    },
+    {
+      "name": "Double thumb pull is more expensive than thumb pull",
+      "leftParameter": "DoubleThumbPullCost",
+      "operator": ">",
+      "rightParameter": "ThumbPullCost"
+    },
+    {
+      "name": "Double middle pull is more expensive than middle pull",
+      "leftParameter": "DoubleMiddlePullCost",
+      "operator": ">",
+      "rightParameter": "MiddlePullCost"
+    },
+    {
+      "name": "Index pull is cheaper than push",
+      "leftParameter": "IndexPullCost",
+      "operator": "<",
+      "rightParameter": "IndexPushCost"
+    },
+    {
+      "name": "Middle pull is cheaper than push",
+      "leftParameter": "MiddlePullCost",
+      "operator": "<",
+      "rightParameter": "MiddlePushCost"
+    },
+    {
+      "name": "Ring pull is cheaper than push",
+      "leftParameter": "RingPullCost",
+      "operator": "<",
+      "rightParameter": "RingPushCost"
+    },
+    {
+      "name": "Thumb push is more expensive than double index pull",
+      "leftParameter": "ThumbPushCost",
+      "operator": ">",
+      "rightParameter": "DoubleIndexPullCost"
+    },
+    {
+      "name": "Thumb pull is more expensive than double index pull",
+      "leftParameter": "ThumbPullCost",
+      "operator": ">",
+      "rightParameter": "DoubleIndexPullCost"
+    },
+    {
+      "name": "Ring pull is more expensive than double index pull",
+      "leftParameter": "RingPullCost",
+      "operator": ">",
+      "rightParameter": "DoubleIndexPullCost"
+    },
+    {
+      "name": "Ring push is more expensive than double index pull",
+      "leftParameter": "RingPushCost",
+      "operator": ">",
+      "rightParameter": "DoubleIndexPullCost"
+    },
+    {
+      "name": "Ring push is cheaper than middle push",
+      "leftParameter": "RingPushCost",
+      "operator": "<",
+      "rightParameter": "MiddlePushCost"
+    },
+    {
+      "name": "Ring pull is cheaper than middle pull",
+      "leftParameter": "RingPullCost",
+      "operator": "<",
+      "rightParameter": "MiddlePullCost"
+    }
+  ]
+}

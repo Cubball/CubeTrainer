@@ -4,6 +4,13 @@ namespace CubeTrainer.Cube.Analyzer.State;
 
 internal class CostStateTransitionVisitor : IStateTransitionVisitor
 {
+    private readonly CostConfig _costConfig;
+
+    public CostStateTransitionVisitor(CostConfig costConfig)
+    {
+        _costConfig = costConfig;
+    }
+
     public CostComponent? LastCost { get; private set; }
 
     public void Visit(MotionStateTransition motionStateTransition)
@@ -12,24 +19,24 @@ internal class CostStateTransitionVisitor : IStateTransitionVisitor
         var state = motionStateTransition.CurrentState;
         var move = motionStateTransition.Move;
         LastCost = motion.Hand == Hand.Left
-            ? GetMotionCost(motion, state.LeftHandOffset, state.LastNonWristMotion, move)
-            : GetMotionCost(motion, state.RightHandOffset, state.LastNonWristMotion, move);
+            ? GetMotionCost(motion, state.LeftHandOffset, state.LastNonWristMotion, move, _costConfig)
+            : GetMotionCost(motion, state.RightHandOffset, state.LastNonWristMotion, move, _costConfig);
     }
 
     public void Visit(RegripStateTransition regripStateTransition)
     {
         var regrip = regripStateTransition.Regrip;
         LastCost = regrip.NewHandOffset == HandOffset.FlippedBottom || regrip.NewHandOffset == HandOffset.FlippedTop
-            ? new CostComponent(CostConfig.FlippedRegripCost, [], [])
-            : new CostComponent(CostConfig.RegripCost, [], []);
+            ? new CostComponent(_costConfig.FlippedRegripCost, [], [])
+            : new CostComponent(_costConfig.RegripCost, [], []);
     }
 
     public void Visit(RotationStateTransition rotationStateTransition)
     {
-        LastCost = new CostComponent(CostConfig.RotationCost, [], []);
+        LastCost = new CostComponent(_costConfig.RotationCost, [], []);
     }
 
-    private static CostComponent GetMotionCost(Motion motion, HandOffset currentHandOffset, Motion? lastNonWristMotion, Move move)
+    private static CostComponent GetMotionCost(Motion motion, HandOffset currentHandOffset, Motion? lastNonWristMotion, Move move, CostConfig costConfig)
     {
         List<(double Value, string Description)> multipliers = [];
         List<(double Value, string Description)> penalties = [];
@@ -38,48 +45,48 @@ internal class CostStateTransitionVisitor : IStateTransitionVisitor
         var shouldNonHomeGripApplyMultiplier = !motion.Type.IsWristMotion();
         if (shouldNonHomeGripApplyMultiplier && (currentHandOffset == HandOffset.ThumbOnD || currentHandOffset == HandOffset.ThumbOnU))
         {
-            multipliers.Add((CostConfig.OneFromHomeGripMultiplier, "one off from home grip"));
+            multipliers.Add((costConfig.OneFromHomeGripMultiplier, "one off from home grip"));
         }
         else if (shouldNonHomeGripApplyMultiplier && (currentHandOffset == HandOffset.FlippedTop || currentHandOffset == HandOffset.FlippedBottom))
         {
-            multipliers.Add((CostConfig.TwoFromHomeGripMultiplier, "flipped regrip"));
+            multipliers.Add((costConfig.TwoFromHomeGripMultiplier, "flipped regrip"));
         }
 
         if (move.IsSliceMove)
         {
-            multipliers.Add((CostConfig.SliceMoveMultiplier, "slice move"));
+            multipliers.Add((costConfig.SliceMoveMultiplier, "slice move"));
         }
 
         if (lastNonWristMotion is not null && lastNonWristMotion.Hand == motion.Hand && lastNonWristMotion.Type.IsSameTypeAs(motion.Type))
         {
-            penalties.Add((CostConfig.OverworkingPenalty, "overworking"));
+            penalties.Add((costConfig.OverworkingPenalty, "overworking"));
         }
 
-        return new CostComponent(GetRawMotionCost(motion.Type), multipliers, penalties);
+        return new CostComponent(GetRawMotionCost(motion.Type, costConfig), multipliers, penalties);
     }
 
-    private static double GetRawMotionCost(MotionType motionType)
+    private static double GetRawMotionCost(MotionType motionType, CostConfig costConfig)
     {
         return motionType switch
         {
             MotionType.WristUp or
             MotionType.WristDown or
             MotionType.DoubleWristUp or
-            MotionType.DoubleWristDown => CostConfig.WristTurnCost,
+            MotionType.DoubleWristDown => costConfig.WristTurnCost,
             MotionType.TripleWristUp or
-            MotionType.TripleWristDown => CostConfig.TripleWristTurnCost,
-            MotionType.IndexPull => CostConfig.IndexPullCost,
-            MotionType.IndexPush => CostConfig.IndexPushCost,
-            MotionType.DoubleIndexPull => CostConfig.DoubleIndexPullCost,
-            MotionType.ThumbPull => CostConfig.ThumbPullCost,
-            MotionType.ThumbPush => CostConfig.ThumbPushCost,
-            MotionType.DoubleThumbPull => CostConfig.DoubleThumbPullCost,
-            MotionType.RingPull => CostConfig.RingPullCost,
-            MotionType.RingPush => CostConfig.RingPushCost,
-            MotionType.DoubleRingPull => CostConfig.DoubleRingPullCost,
-            MotionType.MiddlePull => CostConfig.MiddlePullCost,
-            MotionType.MiddlePush => CostConfig.MiddlePushCost,
-            MotionType.DoubleMiddlePull => CostConfig.DoubleMiddlePullCost,
+            MotionType.TripleWristDown => costConfig.TripleWristTurnCost,
+            MotionType.IndexPull => costConfig.IndexPullCost,
+            MotionType.IndexPush => costConfig.IndexPushCost,
+            MotionType.DoubleIndexPull => costConfig.DoubleIndexPullCost,
+            MotionType.ThumbPull => costConfig.ThumbPullCost,
+            MotionType.ThumbPush => costConfig.ThumbPushCost,
+            MotionType.DoubleThumbPull => costConfig.DoubleThumbPullCost,
+            MotionType.RingPull => costConfig.RingPullCost,
+            MotionType.RingPush => costConfig.RingPushCost,
+            MotionType.DoubleRingPull => costConfig.DoubleRingPullCost,
+            MotionType.MiddlePull => costConfig.MiddlePullCost,
+            MotionType.MiddlePush => costConfig.MiddlePushCost,
+            MotionType.DoubleMiddlePull => costConfig.DoubleMiddlePullCost,
             _ => 0.0,
         };
     }
